@@ -6,12 +6,21 @@ Instructions and documentation are written in English. Academic deliverables rem
 
 ## Install from GitHub
 
-Replace `OWNER/REPO` with the repository. Public repositories are accessible to everyone; private repositories require access and configured GitHub authentication on the recipient's machine.
+Install from [Policarp-wq/uni_worker](https://github.com/Policarp-wq/uni_worker). You need an up-to-date Codex CLI or Claude Code, Git and your own access to the chosen agent.
+
+If the repository is private, its owner must grant your GitHub account access and you must accept the invitation. Authenticate Git on the machine where you will install the plugin. With GitHub CLI installed, run these commands once:
+
+```sh
+gh auth login --hostname github.com --git-protocol https
+gh auth setup-git --hostname github.com
+```
+
+These commands use your own GitHub account. A repository owner does not need to share credentials. If Git already has working access to the repository, skip this authentication step.
 
 Codex CLI:
 
 ```sh
-codex plugin marketplace add OWNER/REPO --ref main
+codex plugin marketplace add Policarp-wq/uni_worker --ref main
 codex plugin add personal@agent-kit
 ```
 
@@ -20,7 +29,7 @@ In a new session, ask: "Read and run the setup skill from the personal plugin." 
 Claude Code:
 
 ```text
-/plugin marketplace add OWNER/REPO
+/plugin marketplace add https://github.com/Policarp-wq/uni_worker.git
 /plugin install personal@agent-kit
 /personal:setup
 ```
@@ -47,8 +56,8 @@ PYTHONDONTWRITEBYTECODE=1 python3 plugins/personal/skills/university-text-critic
 
 The critic runs on Linux/WSL and macOS with Python 3.10+. On native Windows, it stops because `fcntl` is unavailable: replace the file locking implementation while preserving protection against concurrent writes before using it. This restriction applies to the critic and its dependent DOCX approval gate, not the entire plugin.
 
-## Publish
+## Maintain this repository
 
-Create an empty GitHub repository and give its URL to the agent. Publish only this folder's contents. Academic submissions, personal memory, account settings and third-party plugins are excluded.
+Publish updates to `Policarp-wq/uni_worker` from this folder only. Academic submissions, personal memory, account settings and third-party plugins are excluded. To share the plugin while the repository is private, grant the recipient repository access; sending its URL alone does not grant access.
 
-Install third-party plugins from current upstream sources without pinning their versions. Version `1.0.2` belongs only to this package and enables client cache updates.
+Install third-party plugins from current upstream sources without pinning their versions. Version `1.0.3` belongs only to this package and enables client cache updates.

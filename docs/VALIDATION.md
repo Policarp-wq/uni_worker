@@ -1,8 +1,9 @@
-# Release 1.0.2 validation
+# Package validation
 
 Date: 2026-10-10.
 
 - Codex CLI 0.162.0: the local marketplace was registered, and the plugin was actually installed and enabled in an isolated temporary user profile. The user's working configuration was not changed.
+- GitHub distribution: `codex plugin marketplace add Policarp-wq/uni_worker --ref main` downloaded the private repository using configured Git credentials. Its published 1.0.2 plugin was installed with all eleven skills in a fresh isolated profile before the installation documentation update.
 - All eleven SKILL.md files passed the standard Skill Creator validator.
 - All fourteen gate tests passed on Linux: hashes, attempt history, concurrent starts, rejection of corrupt state and native Windows fail-fast behavior.
 - `scripts/check.py` checked manifests, version consistency, the file inventory, relative links, absence of symlinks and known classes of personal data/secrets. Embedded assertions verify detection of fictional leaks and rejection of paths leaving the package.

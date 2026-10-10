@@ -1,29 +1,48 @@
 ---
 name: university-writing-style
-description: Совместно прорабатывай смыслы и решения русских учебных работ, веди драфт и учитывай правки пользователя. Используй при обсуждении практических, отчётов и курсовых; готовый текст из согласованного драфта оформляй через university-report-writer.
+description: Collaboratively develop meanings and decisions for Russian academic work, maintain a draft and incorporate user edits. Use when discussing practical reports or coursework; turn an agreed draft into final prose through university-report-writer.
 ---
 
-# Совместная работа над учебным драфтом
+# Collaborative academic drafting
 
-Общая карта ролей и переходов: [UNIVERSITY_WORKFLOW.md](../UNIVERSITY_WORKFLOW.md).
+Shared roles and transitions: [UNIVERSITY_WORKFLOW.md](../UNIVERSITY_WORKFLOW.md).
+Write academic drafts and final deliverables in Russian; these English instructions
+do not change the Russian writing rules.
 
-Когда пользователь предлагает идею, оцени её смысл, границы, допущения и соответствие заданию. Объясни конкретное возражение или рекомендацию до записи решения. Уже согласованные решения не требуют повторного подтверждения: сохраняй их в драфте вместе с основаниями.
+When the user proposes an idea, assess its meaning, boundaries, assumptions and
+fit with the assignment. Explain a concrete objection or recommendation before
+recording a decision. Already agreed decisions do not need confirmation again:
+preserve them and their reasons in the draft.
 
-Драфт накапливает смыслы и может быть длинным, повторяться, содержать варианты и рабочие заметки. Не требуй от него финального стиля, не сокращай полезное объяснение ради внешнего вида и не запускай критика на каждую итерацию обсуждения.
+A draft accumulates meaning and may be long, repetitive and contain alternatives
+or working notes. Do not demand final style, cut useful explanations for appearance
+or invoke the critic on every discussion iteration.
 
-## Материалы и решения
+## Materials and decisions
 
-- Используй текущее задание пользователя как основание. Если материалы расходятся по объёму или требованиям, обозначь различие; не объединяй их молча.
-- Различай согласованные решения, предложения и открытые вопросы. Сохраняй принятые решения и правки пользователя, не подменяй их новыми без обсуждения.
-- Не придумывай числа, проведённые испытания, функции и будущие задачи для заполнения пробелов. Принятые учебные значения помечай как проектные допущения и сохраняй их основание.
-- До написания кода диаграммы проясни её смысл: назначение, границы, элементы и связи. Подпиши связи конкретным сообщением или действием, а не общим словом «данные».
+- Use the user's current assignment as the basis. Identify disagreements in scope
+  or requirements between materials; do not silently combine them.
+- Distinguish agreed decisions, proposals and open questions. Preserve decisions
+  and user edits; do not replace them without discussion.
+- Do not invent numbers, completed tests, features or future tasks to fill gaps.
+  Label accepted educational values as design assumptions and preserve their basis.
+- Before writing diagram code, clarify purpose, boundaries, elements and connections.
+  Label connections with a concrete message or action rather than the generic «данные».
 
-## Переход к готовой работе
+## Transition to final work
 
-Когда пользователь просит оформить работу или смыслы согласованы в рамках запроса на конечный отчёт, используй [university-report-writer](../university-report-writer/SKILL.md). Он выполняется в текущем агенте и превращает драфт в конечный Markdown, затем передаёт его отдельному критику.
+When the user requests final formatting, or meanings are agreed within a final-report
+request, use [university-report-writer](../university-report-writer/SKILL.md). It runs
+in the current agent, produces final Markdown and hands it to a separate critic.
 
-Для формулировок готового текста и любых общих изменений стиля прочитай [общее ядро](../university-text-critic/references/report-core.md). Не веди здесь вторую версию этих правил. Процедура проверки и допуска к DOCX находится в [university-text-critic](../university-text-critic/SKILL.md).
+For final prose and general style changes, read the
+[shared core](../university-text-critic/references/report-core.md). Do not keep a
+second copy of its rules. Review and DOCX approval are defined by
+[university-text-critic](../university-text-critic/SKILL.md).
 
-## Правки пользователя
+## User edits
 
-Отличай правку конкретной работы от общего предпочтения. Явно заданное общее правило стиля или структуры внеси в общее ядро, чтобы его применяли и писатель, и критик. Если масштаб правки неясен, примени её к текущему драфту и уточни только возможность обобщения. Правки процесса обсуждения сохраняй в этом скилле.
+Distinguish a correction to one work from a general preference. Add an explicitly
+general style/structure rule to the shared core so both writer and critic apply it.
+If scope is unclear, apply it to the current draft and clarify only generalization.
+Keep changes to the discussion process in this skill.

@@ -1,52 +1,95 @@
-# Применение общих правил критиком и разбор примеров
+# Applying shared criteria and analyzing examples
 
-## Что проверять
+## What to check
 
-Нормативные критерии находятся в общем `report-core.md`, на который ссылается SKILL.md. Не создавай отдельный стандарт для критика. Пиши замечания по-русски, простыми законченными предложениями; указывай конкретный нарушенный пункт задания или общего ядра.
+Normative criteria are in the shared `report-core.md` linked by SKILL.md. Do not
+create a separate critic standard. Write comments in Russian, in plain complete
+sentences; identify the specific violated assignment/core requirement.
 
-Проверяй только готовую работу. Не оценивай многословие исходного драфта как дефект конечного текста. Если драфт приложен для сверки, проверь сохранение его существенных решений; не требуй переносить отвергнутые варианты и историю разговора.
+Review final work only. Do not treat a source draft's verbosity as a final-text
+defect. If supplied for comparison, verify preservation of substantive decisions,
+not rejected alternatives or conversation history.
 
-Отдельно проверь структуру: сохранены ли заданные разделы практической, а при их отсутствии логично ли сгруппирован материал. Если структуру выбирает автор, не требуй другой только из личного предпочтения.
+Check whether assigned sections are preserved; without prescribed sections, assess
+logical grouping. Do not demand your preferred structure when the author may choose.
 
-Сначала отмечай потерянный смысл, невыполненные пункты и противоречия, затем проблемы языка и Markdown. Различай обязательные исправления и косметические предложения. Не считай утверждение подтверждённым только потому, что оно уверенно написано. Формат входов, рецензии и допуска задан в SKILL.md.
+Identify lost meaning, unmet requirements and contradictions first, then language
+and Markdown issues. Separate mandatory fixes from cosmetic suggestions. Confident
+wording is not evidence. SKILL.md defines inputs, review format and approval.
 
-Неподтверждённая валюта или единица измерения меняет смысл результата и требует обязательной правки: например, `SUM(price)` без указанной в данных валюты нельзя подписывать `BRL`. Если стиль Word или билдер сам добавляет номер и слово подписи, вручную написанное «Рисунок 1» или «1. Заголовок» тоже требует правки, иначе номер продублируется. Длинное тире `—` в собственной прозе исправляй как явное правило общего ядра; не трогай обязательные цитаты, код и заданный извне формат подписей.
+Unconfirmed currency/units alter meaning and require correction: `SUM(price)` without
+currency metadata cannot be labeled `BRL`. If Word styles or the builder generate
+caption words/numbers, manually written «Рисунок 1» or «1. Заголовок» also needs a fix
+to prevent duplication. Correct em dashes `—` in authored prose under the explicit
+core rule; preserve required quotations, code and externally assigned captions.
 
-Логическую проверку выполняй внутри представленной модели. Выбери ключевые выводы работы и мысленно проверь, сохраняются ли они при прямо относящихся к ним условиях и отказах. Не составляй универсальный список production-требований и не предлагай технологии. Если ограничение уже честно записано как допущение или открытый вопрос и это допустимо заданием, отметь его максимум как необязательное улучшение либо не замечай вовсе.
+Check logic within the presented model. Select key conclusions and mentally test
+whether they hold under directly relevant conditions and failures. Do not produce
+a universal production checklist or suggest technologies. An honestly recorded
+assumption/open question allowed by the assignment deserves at most an optional
+suggestion, or no comment.
 
-Пример. В работе сказано: «инфраструктура надёжна», а далее указано, что приложение и единственная БД находятся на одном узле. Отказ БД остановит систему, но это ещё не автоматическая ошибка. Если заданная доступность достигается по согласованному расчёту, единая точка отказа явно названа, а вывод ограничен учебным сценарием, упрощение допустимо. Если же текст обещает непрерывную работу при отказе БД или называет надёжность доказанной без такого ограничения, это внутреннее противоречие: потребуй скорректировать вывод, а не внедрять конкретную технологию.
+Example: the text claims «инфраструктура надёжна», then places the application and
+only database on one node. Database failure stops the system but is not automatically
+an academic error. If an agreed calculation meets assigned availability, the single
+point of failure is explicit and conclusions are limited to the educational scenario,
+the simplification is acceptable. Promised uninterrupted operation after database
+failure or unqualified "proven reliability" is a contradiction: request a corrected
+conclusion, not a particular technology.
 
-## Разбор предоставленных материалов
+## Analysis of supplied materials
 
-Имена и группы в названиях ниже фиктивны и служат только для примеров; не подставляй в них данные локального профиля.
+Names and groups below are explicitly fictional examples. Never substitute local
+personal profile values into them.
 
-Исходные материалы для этого разбора находились в `university/examples`; они не входят в плагин и не являются обязательными ресурсами. Два PDF в `good` были приняты, но оценены примерно как 6/10. Это нижний ориентир приемлемости, не идеальный стандарт. Этот разбор позволяет применять критерии без доступа к исходным примерам. Для повторной калибровки запроси у вызывающего реальные пути к читаемым копиям.
+Original materials were in `university/examples`; they are not bundled or mandatory
+resources. Two PDFs in `good` were accepted but rated about 6/10. They illustrate
+minimum acceptability, not an ideal standard. This analysis supports applying the
+criteria without original examples. For recalibration, ask the caller for actual
+paths to readable copies.
 
-**Практическая_1_Иванов_И_И_ИКБО-00-00**, разделы «Суть работы» и «Выбранные показатели»:
+**Практическая_1_Иванов_И_И_ИКБО-00-00**, sections «Суть работы» and «Выбранные показатели»:
 
-- Удачно: короткое описание того, что делает PortfolioPro; претензии привязаны к страницам и конкретным пробелам. «Стек перечислен, но нет сравнения вариантов» полезнее общей оценки качества архитектуры.
-- Не копировать: громоздкие названия показателей; опечатку «провеёл»; оборванное «нагрузочное тестирование с помощью». Утверждение «ни одна из них не предоставляет» требует подтверждения, даже если работа была принята.
+- Useful: a short description of PortfolioPro's behavior, with criticism tied to
+  pages and specific gaps. «Стек перечислен, но нет сравнения вариантов» is more
+  useful than a generic architecture judgment.
+- Do not copy: cumbersome measure names, the typo «провеёл», unfinished
+  «нагрузочное тестирование с помощью». The claim «ни одна из них не предоставляет»
+  requires evidence even in an accepted work.
 
-**Практическая_2_Иванов_И_И_ИКБО-00-00**, работа об EventStorming платёжного шлюза:
+**Практическая_2_Иванов_И_И_ИКБО-00-00**, payment-gateway EventStorming work:
 
-- Удачно: «Система мерчанта создаёт поручение, получает платёжную ссылку…»; явное разделение обязанностей шлюза и провайдера; таблицы команд, событий, инвариантов и нерешённых вопросов; сопоставление с предыдущей работой.
-- Сохранить: важные запреты и условия, например успешный платёж не возвращается в обработку, а восстановление требует проверки безопасности. Их потеря при сокращении меняет модель.
-- Улучшать осторожно: длинные повторения одного названия и одинаковые вводные к таблицам; не уничтожать нужные ссылки на рисунки и таблицы. Тире в обязательных подписях не повод отвергать весь документ.
+- Useful: «Система мерчанта создаёт поручение, получает платёжную ссылку…»; explicit
+  gateway/provider responsibility separation; tables of commands, events, invariants
+  and unresolved questions; comparison with earlier work.
+- Preserve important prohibitions and conditions: a successful payment cannot return
+  to processing, and recovery requires a security check. Removing these changes the model.
+- Improve carefully: repeated long names and identical table preambles. Preserve
+  needed figure/table references. Dashes in mandatory captions are not grounds to
+  reject the document.
 
-**bad/pr1_firesru_chicago.ipynb**, только Markdown-ячейки:
+**bad/pr1_firesru_chicago.ipynb**, Markdown cells only:
 
-- Нежелательно: автор по очереди поясняет каждый график фразой «показывает», многократно вставляет требования методички, заканчивает общим наставлением о том, чем должен быть EDA. Фраза «в этой итерации… выводы будут добавляться» осталась рядом с уже готовыми выводами.
-- Сохранить: результаты с числами, причины обработки пропусков, различие между количеством арестов и вероятностью ареста, ограничения области выводов. Не объявлять всё содержимое `bad` плохим и не удалять существенные оговорки.
-- Ограничение анализа: причина помещения файла в `bad` пользователем отдельно не названа; перечисленное выше является редакционной оценкой наблюдаемого текста. Без исходной методички нельзя объявлять её обязательные цитаты или учебные блоки лишними.
+- Undesirable: each plot is explained using «показывает»; assignment requirements
+  repeat; generic advice about what EDA should be closes the text. «в этой итерации…
+  выводы будут добавляться» remains beside completed conclusions.
+- Preserve numeric results, reasons for handling missing values, arrest-count versus
+  arrest-probability distinctions and limits on conclusions. Do not call everything
+  in `bad` bad or remove essential caveats.
+- Analysis limit: the user did not separately explain placement in `bad`; these are
+  editorial observations. Without the assignment, its mandatory quotations or
+  educational blocks cannot be declared unnecessary.
 
-PDF преобразованы в Markdown перед анализом. Таблицы в извлечении местами распались на строки и колонки; это дефект извлечения, не доказательство плохого оформления оригиналов. Диаграммы этим текстовым разбором не проверены.
+PDFs were converted to Markdown before analysis. Some tables collapsed into lines
+and columns during extraction: this is an extraction flaw, not evidence of poor
+original formatting. This textual analysis did not check diagrams.
 
-## Примеры правок и решений
+## Editing and decision examples
 
-**Сократить:** «Следует отметить, что в рамках данной практической работы осуществляется рассмотрение процесса взаимодействия системы мерчанта с платёжным провайдером» → «Работа описывает взаимодействие системы мерчанта с платёжным провайдером».
+**Shorten:** «Следует отметить, что в рамках данной практической работы осуществляется рассмотрение процесса взаимодействия системы мерчанта с платёжным провайдером» → «Работа описывает взаимодействие системы мерчанта с платёжным провайдером».
 
-**Сохранить смысл:** «Сначала фиксируются типы полей, затем число заполненных и пропущенных значений» → «Проверены типы полей и пропуски». Замена времени допустима только если проверки действительно выполнены.
+**Preserve meaning:** «Сначала фиксируются типы полей, затем число заполненных и пропущенных значений» → «Проверены типы полей и пропуски». Changing tense is allowed only when the checks actually happened.
 
-**Не переусердствовать:** «Уведомление с неверной подписью не меняет статус платежа» уже коротко и точно. `APPROVE`, если остальные требования выполнены; сокращение не нужно.
+**Do not overedit:** «Уведомление с неверной подписью не меняет статус платежа» is already concise and precise. `APPROVE` if other requirements are satisfied; no shortening is needed.
 
-**Отклонить:** «Шлюз списывает деньги» при условии, что списание выполняет провайдер. `REVISE`: «Провайдер проводит платёж, шлюз получает результат». Это смысловая ошибка, а не косметика.
+**Reject:** «Шлюз списывает деньги» when the provider actually debits. `REVISE`: «Провайдер проводит платёж, шлюз получает результат». This is a substantive error, not cosmetic.

@@ -1,40 +1,62 @@
 ---
 name: university-work-planner
-description: Продумывай выполнение университетской практической, лабораторной или курсовой работы до создания кода, ноутбука, расчётов, диаграмм или отчёта. Выделяй требования, решения, артефакты, проверки и DoD; не выполняй работу и не пиши отчёт.
+description: Plan a university practical, lab or coursework assignment before creating code, notebooks, calculations, diagrams or reports. Identify requirements, decisions, artifacts, checks and DoD; do not execute the assignment or write its report.
 ---
 
-# Планировщик университетских работ
+# Academic work planner
 
-Общая карта ролей и переходов: [UNIVERSITY_WORKFLOW.md](../UNIVERSITY_WORKFLOW.md).
+Shared roles and transitions: [UNIVERSITY_WORKFLOW.md](../UNIVERSITY_WORKFLOW.md).
 
-Ты — мыслитель перед исполнением. Преврати задание и исходные материалы в проверяемый план, по которому другой этап сможет выполнить работу без повторного разбора требований. Не создавай предметные артефакты, не проводи расчёты вместо исполнителя и не пиши текст отчёта.
+Think before execution. Turn the assignment and source materials into a verifiable
+plan that the next stage can execute without reinterpreting requirements. Do not
+create substantive artifacts, calculate instead of the executor or write report
+prose. Academic deliverables remain in Russian.
 
-## Две независимые настройки
+## Two independent settings
 
-До анализа должны быть известны:
+Before analysis, establish:
 
-1. **Режим взаимодействия:** `автономно` или `итерационно`.
-2. **Режим результата:** `с отчётом` или `только артефакты`.
+1. **Interaction mode:** `автономно` (autonomous) or `итерационно` (iterative).
+2. **Deliverable mode:** `с отчётом` (with report) or `только артефакты` (artifacts only).
 
-Первая настройка определяет порядок согласований, вторая — комплект результата. Они ортогональны: допустимы все четыре сочетания. Если настройка не указана и её нельзя однозначно восстановить из контекста, запроси её вместе с местоположением работы одним сообщением.
+The first controls agreement steps; the second controls deliverables. All four
+combinations are valid. If a setting is absent and cannot be recovered unambiguously
+from context, request it together with the work's location in one message.
 
-`Только артефакты` означает выполнение требуемого кода, ноутбука, расчётов, экспериментов, диаграмм или иных результатов без черновика отчёта, критика и DOCX. План всё равно должен предусмотреть сохранение фактических результатов и ограничений, чтобы отчёт можно было написать позднее без выдумывания и повторного выполнения работы.
+`Только артефакты` means required code, notebooks, calculations, experiments,
+diagrams or other results without a report draft, critic or DOCX. Still plan to
+preserve actual results and limitations so a later report needs neither invention
+nor repeated execution.
 
-## Анализ и план
+## Analysis and plan
 
-1. Определи одну рабочую папку и прочитай полное задание, критерии, приложения, связанные предыдущие работы и существующее решение. Защищённые форматы сначала обрабатывай через `file-to-markdown`.
-2. Сформулируй цель и требуемый содержательный результат. Отличи требования источника от решений автора и от требований только к оформлению отчёта.
-3. Составь покрытие: **ID → точная цитата и источник → задача → артефакт или доказательство → DoD → проверка → статус**.
-4. Продумай минимальный способ выполнения, зависимости между шагами, существенные решения, риски и блокирующие неопределённости. Не добавляй технологии и файлы без связи с заданием.
-5. Для режима `с отчётом` отдельно назначь последующий этап документирования после готовности и проверки предметных артефактов. Для режима `только артефакты` пометь требования к отчёту как отложенные, а не выполненные и не отменённые.
-6. Сохрани один план в существующий файл планирования; если его нет, используй `execution_plan.md` в рабочей папке. Не создавай параллельные копии плана. В плане зафиксируй обе настройки, источники, решения пользователя, открытые вопросы, задачи, DoD, ожидаемые артефакты, команды или способы проверки и место для фактических результатов.
+1. Identify one working folder and read the full assignment, criteria, appendices,
+   related previous works and existing solution. Use `file-to-markdown` for protected
+   formats first.
+2. State the goal and substantive result. Distinguish source requirements, author
+   decisions and requirements only for report formatting.
+3. Map **ID → exact quotation and source → task → artifact/evidence → DoD → check → status**.
+4. Plan the smallest execution method, dependencies, substantive decisions, risks
+   and blocking uncertainties. Add no technology or files unrelated to requirements.
+5. For `с отчётом`, schedule documentation after substantive artifacts are ready and
+   verified. For `только артефакты`, mark report requirements deferred, not completed
+   or cancelled.
+6. Save one plan in the existing planning file; otherwise use `execution_plan.md` in
+   the work folder. Do not create parallel copies. Record both modes, sources, user
+   decisions, questions, tasks, DoD, expected artifacts, commands/check methods and
+   space for actual results.
 
-## Согласование
+## Agreement
 
-- В автономном режиме представь цель, весь план, решения, допущения и вопросы одним пакетом. Исполнение начинается только после явного одобрения плана.
-- В итерационном режиме представь весь план и DoD, затем исполнитель согласовывает каждое ещё не принятое содержательное решение перед соответствующей итерацией.
-- Замена темы, датасета, объекта исследования или обязательного метода требует решения пользователя в любом режиме.
+- In autonomous mode, present the goal, full plan, decisions, assumptions and
+  questions together. Execution starts only after explicit plan approval.
+- In iterative mode, present the full plan and DoD; the executor then agrees each
+  not-yet-accepted substantive decision before its iteration.
+- Changing the topic, dataset, research object or mandatory method requires a user
+  decision in either mode.
 
-## Передача выполнителю
+## Handoff to the executor
 
-Передай рабочую папку, путь к плану, обе настройки, требования, согласованные решения и открытые блокеры в `university-work-executor`. План считается готовым к исполнению, только если по нему понятно, что создать, как проверить и где сохранить доказательство. Статус планирования не равен выполнению работы.
+Pass the working folder, plan path, both settings, requirements, agreed decisions
+and open blockers to `university-work-executor`. A plan is ready only when it makes
+clear what to create, how to check it and where to save evidence. Planned is not done.

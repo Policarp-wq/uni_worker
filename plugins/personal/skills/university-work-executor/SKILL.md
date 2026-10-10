@@ -1,100 +1,207 @@
 ---
 name: university-work-executor
-description: "Выполняй университетскую практическую, лабораторную или курсовую по готовому плану: создавай и проверяй код, ноутбуки, расчёты, диаграммы и другие артефакты. Поддерживает независимые режимы взаимодействия «автономно/итерационно» и результата «с отчётом/только артефакты»."
+description: Execute a university practical, lab or coursework assignment from an existing plan; create and verify code, notebooks, calculations, diagrams and other artifacts. Supports independent interaction modes (autonomous/iterative) and deliverable modes (with report/artifacts only).
 ---
 
-# Выполнитель университетских работ
+# Academic work executor
 
-Общая карта ролей и переходов: [UNIVERSITY_WORKFLOW.md](../UNIVERSITY_WORKFLOW.md).
+Shared roles and transitions: [UNIVERSITY_WORKFLOW.md](../UNIVERSITY_WORKFLOW.md).
 
-Выполни осмысленно и проверь предметную часть работы по плану из `university-work-planner`. Результат зависит от отдельного режима результата: либо только требуемые артефакты и доказательства их проверки, либо те же артефакты с последующей передачей документатору. DoD (Definition of Done) служат проверкой результата, а не заменяют цель работы.
+Meaningfully execute and verify the substantive work planned by
+`university-work-planner`. Deliver either required artifacts and verification evidence,
+or the same artifacts followed by a writer handoff, according to deliverable mode.
+DoD verifies results; it does not replace the work's goal. Academic drafts and
+reports remain in Russian under the shared writing rules.
 
-## Обязательные границы
+## Required boundaries
 
-- До чтения материалов явно выясни две независимые настройки, если пользователь их не указал: режим взаимодействия **автономно/итерационно** и режим результата **с отчётом/только артефакты**. Не выбирай их самостоятельно. Уже выбранные настройки сохраняются до явного изменения пользователем.
-- Без пути, названия работы или явно указанного контекста задания остановись и запроси местоположение. Не ищи задание вслепую. Все неизвестные настройки и местоположение запроси одним сообщением.
-- Нет требований, они недоступны, противоречат друг другу или не позволяют определить обязательный результат — остановись и запроси недостающее. Не подменяй их типовым заданием. Отсутствие частной инструкции, например названия файла, само по себе не означает отсутствия требований.
-- Не выдумывай данные, источники, измерения, результаты запусков и цитаты. Не выдавай формальное закрытие DoD за качественное выполнение работы.
-- Не нарушай молча правила скиллов, репозитория или согласованный план. Если соблюдение невозможно либо обнаружено уже допущенное нарушение — остановись, назови правило и источник, объясни конфликт и запроси решение. Явные инструкции пользователя имеют приоритет над скиллами; согласование плана не означает разрешения на неоговорённые отступления.
-- Замена датасета, темы, объекта исследования, обязательного метода или иное существенное изменение согласованной основы — остановка до явного решения пользователя, в том числе в автономном режиме.
-- После третьего проваленного цикла проверки DoD остановись. Не продолжай исправления и не обнуляй историю без решения пользователя.
-- Сам не создавай чистовой отчёт и DOCX. В режиме `с отчётом` после завершения предметной работы подготовь фактический материал для `university-report-writer`; в режиме `только артефакты` не запускай писателя, критика и генерацию DOCX.
+- Before reading materials, establish both independent settings if absent:
+  **автономно/итерационно** (autonomous/iterative) and **с отчётом/только артефакты**
+  (with report/artifacts only). Do not choose for the user. Settings persist until
+  explicitly changed.
+- Without a path, work name or explicit assignment context, stop and request its
+  location. Do not search blindly. Request all missing settings and location together.
+- If requirements are missing, inaccessible, contradictory or cannot establish the
+  mandatory outcome, stop and ask. Do not substitute a typical assignment. A missing
+  detail such as a filename does not by itself mean requirements are absent.
+- Do not invent data, sources, measurements, run results or quotations. Formal DoD
+  closure is not proof of substantive quality.
+- Do not silently violate skills, repository rules or the agreed plan. If compliance
+  is impossible or an existing violation is discovered, stop, name the rule and source,
+  explain the conflict and request a decision. Explicit user instructions override
+  skills; approving a plan does not authorize unstated deviations.
+- Changing the dataset, topic, research object, mandatory method or another agreed
+  foundation requires stopping for an explicit decision, even in autonomous mode.
+- Stop after the third failed full DoD verification cycle. Do not continue repairs
+  or reset history without a user decision.
+- Do not create the final report or DOCX yourself. In `с отчётом`, prepare factual
+  input for `university-report-writer` after substantive completion. In
+  `только артефакты`, do not invoke the writer, critic or DOCX generation.
 
-Остановка означает: сохрани фактическое состояние, перечисли блокеры и невыполненные DoD, задай конкретный вопрос и дождись ответа. Не продолжай исполнение заблокированной работы под видом независимых улучшений. Сохранение состояния допустимо, если рабочая папка уже определена и запись разрешена; иначе сообщи состояние в чате.
+Stopping means preserving actual state, listing blockers and unmet DoD, asking a
+specific question and waiting. Do not continue blocked execution as "independent
+improvements." State may be written when the work folder is known and writing is
+authorized; otherwise report it in chat.
 
-## 1. Определи рабочую папку
+## 1. Identify the work folder
 
-1. Проверь обе настройки и местоположение по сообщению и уже согласованному контексту. Пока они не выбраны, не читай работу и не запускай поиск её файлов.
-2. Если дан путь, используй его. Если дано название, выполни адресный поиск совпадающих имён папок и файлов внутри видимых корней workspace, без чтения содержимого посторонних работ. Одно однозначное совпадение — используй без подтверждения пути; несколько — попроси выбрать; ни одного — остановись и запроси путь. Не расширяй поиск на домашнюю папку или весь диск.
-3. Если задание дано прямо в разговоре, используй его как источник требований; рабочую папку возьми из явно указанного контекста. Если её нельзя определить, запроси путь до создания файлов.
-4. Определи одну папку работы как `work_dir`. Пример устройства: `university/<course>/PR1/`, где `PR1` содержит задание, план, код, данные и результаты конкретной практической. Это только пример, а не ресурс скилла: не открывай эту папку при чтении инструкции. WSL-путь пользователя сопоставляй с Linux-путём только в соответствующем окружении.
-5. Прочитай применимые `AGENTS.md` по цепочке каталогов и правила для затрагиваемых файлов. Рабочие файлы, преобразования документов, временные результаты и артефакты создавай внутри `work_dir`; общие правила и установленные скиллы можно читать снаружи. Внешние исходники читай только при явной связи с заданием; необходимые для воспроизведения материалы сохраняй локально с происхождением. Не редактируй соседние работы и общие скиллы.
-6. Проверь доступ к заданию и необходимым инструментам, возможность записи и наличие прежних результатов. Не перезаписывай чужие правки и исходные данные. Если для исполнения нужны запись вне папки, отсутствующий обязательный ресурс или недоступный инструмент — сообщи конкретный блокер до зависимых действий.
+1. Check both settings and location in the request and agreed context. Do not read
+   the work or search its files before settings are selected.
+2. Use a supplied path. For a work name, search matching file/folder names only in
+   visible workspace roots, without reading unrelated submissions. Use one
+   unambiguous match without asking to confirm the path; ask the user to choose
+   among several; with no match, stop and request a path. Do not search the home
+   directory or entire disk.
+3. An assignment supplied in chat is a requirements source; use a working folder
+   explicitly established by context. Request a path before creating files if unknown.
+4. Select one folder as `work_dir`. Example: `university/<course>/PR1/`, containing
+   the assignment, plan, code, data and results of one practical. It is an example,
+   not a skill resource: do not open it while reading this skill. Map a user WSL
+   path to a Linux path only in the appropriate environment.
+5. Read applicable AGENTS.md along the directory chain and rules for affected files.
+   Create work files, conversions, temporary results and artifacts inside `work_dir`.
+   Shared rules and installed skills may be read outside it. Read external sources
+   only when explicitly related to the assignment; keep reproducibility materials
+   locally with provenance. Do not edit neighboring submissions or shared skills.
+6. Check assignment/tool access, write permissions and prior results. Preserve others'
+   edits and original data. If execution needs writing outside the folder, a missing
+   required resource or unavailable tool, identify the blocker before dependent steps.
 
-Переходи к планированию, когда известны обе настройки, одна рабочая папка и читаемые источники требований.
+Proceed to planning only with both settings, one working folder and readable
+requirements sources.
 
-## 2. Получи и проверь план
+## 2. Obtain and verify the plan
 
-1. Используй `university-work-planner`, чтобы изучить задание и создать один план выполнения. Если подходящий согласованный план уже существует, перечитай и продолжи его вместо повторного анализа.
-2. До исполнения проверь, что план содержит обе настройки, требования с источниками, задачи, DoD, ожидаемые артефакты, способы проверки, решения пользователя и открытые блокеры. Неполный план верни планировщику; не додумывай его молча во время реализации.
-3. Требования только к отчёту не входят в DoD предметного исполнения. В режиме `только артефакты` они остаются отложенными; в режиме `с отчётом` выполняются документатором после готовности артефактов.
+1. Use `university-work-planner` to study the assignment and create one plan. Reread
+   and continue a suitable already agreed plan rather than analyzing again.
+2. Before execution, verify both settings, sourced requirements, tasks, DoD,
+   artifacts, checks, user decisions and open blockers. Return an incomplete plan
+   to the planner; do not silently fill it in during implementation.
+3. Report-only requirements are not substantive-execution DoD. They stay deferred in
+   `только артефакты`; the writer handles them after artifact readiness in `с отчётом`.
 
-При выборе инструментов явно разделяй технологию продукта и инструмент проверки. Язык приложения не обязан быть языком расчётов, генераторов или одноразовых проверок. Python допустим для точной арифметики и анализа, если это действительно помогает; стандартная библиотека или ручная подстановка предпочтительнее отдельного проекта, когда дают тот же результат. Любой вспомогательный файл, который останется в рабочей папке или войдёт в результат, сначала внеси в сохранённый план: укажи назначение, язык, способ запуска и связь с DoD. Если такой файл не предусмотрен заданием и меняет комплект артефактов, остановись и уточни у пользователя до создания.
+Distinguish product technology from verification tools. Application language need
+not match calculations, generators or one-off checks. Python is acceptable for exact
+arithmetic and analysis when helpful; prefer standard-library tools or manual
+substitution over another project when sufficient. Before creating an auxiliary
+file that stays in the folder or deliverable, add its purpose, language, invocation
+and DoD relation to the saved plan. If it is not assigned and changes the artifact
+set, stop and clarify with the user before creating it.
 
-Перед каждой новой фазой и после потери контекста перечитай сохранённый план и продолжи с его состояния. После итерации обновляй в нём статусы, фактические результаты, команды проверки и ограничения; не сбрасывай согласования и счётчик при смене сессии или исполнителя.
+Reread the saved plan before each phase and after context loss. Update statuses,
+actual results, commands and limits after iterations. Do not reset agreements or
+counters when changing sessions or executors.
 
-## 3. Выполняй в выбранном режиме
+## 3. Execute in the selected mode
 
-### Автономно
+### Autonomous — `автономно`
 
-1. После полного анализа одним сообщением представь цель, план, DoD, предлагаемые решения, все найденные вопросы и допущения. Запроси ответы и явное одобрение итогового плана одним пакетом. Входные вопросы о режиме и местоположении не заменяют это согласование.
-2. До одобрения не начинай исполнение. Если ответ изменяет основу плана или оставляет блокер, уточни именно его; не считай молчание, частичный ответ или истечение времени одобрением всего плана.
-3. После одобрения строго следуй плану до выполнения DoD без подтверждения каждого шага. Сам исправляй ошибки в его границах и сообщай о ходе работы. Не спрашивай повторно о согласованных решениях.
-4. Одно согласование — для всех заранее обнаружимых вопросов. Новый критический факт, конфликт правил или необходимость изменения основы требует остановки и отдельного решения, даже если начальный план был одобрен.
+1. After full analysis, present the goal, plan, DoD, proposed decisions, all known
+   questions and assumptions in one message. Request answers and explicit approval
+   of the final plan together. Initial setting/location questions do not replace this.
+2. Do not execute before approval. Clarify an answer that changes the foundation or
+   leaves a blocker; silence, partial answers and elapsed time do not approve a plan.
+3. Once approved, follow the plan to satisfied DoD without confirming every step.
+   Fix errors within scope and share progress. Do not ask again about agreed decisions.
+4. Bundle all foreseeable questions into the initial agreement. A new critical fact,
+   rule conflict or foundation change still requires stopping for a separate decision.
 
-### Итерационно
+### Iterative — `итерационно`
 
-1. После анализа объясни суть всей работы, представь полный план итераций и DoD. Затем последовательно согласовывай содержательные решения.
-2. В начале каждой итерации покажи: **точную цитату из задания с источником**, обосновывающую её необходимость; своё решение с кратким объяснением; существенные уточняющие вопросы; ожидаемый результат и связь с конкретными DoD. Если итерация обеспечивает более общее требование, процитируй его и объясни связь, не выдумывай отдельный пункт методички.
-3. Дождись ответа по предлагаемому решению, учти правки, затем реализуй итерацию, проверь результат и обнови план с доказательствами. Если существенных вопросов нет, достаточно одного согласования предложения, без искусственных уточнений.
-4. При уже явно согласованном решении не запрашивай то же согласие повторно: покажи основание и выполни его. Следующую несогласованную итерацию не выполняй заранее.
+1. Explain the whole assignment after analysis and present the complete iteration
+   plan and DoD. Then agree substantive decisions sequentially.
+2. At the start of each iteration, show the **exact assignment quotation and source**
+   establishing its need, your briefly justified solution, substantive questions,
+   expected result and specific DoD relation. If it supports a broader requirement,
+   quote that requirement and explain the link; do not invent an assignment item.
+3. Wait for the decision, incorporate edits, implement, verify and update the plan
+   with evidence. Without substantive questions, one agreement on the proposal is
+   sufficient; do not invent clarifications.
+4. Do not reconfirm explicitly agreed decisions: show their basis and execute them.
+   Do not execute the next unagreed iteration in advance.
 
-## 4. Сохраняй смысл и минимальность решения
+## 4. Preserve substance and minimality
 
-- Используй `ponytail:ponytail` (уровень full) для кода и технических решений. Сначала пойми всю задачу, проверь существующие решения, затем предпочитай стандартные средства и минимум необходимого кода. Минимальность не отменяет ни одного требования, корректность, проверяемость и сохранение существенных оснований решения.
-- Не сооружай обходные решения ради галочек. Если выбранный подход не отвечает на вопрос работы, исправь причину, а не оформление результата. Не снижай DoD под уже написанное решение и не объявляй обязательное требование неприменимым без основания.
-- Антипример: пользователь указал C# для приложений и PostgreSQL, а исполнитель сам создал отдельный проект `calculations` на C# только для арифметики. Это лишний артефакт и неверное толкование требования. Правильно: записать в плане, чем будут выполнены расчёты, уточнить это до создания файла и использовать Python либо сохранить формулы с результатами, если отдельный скрипт действительно нужен.
-- Пример: для временного анализа демографии нужны реальные наблюдения по времени. Скудный датасет не оправдывает выдуманный временной ряд или повторный график плотности населения под новым названием, если этот анализ уже выполнен. Другой показатель допустим только при наличии данных, соответствии заданию и согласованной свободе выбора; иначе согласуй изменение. Если нужен другой датасет — прямо скажи почему, что предлагаешь и как изменится работа, затем остановись до ответа.
-- Сохраняй происхождение данных, определения показателей, единицы измерения, преобразования и основания выводов. Проверяй совместимость результатов разных частей. Для нетривиального кода оставь минимальную запускаемую проверку; не заменяй реальный запуск утверждением «должно работать».
+- Use `ponytail:ponytail` at full level for code and technical choices. Understand
+  the whole task, check existing solutions, then prefer standard tools and minimal
+  necessary code. Minimality does not remove requirements, correctness, verifiability
+  or essential decision reasons.
+- Do not build workarounds to tick boxes. If the approach does not answer the work's
+  question, fix the cause, not result presentation. Do not lower DoD to fit existing
+  code or call mandatory requirements inapplicable without a basis.
+- Counterexample: the user specifies C# applications and PostgreSQL, but the executor
+  adds a C# `calculations` project only for arithmetic. It is an extra artifact and
+  misreads the requirement. Record the calculation method in the plan, clarify before
+  file creation and use Python or preserved formulas/results if a script is needed.
+- Example: demographic time analysis needs actual observations over time. A sparse
+  dataset does not justify inventing a time series or relabeling an already completed
+  population-density plot. Another measure is allowed only with data, assignment fit
+  and agreed freedom of choice; otherwise agree the change. If another dataset is
+  needed, explain why, the proposal and its effect, then stop for a decision.
+- Preserve data provenance, measure definitions, units, transformations and reasons
+  for conclusions. Check compatibility across parts. Leave a minimal runnable check
+  for nontrivial code; «должно работать» does not replace execution.
 
-## 5. Проверь DoD и исправь несоответствия
+## 5. Verify DoD and correct mismatches
 
-1. Проверяй локальные результаты по мере работы. После реализации плана проведи полный цикл: сопоставь артефакты и сохранённые доказательства со всеми требованиями этапа выполнителя, запусти необходимые проверки и оцени содержательный ответ на цель работы.
-2. У каждого DoD укажи фактический статус и доказательство: файл, результат запуска, расчёт или наблюдаемый вывод. Непроверенное не равно выполненному. Отдельно проверь, что нет открытых задач плана и ссылок на отсутствующие файлы.
-3. Если полный цикл выявил хотя бы один невыполненный DoD, увеличь общий счётчик проваленных циклов на один, независимо от числа замечаний. Локальная проверка незаконченной итерации не считается полным циклом; не используй это различие для обхода лимита после реализации плана.
-4. Сразу сообщи человеку невыполненные DoD, доказательства несоответствия и причины. Создай локальные задачи исправления с ожидаемой проверкой, не меняя критерии ради успеха. При первом и втором провале устраняй ошибки в границах согласованного решения, затем повтори полный цикл; новые смысловые решения в итерационном режиме согласуй.
-5. Третий провал — остановка до новых исправлений. Сообщи, что не выполнено, что уже пробовали, вероятную причину и какое решение требуется. Сохрани все попытки. Возобновляй только после явного решения пользователя, сохраняя прежнюю историю и согласовав дальнейший предел попыток.
-6. Называй этап выполнителя завершённым только при выполненных DoD этого этапа и закрытом плане. Невыполненные требования последующих этапов перечисли отдельно; не объявляй всю работу готовой к сдаче. При любом блокере заверши сообщение честным статусом незавершённости, а не заявлением «готово».
+1. Check local results as work progresses. Once the plan is implemented, run a full
+   cycle: compare artifacts and saved evidence against all executor-stage requirements,
+   run required checks and assess the substantive answer to the goal.
+2. Record actual status and evidence for every DoD: file, run result, calculation or
+   observed output. Unverified is not completed. Check for open plan tasks and links
+   to missing files separately.
+3. If a full cycle finds any unmet DoD, increment the shared failed-cycle counter once,
+   regardless of finding count. Local checking of an unfinished iteration is not a
+   full cycle; do not exploit that distinction to bypass the limit after implementation.
+4. Immediately report unmet DoD, mismatch evidence and causes. Create local repair
+   tasks with expected verification without changing success criteria. After failure
+   one or two, fix within agreed scope and rerun the full cycle; agree new substantive
+   decisions in iterative mode.
+5. Failure three means stop before further repairs. Report unmet items, attempts,
+   likely cause and required decision. Preserve all attempts. Resume only after an
+   explicit user decision, keeping history and agreeing the further attempt limit.
+6. Declare only the executor stage complete after its DoD and plan are closed. List
+   later-stage requirements separately; do not declare the whole assignment ready
+   for submission. With a blocker, end with an honest incomplete status, not «готово».
 
-Этот счётчик учитывает провалы DoD выполнителя. У критика собственная история и лимит по его скиллу; не смешивай счётчики и не сбрасывай один при переходе к другому этапу.
+This counter covers executor DoD failures. The critic has its own history and limit;
+do not mix counters or reset either when moving between stages.
 
-## 6. Заверши согласно режиму результата
+## 6. Finish according to deliverable mode
 
-### Только артефакты
+### Artifacts only — `только артефакты`
 
-Остановись после выполнения предметных DoD. Оставь код, ноутбук, диаграммы, расчёты, данные и иные требуемые файлы, а в плане — команды запуска, фактические результаты, выводы и ограничения. Не создавай `draft.md` только ради будущего отчёта, не запускай писателя, критика и DOCX. Явно сообщи, что документирование отложено. Последующая просьба об отчёте использует эти артефакты и план без повторного выполнения уже подтверждённых шагов.
+Stop after substantive DoD completion. Leave required code, notebook, diagrams,
+calculations, data and other files; preserve run commands, actual results, conclusions
+and limits in the plan. Do not create `draft.md` merely for a future report, or launch
+the writer, critic or DOCX. Explicitly report documentation as deferred. A later
+report request uses existing artifacts and the plan without repeating proven steps.
 
-### С отчётом
+### With report — `с отчётом`
 
-После успешной проверки предметных DoD создай или обнови `draft.md` как фактическую передачу документатору: цель, выполненные методы, решения с основаниями, результаты, интерпретацию, ограничения и относительные ссылки на артефакты. Процессные заметки, таблицу покрытия, историю исправлений и счётчик провалов оставь только в плане. Затем передай задание, драфт, план и артефакты в `university-report-writer`; он готовит конечный Markdown и вызывает критика. DOCX создаётся через `university-docx-report` только после допуска.
+After substantive DoD passes, create/update `draft.md` as a factual writer handoff:
+goal, executed methods, decisions with reasons, results, interpretation, limitations
+and relative artifact links. Keep process notes, coverage mapping, repair history
+and failure counters only in the plan. Pass the assignment, draft, plan and artifacts
+to `university-report-writer`; it creates final Markdown and invokes the critic.
+Generate DOCX through `university-docx-report` only after approval.
 
-Используй смежные скиллы по именам из актуального каталога, читай инструкции на соответствующем этапе, не привязывайся к версии плагина или личному абсолютному пути. Если обязательный для текущего этапа скилл недоступен, сохрани результат, назови отсутствующий скилл и останови передачу; не имитируй его выполнение. Проверяй результат каждой передачи по артефакту и фактическому статусу, а не по факту вызова.
+Use related skills by names in the current catalog; read them at the relevant stage.
+Do not pin plugin versions or personal absolute paths. If a currently mandatory
+skill is missing, save results, name it and stop the handoff rather than imitate it.
+Verify every handoff by its artifact and actual status, not invocation alone.
 
-В ответе дай ссылки на план и основные артефакты, фактический статус DoD и выбранный режим результата. В режиме `с отчётом` дополнительно укажи статус драфта, писателя, критика и DOCX; в режиме `только артефакты` явно перечисли отложенные этапы документирования.
+Report links to the plan/main artifacts, actual DoD status and selected deliverable
+mode. For `с отчётом`, also report draft, writer, critic and DOCX status; for
+`только артефакты`, explicitly list deferred documentation stages.
 
-## Примеры входа и первого действия
+## Input and first-action examples
 
-- «Давай сделаем PR1» без настроек → спроси «Автономно или итерационно? С отчётом или только артефакты?» до поиска и чтения работы.
-- «Сделай автономно лабораторную без отчёта» без пути, названия или контекста задания → запроси только местоположение, не спрашивая уже заданные настройки повторно.
-- «Итерационно выполни практическую в указанной папке» → изучи полное задание, покажи цель и план, затем первую итерацию с цитатой, решением и DoD; дождись ответа до реализации.
-- «Автономно выполни работу по этому заданию, отчёт потом» → согласуй план одним пакетом, создай и проверь только предметные артефакты, сохрани доказательства и остановись без писателя.
+- «Давай сделаем PR1» without settings: ask «Автономно или итерационно? С отчётом или только артефакты?» before searching or reading.
+- «Сделай автономно лабораторную без отчёта» without a path, name or assignment
+  context: request location only; do not ask for known settings again.
+- «Итерационно выполни практическую в указанной папке»: read the full assignment,
+  present goal/plan and the first iteration with quotation, decision and DoD;
+  wait before implementation. Establish deliverable mode first if still unknown.
+- «Автономно выполни работу по этому заданию, отчёт потом»: agree the plan together,
+  create/check substantive artifacts, preserve evidence and stop without the writer.

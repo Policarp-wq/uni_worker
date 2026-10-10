@@ -1,100 +1,184 @@
 ---
 name: work-projects-iteration
-description: Веди непрерывную разработку проектов в work_projects небольшими проверяемыми PR в GitHub, сохраняя архитектурные решения и состояние работы между сессиями. Используй для запросов «продолжи проект», «добавь функцию», «исправь ошибку», «подготовь PR» в этих проектах и при явном вызове. Не применяй к учебным работам и задачам вне work_projects без явного запроса.
+description: Continue projects in work_projects through small verifiable GitHub PRs, preserving architectural decisions and development state between sessions. Use for continuing a project, adding a feature, fixing a bug or preparing a PR in these projects, or explicit invocation. Do not apply to academic work or tasks outside work_projects without an explicit request.
 ---
 
-# Непрерывная разработка небольшими PR
+# Ongoing development through small PRs
 
-Работай как сопровождающий существующего проекта. Цель — понятные пользователю изменения, устойчивые границы подпроектов и работающий результат каждой итерации.
+Example Russian requests: «продолжи проект», «добавь функцию», «исправь ошибку»,
+«подготовь PR».
 
-## Основные правила
+Maintain the existing project. Aim for changes the user understands, stable
+subproject boundaries and a working result from every iteration.
 
-- Новая сессия не означает новый проект. Продолжай текущую работу и сохраняй принятые решения; не начинай заново аудит, проектирование или план без причины.
-- Одна итерация — один небольшой PR с одной объяснимой целью. Не накапливай зависимые реализации поверх решений, ожидающих ревью пользователя.
-- Логика, API, данные, интеграции, конфигурация, зависимости и архитектура требуют ревью пользователя. Не сливай такой PR без его явного одобрения актуальных существенных изменений.
-- Чистое оформление GUI не требует построчного ревью пользователя. Исключение не распространяется на расчёты, состояние приложения, права, хранение, сетевые запросы и контракты, даже если они находятся в UI-файлах. Автоматическое слияние GUI этим исключением не разрешается.
-- Учитывай применимые AGENTS.md и существующие соглашения. Разрешение работать над задачей не означает разрешение переписывать проект или публиковать посторонние изменения.
+## Core rules
 
-## Входные данные и состояние
+- A new session is not a new project. Continue ongoing work and preserve decisions;
+  do not restart an audit, design or plan without a reason.
+- One iteration is one small PR with one explainable purpose. Do not stack dependent
+  implementations on decisions awaiting user review.
+- Logic, APIs, data, integrations, configuration, dependencies and architecture
+  require user review. Do not merge without explicit approval of the current
+  substantive changes.
+- Pure GUI presentation does not require line-by-line user review. This exception
+  excludes calculations, application state, permissions, storage, network requests
+  and contracts, even in UI files. It does not authorize automatic GUI merges.
+- Follow applicable AGENTS.md and existing conventions. Permission to work on a
+  task does not authorize rewriting the project or publishing unrelated changes.
 
-Определи репозиторий и задачу из запроса, рабочего каталога и доступных файлов. Рабочую область определяй по текущему окружению; не предполагай фиксированный домашний путь. Соответствие WSL и Windows UNC проверяй только в подходящем окружении. Определяй реальный корень через Git, а не по имени папки. Если подходят несколько репозиториев и выбор влияет на изменения, уточни его до редактирования.
+## Inputs and state
 
-Используй существующие README, архитектурные заметки, задачи и PR. Если устойчивой записи состояния нет, создай один короткий `docs/development-state.md` в репозитории. Это создаваемый артефакт, а не обязательный входной файл. Соблюдай язык документации проекта. Не заводи параллельный трекер, если существующий уже решает задачу.
+Identify the repository and task from the request, working directory and available
+files. Discover the workspace from the current environment; do not assume a fixed
+home path. Check WSL/Windows UNC equivalence only in a relevant environment. Find
+the actual root through Git, not the folder name. If several repositories match
+and the choice affects edits, clarify before editing.
 
-Храни в записи состояния только необходимое для продолжения: текущую цель; ветку, базу и PR, если он есть; принятые решения и ссылки на их основания; завершённое и оставшееся; последние проверки и известные сбои; ожидаемое ревью и следующий небольшой шаг. Обновляй существующую запись, не добавляй ежедневный журнал всех действий. Не выдавай локальную запись за актуальное состояние GitHub без проверки.
+Use existing README files, architecture notes, tasks and PRs. If persistent state
+is absent, create one short `docs/development-state.md` in the repository. This is
+a generated artifact, not a required input. Follow the project's documentation
+language. Do not create a parallel tracker when an existing one suffices.
 
-## Цикл работы
+Keep only what continuation needs: current goal; branch, base and PR if any;
+decisions and supporting links; completed and remaining work; latest checks and
+known failures; pending review and the next small step. Update the existing record
+rather than adding a daily action journal. Do not present local notes as current
+GitHub state without verification.
 
-### 1. Восстанови контекст
+## Work cycle
 
-Прочитай применимые инструкции, состояние работы, статус Git и относящиеся к задаче документы. Проверь текущую ветку, незакоммиченные изменения, последние релевантные коммиты; при доступе к GitHub — состояние PR, CI и замечания. Не включай чужие или не относящиеся к задаче изменения в свой PR.
+### 1. Restore context
 
-При первом знакомстве составь краткую карту подпроектов: ответственность, направление зависимостей, точки входа, контракты и команды проверки. Исследуй код по реальному пути выполнения выбранного сценария. Не превращай знакомство в полный аудит репозитория. Сохрани устойчивые выводы в имеющейся документации или записи состояния.
+Read applicable instructions, development state, Git status and relevant documents.
+Check the branch, uncommitted changes and relevant recent commits; with GitHub
+access, check PR status, CI and comments. Exclude others' and unrelated changes.
 
-При продолжении прочитай эту карту и изучи изменения с последней зафиксированной точки, затем только затрагиваемый сценарий и его потребителей. Углубляй знакомство, если карта отсутствует, устарела или задача меняет границы системы. Проверяй сомнительные записи по коду.
+On first contact, map subproject responsibilities, dependency direction, entry
+points, contracts and check commands. Investigate the selected scenario along its
+actual execution path. Do not turn onboarding into a full repository audit. Save
+stable findings in existing documentation or the state record.
 
-Переходи дальше, когда понятны текущий результат, незавершённая работа, границы задачи и исходное состояние проверок. Если PR ждёт исправлений, сначала обработай их.
+On continuation, read the map and changes since the last recorded point, then only
+the affected scenario and consumers. Investigate further if the map is missing,
+stale or the task changes system boundaries. Verify doubtful notes against code.
 
-### 2. Выбери ближайшую итерацию
+Proceed when the current result, unfinished work, scope and baseline checks are
+clear. Address an existing PR's requested fixes first.
 
-Дай короткий план: результат, затрагиваемые подпроекты, существенное решение, проверка и критерий готовности. Для большой задачи обозначь последовательность небольших PR, но реализуй только ближайший согласованный шаг. Обновляй список по мере выполнения; после потери контекста сверяйся с ним.
+### 2. Select the next iteration
 
-Ориентир для PR — 100–300 изменённых строк содержательного кода, верхний сигнал к разбиению — около 400 строк или несколько независимых решений. Это ориентир, а не повод уплотнять код или делать неработающие промежуточные версии. Тесты входят в содержательный diff. Генерацию, lock-файлы и механические изменения показывай отдельно и объясняй их происхождение; они не должны скрывать большой объём ручного кода.
+Give a short plan: result, affected subprojects, substantive decision, verification
+and completion criterion. For a large task, outline a sequence of small PRs but
+implement only the next agreed step. Update the list and consult it after context
+loss.
 
-Если цель выходит за этот объём, сначала найди меньший законченный результат. Если изменение действительно неделимо, до его реализации объясни причину, ожидаемый объём и маршрут ревью и согласуй исключение с пользователем. Не готовь огромный diff, чтобы лишь потом предложить его разделить.
+Aim for 100–300 changed lines of substantive code per PR. About 400 lines or several
+independent decisions signal a need to split. This is a guide, not a reason to
+compress code or produce broken intermediate states. Tests count toward the
+substantive diff. Show generated files, lock files and mechanical changes separately
+and explain their origin; they must not conceal large amounts of handwritten code.
 
-Не смешивай функциональность с массовым форматированием, переименованием и посторонним рефакторингом. GUI и проверяемую пользователем логику по возможности выноси в отдельные PR; если их нельзя разделить без поломки, явно выдели файлы и участки для его ревью.
+If the goal exceeds that size, find a smaller complete result first. For a genuinely
+indivisible change, explain its reason, expected size and review path before
+implementation and agree on an exception with the user. Do not prepare a huge diff
+and only then suggest splitting it.
 
-### 3. Сохрани архитектурные границы
+Do not mix functionality with mass formatting, renaming or unrelated refactoring.
+Separate GUI and user-reviewed logic into different PRs where possible; if separation
+would break the result, explicitly mark the files and sections requiring review.
 
-До изменения проследи вызывающий код, всех потребителей изменяемого контракта и зависимости между подпроектами. Определи, какая существующая часть владеет поведением. Исправляй общую причину сбоя в месте её возникновения.
+### 3. Preserve architectural boundaries
 
-Размещай предметную логику так, чтобы её можно было проверять без GUI; платформенные детали оставляй на существующих границах платформы. Расширяй существующие механизмы. Создавай новый интерфейс, слой или сервис только при конкретной необходимости текущей задачи: например, изоляции внешнего устройства или нескольких реально существующих реализаций.
+Before changing code, trace callers, all consumers of the changed contract and
+subproject dependencies. Identify the existing owner of the behavior. Fix shared
+failure causes where they originate.
 
-Если меняются границы подпроектов, направление зависимостей, формат данных или публичный контракт, кратко запиши решение, причину, затронутых потребителей и способ совместимого перехода. Для существенного выбора сначала представь рекомендацию пользователю и дождись решения до зависимой реализации. Не пересогласовывай уже принятое решение без новых обстоятельств.
+Place domain logic where it can be tested without GUI; keep platform details at
+existing platform boundaries. Extend existing mechanisms. Add an interface, layer
+or service only for a concrete current need, such as isolating an external device
+or multiple actually existing implementations.
 
-Переходи к коду, когда изменение укладывается в текущие границы либо необходимое изменение границ согласовано.
+When subproject boundaries, dependency direction, data format or a public contract
+change, briefly record the decision, reason, consumers and compatible transition.
+For a substantive choice, first present a recommendation and wait for the user's
+decision before dependent implementation. Do not reopen an agreed decision without
+new circumstances.
 
-### 4. Реализуй и проверь
+Proceed to code when the change fits existing boundaries or the required boundary
+change has been agreed.
 
-Работай в отдельной ветке от принятой базы репозитория. Если текущая ветка уже относится к задаче, продолжай её. Не коммить напрямую в основную ветку.
+### 4. Implement and verify
 
-До изменения выполни доступные релевантные проверки или используй недавний подтверждённый результат для той же ревизии и среды. Зафиксируй исходные сбои отдельно. После изменения выполни сборку и проверки затронутого поведения, а при изменении контракта — его потребителей и взаимодействия подпроектов. Соблюдай обязательные проверки репозитория.
+Work on a separate branch from the repository's accepted base. Continue the current
+branch if it already belongs to this task. Do not commit directly to the main branch.
 
-Для исправленной ошибки оставь воспроизводящую её проверку. Для новой нетривиальной логики добавь минимальную проверку наблюдаемого поведения существующими средствами проекта. Для чисто визуального изменения проверь запуск и соответствующий пользовательский сценарий; не перекладывай чтение GUI-кода на пользователя.
+Before edits, run available relevant checks or use a recent confirmed result for
+the same revision and environment. Record baseline failures separately. After edits,
+build and check affected behavior; for contract changes, check consumers and
+subproject interactions. Follow mandatory repository checks.
 
-Проверь собственный diff: посторонние изменения, размер, нарушение границ, необъяснённые зависимости. Не объявляй итерацию завершённой, пока её обязательные пункты открыты. Блокировку фиксируй как блокировку, а будущие итерации — как оставшуюся работу.
+Leave a reproducing check for a bug fix. For new nontrivial logic, add a minimal
+observable-behavior check using existing project tools. For a purely visual change,
+check startup and the relevant user scenario; do not delegate GUI code reading to
+the user.
 
-### 5. Подготовь PR и пройди ревью
+Review your own diff for unrelated changes, size, boundary violations and unexplained
+dependencies. Do not declare the iteration complete while mandatory items remain
+open. Record a blocker as a blocker and future iterations as remaining work.
 
-Если публикация входит в поручение или уже разрешена в сессии, отправь ветку и создай либо обнови PR доступным средством GitHub. В ином случае подготовь локальные коммиты и точный текст PR, затем запроси только необходимое разрешение на публикацию. Не создавай второй PR для исправления замечаний к первому.
+### 5. Prepare the PR and obtain review
 
-Описание PR должно быть понятно без переписки:
+If publishing is requested or already authorized in the session, push the branch
+and create or update the PR through an available GitHub tool. Otherwise prepare
+local commits and exact PR text, then request only necessary publishing permission.
+Do not create a second PR to address comments on the first.
 
-- Проблема и наблюдаемое поведение после изменения.
-- Ключевое решение и затронутые границы, если они менялись.
-- Маршрут ревью: несколько файлов в порядке чтения и решения, которые нужно оценить; отдельно обозначь чистый GUI.
-- Выполненные команды и результаты проверок; непроверенные части и известные ограничения.
-- Оставшаяся работа, только если она нужна для понимания границ PR.
+The PR description must stand alone:
 
-Проверь, что опубликован нужный diff, PR направлен в правильную базу и статус CI относится к текущему коммиту. Готовый PR и слитый PR — разные состояния. Если проверки недоступны или обязательная проверка падает, оставь PR черновиком и укажи причину.
+- Problem and observable behavior after the change.
+- Key decision and affected boundaries, if changed.
+- Review path: a few files in reading order and decisions to assess; mark pure GUI
+  separately.
+- Executed commands and check results; unverified parts and known limitations.
+- Remaining work only where needed to understand the PR's scope.
 
-Останови зависимую реализацию на границе ревью. Исправь полученные замечания в этом же PR и повтори затронутые проверки. При существенных изменениях после одобрения запроси повторное ревью. После одобрения сливай только при наличии разрешения на слияние и выполнении правил репозитория.
+Verify the published diff, target base and that CI status belongs to the current
+commit. A ready PR and a merged PR are different states. Leave the PR as a draft
+with the reason if checks are unavailable or a required check fails.
 
-### 6. Сохрани точку продолжения
+Stop dependent implementation at the review boundary. Address comments in the same
+PR and rerun affected checks. Obtain renewed review after substantive changes
+following approval. Merge only with merge authorization and satisfied repository
+rules, after approval.
 
-Перед завершением сессии обнови запись состояния: что реально сделано, что проверено, где PR, чего ждём и с какого шага продолжать. После слияния проверь его факт и восстанови следующую итерацию относительно обновлённой базы. Не начинай проектирование заново.
+### 6. Preserve the continuation point
 
-В ответе пользователю кратко сообщи результат, ссылку на PR или локальный артефакт, проверку и следующий шаг. Если нужен ответ пользователя, сформулируй конкретное решение или предмет ревью.
+Before ending the session, update state: what was actually done and checked, the PR,
+what is pending and where to resume. After merging, verify that it occurred and
+base the next iteration on the updated base. Do not restart design.
 
-## Сбои и восстановление
+Briefly report the result, PR or local artifact link, verification and next step.
+If the user must respond, specify the actual decision or review needed.
 
-- **Нет доступа к GitHub:** выполни доступную локальную работу, подготовь diff и описание PR, сохрани состояние. Сообщи, какой доступ нужен; не утверждай, что PR создан или CI прошёл.
-- **Сборка уже сломана или проверка требует другой ОС/оборудования:** отдели исходный сбой от нового, выполни доступные проверки и укажи точную недостающую проверку. Не обходи обязательные проверки ради слияния. Не расширяй задачу до ремонта всей системы без согласования.
-- **Конфликт с чужой работой или устаревшее состояние:** сопоставь Git, PR и запись состояния; сохрани чужие изменения. Если нельзя однозначно восстановить намерение, зафиксируй конкретное противоречие и уточни его до конфликтующего редактирования.
-- **Объём растёт в процессе:** останови расширение, сохрани работающую часть и пересмотри границу текущего PR. Не выдавай частичный результат за всю выполненную задачу.
+## Failures and recovery
 
-## Примеры решений
+- **No GitHub access:** complete available local work, prepare the diff and PR text,
+  save state and state the missing access. Do not claim a PR exists or CI passed.
+- **Baseline build failure or a check needs another OS/hardware:** distinguish old
+  and new failures, run available checks and identify the exact missing check.
+  Do not bypass mandatory checks to merge or expand to repairing the whole system
+  without agreement.
+- **Conflict with others' work or stale state:** reconcile Git, the PR and recorded
+  state while preserving others' edits. If intent cannot be recovered unambiguously,
+  record the specific conflict and clarify before conflicting edits.
+- **Scope grows:** stop expansion, preserve the working part and reconsider this
+  PR's boundary. Do not present a partial result as completion of the whole task.
 
-- **«Продолжи поддержку устройства».** Найден открытый PR с замечаниями к контракту → восстанови его состояние, исправь замечания и проверь потребителей; результат — обновлённый PR, а не новая реализация поддержки устройства.
-- **«Добавь экспорт и кнопку».** Предложи сначала небольшой PR с форматом экспорта, логикой и проверкой для ревью пользователя; после его принятия — GUI, использующий этот контракт. Не добавляй расчёты экспорта в обработчик кнопки.
+## Decision examples
+
+- **«Продолжи поддержку устройства».** An open PR has contract comments: restore its
+  state, fix comments and check consumers. Deliver an updated PR, not a new device
+  support implementation.
+- **«Добавь экспорт и кнопку».** Propose a small PR with export format, logic and
+  verification for user review first, followed by GUI using that accepted contract.
+  Do not put export calculations in the button handler.

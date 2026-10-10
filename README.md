@@ -1,10 +1,12 @@
 # Agent Kit
 
-Переносимые личные инструкции и 10 собственных скиллов для разработки и учебных работ. Один репозиторий работает как marketplace для Codex и Claude Code. Скилл `setup` подключает инструкции к новому окружению; профиль с личными данными хранится отдельно и не экспортируется.
+Portable personal instructions and ten original skills for development and academic work. One repository serves as a marketplace for Codex and Claude Code. The `setup` skill connects instructions to a new environment; populated personal profiles stay local and are excluded from export.
 
-## Подключение из GitHub
+Instructions and documentation are written in English. Academic deliverables remain in Russian: preserve the Russian wording, examples, terminology and typography specified by the skills. English instructions do not authorize translating Russian output templates or changing the writing rules.
 
-После публикации замени `OWNER/REPO` на свой репозиторий. Публичный репозиторий доступен всем; для private нужна настроенная GitHub-аутентификация клиента.
+## Install from GitHub
+
+Replace `OWNER/REPO` with the repository. Public repositories are accessible to everyone; private repositories require access and configured GitHub authentication on the recipient's machine.
 
 Codex CLI:
 
@@ -13,7 +15,7 @@ codex plugin marketplace add OWNER/REPO --ref main
 codex plugin add personal@agent-kit
 ```
 
-В новой сессии попроси: «Прочитай и выполни скилл setup из плагина personal». Если интерфейс показывает onboarding, начни с него.
+In a new session, ask: "Read and run the setup skill from the personal plugin." If the interface offers onboarding, start there.
 
 Claude Code:
 
@@ -23,30 +25,30 @@ Claude Code:
 /personal:setup
 ```
 
-Для обновления Codex выполни `codex plugin marketplace upgrade agent-kit`, затем `codex plugin add personal@agent-kit`, и проверь установленную версию через `codex plugin list`. В Claude открой `/plugin`, раздел Marketplaces, и включи обновления этого marketplace или обнови его вручную. Изменения уже скопированных локальных инструкций агент объединяет отдельно, сохраняя локальные правила и профиль.
+To update Codex, run `codex plugin marketplace upgrade agent-kit`, then `codex plugin add personal@agent-kit`, and check the installed version with `codex plugin list`. In Claude, open `/plugin`, go to Marketplaces and enable updates for this marketplace or update it manually. The agent merges updates to previously copied local instructions separately, preserving existing rules and the local profile.
 
-Форматы и команды: [Codex plugins](https://developers.openai.com/plugins/build/plugins), [Claude marketplaces](https://code.claude.com/docs/en/plugin-marketplaces), [Claude installation and updates](https://code.claude.com/docs/en/discover-plugins).
+Formats and commands: [Codex plugins](https://developers.openai.com/plugins/build/plugins), [Claude marketplaces](https://code.claude.com/docs/en/plugin-marketplaces), [Claude installation and updates](https://code.claude.com/docs/en/discover-plugins).
 
-## Что переносится
+## Included
 
-- 10 собственных скиллов, общая университетская схема, Python-механизм допуска критика и его тесты.
-- Общий стиль общения и правила локального профиля.
-- Общие инструкции для учебных и рабочих папок, без правил конкретных предметов и проектов.
-- Настройка обоих клиентов и отдельный агент-критик для Claude.
+- Ten original skills, a shared academic workflow, the Python critic approval gate and its tests.
+- Communication style and local personal profile rules.
+- General instructions for academic and development folders, without subject-specific or project-specific rules.
+- Setup for both clients and a separate reviewer agent for Claude.
 
-Точный список файлов: [FILES.md](FILES.md). Границы экспорта: [docs/EXPORT.md](docs/EXPORT.md). Зависимости и ограничения: [docs/DEPENDENCIES.md](docs/DEPENDENCIES.md).
+Exact file list: [FILES.md](FILES.md). Export boundaries: [docs/EXPORT.md](docs/EXPORT.md). Dependencies and limitations: [docs/DEPENDENCIES.md](docs/DEPENDENCIES.md).
 
-## Локальная проверка
+## Local checks
 
 ```sh
 python3 scripts/check.py
 PYTHONDONTWRITEBYTECODE=1 python3 plugins/personal/skills/university-text-critic/scripts/test_critic_gate.py -v
 ```
 
-Критик работает на Linux/WSL и macOS с Python 3.10+. На нативном Windows он останавливается с сообщением о недоступном `fcntl`: сначала нужно заменить файловую блокировку, сохранив защиту от одновременной записи. Это ограничение критика и зависимого допуска DOCX, а не всего плагина.
+The critic runs on Linux/WSL and macOS with Python 3.10+. On native Windows, it stops because `fcntl` is unavailable: replace the file locking implementation while preserving protection against concurrent writes before using it. This restriction applies to the critic and its dependent DOCX approval gate, not the entire plugin.
 
-## Публикация
+## Publish
 
-Создай пустой GitHub-репозиторий и передай его URL агенту. Он загрузит только содержимое этой папки. Учебные работы, личная память, настройки аккаунтов и сторонние плагины в репозиторий не входят.
+Create an empty GitHub repository and give its URL to the agent. Publish only this folder's contents. Academic submissions, personal memory, account settings and third-party plugins are excluded.
 
-Сторонние плагины устанавливаются из актуальных upstream-источников без фиксации версии. Номер `1.0.1` относится только к нашему пакету и нужен клиентам для обновления кэша.
+Install third-party plugins from current upstream sources without pinning their versions. Version `1.0.2` belongs only to this package and enables client cache updates.

@@ -1,7 +1,7 @@
-# Рабочие проекты
+# Development projects
 
-Определяй действительный корень проекта через Git и читай его собственные инструкции до изменений. Архитектура, язык, инструменты и платформы определяются самим проектом.
+Find the actual project root through Git and read its instructions before making changes. The project determines its architecture, language, tools and platforms.
 
-Для непрерывной разработки используй `work-projects-iteration`: небольшие проверяемые изменения, сохранённые решения и состояние работы, изолированная ветка и PR. Сохраняй пользовательские незакоммиченные изменения. Не переноси учебный конвейер на рабочий проект без запроса.
+For ongoing development, use `work-projects-iteration`: small verifiable changes, persistent decisions and development state, an isolated branch and a PR. Preserve the user's uncommitted changes. Do not apply the academic pipeline to a development project without a request.
 
-Если задача явно требует MVP или TDD, используй `mvp-development`. В остальных случаях размер архитектуры и проверок определяется задачей и правилами проекта.
+When the task explicitly requires an MVP or TDD, use `mvp-development`. Otherwise, choose architecture and verification scope according to the task and project rules.

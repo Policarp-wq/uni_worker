@@ -1,112 +1,186 @@
 ---
 name: humanize-ru-academic
-description: Пиши и редактируй русские учебные работы естественным, умеренно академическим языком без канцелярита, пустых оценок и шаблонных оборотов. Применяй при подготовке и содержательной правке готового текста практических, лабораторных, курсовых и пояснений в ноутбуках, а также по просьбам «убери нейросетевой стиль», «очеловечь текст», «слишком роботизированно». Не применяй к дословным блокам методички, цитатам и рабочим заметкам, пока их не превращают в готовый текст.
+description: Write and edit Russian academic work in natural, moderately academic language without bureaucratic phrasing, empty praise or stock expressions. Apply to final practical/lab/coursework prose, notebook explanations and requests to remove AI-like or robotic style. Do not edit verbatim assignment blocks, quotations or working notes until they are being turned into final prose.
 ---
 
-# Естественный русский язык учебных работ
+# Natural Russian academic prose
 
-Адаптация предоставленного пользователем англоязычного `humanize-writing` версии 2.0.0 под русские учебные работы. Цель: точный текст, в котором видны выполненные действия, основания решений и границы результатов. Не имитируй человека ошибками, случайными отступлениями или выдуманным опытом. Эти приёмы улучшают редактуру, но не определяют авторство текста и не гарантируют результат детекторов ИИ.
+Example Russian requests: «убери нейросетевой стиль», «очеловечь текст»,
+«слишком роботизированно».
 
-## Место в процессе
+An adaptation of the user-supplied English `humanize-writing` 2.0.0 for Russian
+academic work. Aim for accurate text showing actual actions, reasons for decisions
+and the limits of results. Do not imitate human authorship through errors, random
+digressions or invented experience. These techniques improve editing; they do not
+establish authorship or guarantee AI-detector results. Write the deliverable in
+Russian. Keep the Russian examples below as language guidance, not facts to invent.
 
-При написании сразу применяй подходящие приёмы; при редактировании проверяй уже существующий текст. Не обязательно переписывать текст восемь раз: проходы ниже обозначают стороны проверки, а не квоту изменений.
+## Place in the workflow
 
-В учебном процессе писатель применяет этот скилл перед сохранением окончательной версии Markdown и передачей отдельному критику. Критик использует те же критерии и отмечает конкретные недостатки, а не предполагаемое происхождение текста. Сам этот скилл не запускает критика, не выдаёт допуск и не меняет процедуру DOCX.
+Apply relevant techniques while writing; review existing prose when editing. The
+eight passes below are aspects of review, not a requirement to rewrite eight times.
 
-Для учебных работ прочитай [общее ядро писателя и критика](../university-text-critic/references/report-core.md). Ядро задаёт обязательные требования к содержанию, структуре, пунктуации и Markdown; здесь собраны приёмы редактирования. Не веди две копии общих правил. Если ядро уже прочитано в текущей задаче, повторно читать его не нужно. Явные требования пользователя и задания имеют приоритет.
+In the academic workflow, the writer applies this skill before saving final Markdown
+and handing it to the independent critic. The critic uses the same criteria and
+identifies concrete weaknesses, not presumed origins. This skill does not launch
+review, grant approval or change the DOCX procedure.
 
-Перед правкой прочитай текст и доступные основания: задание, согласованные решения, расчёты и результаты. Сохраняй числа, единицы, формулы, ссылки, имена, термины и силу утверждений. Не исправляй содержательную неопределённость догадкой. Если источника не хватает, сообщи о пробеле отдельно от готовой работы; не подставляй правдоподобную ссылку.
+Read the [shared writer/critic core](../university-text-critic/references/report-core.md).
+It defines required content, structure, punctuation and Markdown; this skill provides
+editing techniques. Do not duplicate shared rules. If already read for the current
+task, do not reread it. Explicit user and assignment requirements take precedence.
 
-## 1. Убери механическую структуру
+Before editing, read the text and available grounds: assignment, agreed decisions,
+calculations and results. Preserve numbers, units, formulas, references, names,
+terms and strength of claims. Do not resolve substantive uncertainty by guessing.
+Report a missing source separately from the final work; do not supply a plausible
+but unverified reference.
 
-Ищи одинаковые вступления и мини-выводы в каждом разделе, повторение заголовка первым предложением, списки одинаковой длины с пунктами ради симметрии. Объединяй повторяющиеся объяснения; выбирай абзац, список или таблицу по содержанию.
+## 1. Remove mechanical structure
 
-Не меняй обязательные разделы и порядок методички ради разнообразия. Одинаковая структура описаний однотипных экспериментов помогает сравнению и сама по себе не требует исправления. Заключение, если оно требуется, должно отвечать на задачи и опираться на результаты.
+Look for identical introductions and mini-conclusions in every section, repeating
+a heading in the first sentence and equally sized lists padded for symmetry.
+Combine repeated explanations; choose paragraphs, lists or tables for their content.
 
-До: «В данном разделе рассматривается обработка ошибок. Обработка ошибок является важной частью системы. Таким образом, обработка ошибок имеет большое значение».
+Do not change required sections or assignment order for variety. Matching structures
+for comparable experiments help comparison and do not inherently need correction.
+A required conclusion must answer the tasks and follow from results.
 
-После: «При ошибке проверки подписи шлюз отклоняет уведомление».
+Before: «В данном разделе рассматривается обработка ошибок. Обработка ошибок является важной частью системы. Таким образом, обработка ошибок имеет большое значение».
 
-Такая замена допустима, только если описанное поведение уже есть в материалах. Иначе убери повтор, но не придумывай механизм.
+After: «При ошибке проверки подписи шлюз отклоняет уведомление».
 
-## 2. Замени преувеличения конкретным содержанием
+Use that replacement only if this behavior already exists in the materials.
+Otherwise remove repetition without inventing a mechanism.
 
-Проверяй обороты «играет ключевую роль», «имеет огромное значение», «открывает новые горизонты», «революционный подход», «мощный инструмент», «обеспечивает высокую эффективность». Удали оценку или раскрой подтверждённое действие и его результат. Замена «ключевой» на «важный» не решает проблему.
+## 2. Replace exaggeration with concrete content
 
-До: «Индекс играет ключевую роль в значительном повышении производительности».
+Check expressions such as «играет ключевую роль», «имеет огромное значение»,
+«открывает новые горизонты», «революционный подход», «мощный инструмент» and
+«обеспечивает высокую эффективность». Remove the judgment or describe a supported
+action and result. Replacing «ключевой» with «важный» does not fix the problem.
 
-После при наличии замеров: «После создания индекса время запроса сократилось с 420 до 35 мс».
+Before: «Индекс играет ключевую роль в значительном повышении производительности».
 
-Числа в примере условные. Переноси в работу только её собственные измерения. Без замеров не заявляй достигнутое ускорение; описывай назначение индекса, если оно известно.
+After, with measurements: «После создания индекса время запроса сократилось с 420 до 35 мс».
 
-## 3. Убери русские штампы и канцелярит
+The example numbers are fictional. Use only the work's own measurements. Without
+measurements, do not claim achieved speedup; describe the index's purpose if known.
 
-Редактируй сочетания слов в контексте, а не по чёрному списку. Примеры частых замен:
+## 3. Remove Russian clichés and bureaucratic phrasing
 
-| Тяжёлая или пустая формулировка | Более прямая формулировка |
+Edit phrases in context rather than using a word blacklist. Common replacements:
+
+| Heavy or empty wording | More direct wording |
 | --- | --- |
-| «В современном стремительно развивающемся мире…» | Начни с предмета работы и конкретной проблемы |
-| «Осуществляется проведение анализа данных» | «Данные анализируются» или назови исполнителя |
+| «В современном стремительно развивающемся мире…» | Start with the subject and specific problem |
+| «Осуществляется проведение анализа данных» | «Данные анализируются», or name the actor |
 | «Производится сохранение результата» | «Программа сохраняет результат» |
 | «С целью обеспечения возможности…» | «Чтобы…» |
 | «В силу того факта, что…» | «Поскольку…» |
-| «Следует особо отметить, что…» | Удали вводную и оставь утверждение |
-| «Данный подход позволяет обеспечить…» | Назови подход и объясни, что он делает |
+| «Следует особо отметить, что…» | Remove the preamble and keep the statement |
+| «Данный подход позволяет обеспечить…» | Name the approach and explain its action |
 
-Слова «комплексный», «эффективный», «инновационный», «оптимальный», «экосистема», «парадигма» требуют проверки смысла, а не автоматического удаления. «Экосистема Python» и «парадигма программирования» могут быть точными терминами. Сохраняй обоснованное сравнение эффективности и явно заданный критерий оптимальности.
+Words such as «комплексный», «эффективный», «инновационный», «оптимальный»,
+«экосистема» and «парадигма» need a meaning check, not automatic removal.
+«Экосистема Python» and «парадигма программирования» can be accurate terms.
+Preserve justified efficiency comparisons and explicit optimality criteria.
 
-## 4. Исправь грамматику, скрывающую смысл
+## 4. Fix grammar that obscures meaning
 
-- Разворачивай цепочки отглагольных существительных: «реализация механизма обеспечения проверки» обычно означает «проверка» или «модуль проверяет».
-- Используй действующее лицо, когда оно известно и важно: «сервер проверяет токен». Безличное «получено 120 записей» уместно, когда важен результат; не добавляй вымышленного исполнителя.
-- Проверяй хвосты «подчёркивая значимость», «демонстрируя потенциал», «способствуя развитию». Удали пустую оценку; оставь доказанную причинную связь. Исправляй деепричастные обороты с неверным субъектом.
-- Не строй повторяющиеся фразы «не просто X, а Y», «не только X, но и Y». Сразу назови нужное свойство. Сохраняй противопоставление, если оно различает реальные варианты или ограничения.
-- Не подбирай синонимы одному техническому объекту ради разнообразия. «Запрос», «команда» и «сообщение» могут обозначать разные сущности.
-- Убирай третий пункт, если он дублирует первые два. Не сокращай три самостоятельных результата из-за самого числа три.
-- Проверяй «от X до Y»: границы должны задавать понятный диапазон или последовательность. В остальных случаях просто перечисли рассматриваемые объекты.
+- Unpack verbal-noun chains: «реализация механизма обеспечения проверки» usually
+  means «проверка» or «модуль проверяет».
+- Name the actor when known and relevant: «сервер проверяет токен». Impersonal
+  «получено 120 записей» is appropriate when the result matters; do not invent an actor.
+- Check tails such as «подчёркивая значимость», «демонстрируя потенциал» and
+  «способствуя развитию». Remove empty judgments; preserve proven causal links.
+  Correct adverbial participles referring to the wrong subject.
+- Avoid repeated «не просто X, а Y» and «не только X, но и Y» constructions.
+  State the property directly. Keep contrasts distinguishing real options or limits.
+- Do not vary technical-object names for variety. «Запрос», «команда» and
+  «сообщение» can refer to different entities.
+- Remove a third item if it duplicates the first two. Do not remove three independent
+  results merely because there are three.
+- Check «от X до Y»: endpoints must define a clear range or sequence. Otherwise list
+  the objects directly.
 
-Русский язык не требует постоянного «является». «Сервис представляет собой компонент, осуществляющий проверку» часто можно заменить на «Сервис проверяет…». Не удаляй нужные определения и не меняй смысл роли объекта.
+Russian does not require constant «является». «Сервис представляет собой компонент,
+осуществляющий проверку» can often become «Сервис проверяет…». Preserve necessary
+definitions and the object's actual role.
 
-## 5. Сделай фразы читаемыми
+## 5. Make sentences readable
 
-Разделяй перегруженные предложения, соединяй рубленые фрагменты, убирай повторяющиеся начала. Длина предложения зависит от мысли; не вводи квоты коротких фраз. Текст должен нормально звучать при объяснении работы преподавателю, оставаясь письменным и академическим.
+Split overloaded sentences, combine choppy fragments and remove repeated openings.
+Sentence length follows the thought; do not impose short-sentence quotas. The text
+should sound natural when explaining the work to a teacher while remaining written
+academic prose.
 
-Убери декоративные эмодзи, жирное выделение каждого второго термина и списки вида «**Надёжность:** надёжность повышается». Если пункт содержит полезное объяснение, сохрани его. Не превращай удобное сравнение в сплошной абзац только ради борьбы со списками.
+Remove decorative emoji, bolding of every other term and lists such as
+«**Надёжность:** надёжность повышается». Preserve useful explanations. Do not turn
+an effective comparison into a continuous paragraph merely to eliminate lists.
 
-Соблюдай русскую орфографию заголовков и кавычки «ёлочки». Правильная типографика не является признаком плохого текста. Правило длинного тире для наших учебных работ задано в общем ядре; перестраивай фразы по нему, не заменяй тире дефисом механически. Не переноси английские нормы частоты тире на русский язык.
+Follow Russian heading capitalization and use «ёлочки» quotation marks. Correct
+typography is not poor writing. Follow the shared core's em-dash rule for academic
+work: restructure sentences instead of mechanically replacing dashes with hyphens.
+Do not import English dash-frequency conventions into Russian.
 
-## 6. Убери воду, сохрани обоснованную осторожность
+## 6. Remove filler; retain justified caution
 
-Удаляй «важно отметить», «как уже было сказано выше», «в заключение хотелось бы отметить», если они не несут смысла. Из готового отчёта убирай «вот исправленный вариант», «надеюсь, это поможет», обращения к пользователю и служебные сообщения ассистента.
+Remove «важно отметить», «как уже было сказано выше» and «в заключение хотелось бы
+отметить» when they add nothing. Remove «вот исправленный вариант», «надеюсь, это
+поможет», direct user addresses and assistant service messages from the final report.
 
-Не усиливай выводы ради уверенного тона. «Может снизить задержку» нельзя превращать в «снижает задержку» без проверки. Сохраняй допущения, ограничения выборки, погрешности, отрицательные результаты и различие корреляции с причинностью.
+Do not strengthen conclusions for a confident tone. Do not turn «Может снизить
+задержку» into «снижает задержку» without verification. Preserve assumptions,
+sampling limits, measurement errors, negative results and the distinction between
+correlation and causation.
 
-«Эксперты считают», «исследования показывают» и «общепринято» требуют конкретного источника, если на них опирается вывод. Используй уже подтверждённый источник; если его нет, обозначь автору необходимость проверки. Не выдумывай публикации, даты, интервью и цитаты и не удаляй обязательное обоснование незаметно для автора.
+«Эксперты считают», «исследования показывают» and «общепринято» need a specific
+source when supporting a conclusion. Use an already verified source; otherwise
+notify the author that verification is needed. Do not invent publications, dates,
+interviews or quotations, or silently remove required substantiation.
 
-## 7. Восстанови настоящие связи между мыслями
+## 7. Restore actual connections between ideas
 
-Проверяй повторение «кроме того», «более того», «таким образом», «следовательно». Оставляй связку, только если она точно передаёт отношение: добавление, противопоставление, причину или вывод. Не подменяй «таким образом» на «следовательно» по кругу.
+Check repetition of «кроме того», «более того», «таким образом» and «следовательно».
+Keep a connector only when it accurately expresses addition, contrast, cause or
+conclusion. Do not cycle substitutions of «таким образом» and «следовательно».
 
-До: «Более того, повторы удалены. Таким образом, построена диаграмма».
+Before: «Более того, повторы удалены. Таким образом, построена диаграмма».
 
-После: «После удаления повторов построена диаграмма».
+After: «После удаления повторов построена диаграмма».
 
-Временная последовательность не доказывает причинность. Если важна причина удаления повторов, объясни её по материалам работы.
+Sequence does not prove causation. Explain the reason for removing duplicates from
+the actual materials if that reason matters.
 
-## 8. Покажи авторскую мысль через решения
+## 8. Show authorial thought through decisions
 
-В учебной работе самостоятельность видна по основаниям выбора, интерпретации результата и честным ограничениям. Сохрани объяснение, почему выбран метод, чем ограничен вывод и какой результат получен. Не добавляй эмоции, юмор, сленг, личные воспоминания и намеренную небрежность ради «живости».
+Academic independence appears through selection reasons, interpretation and honest
+limits. Preserve why a method was chosen, what limits the conclusion and the actual
+result. Do not add emotions, humor, slang, personal memories or deliberate sloppiness
+for «живости».
 
-Первое лицо допустимо, если его разрешает жанр и принятое оформление; не вводи «я» или «мы» принудительно. Не приписывай автору опыт, наблюдения и эксперименты, которых нет в исходных материалах.
+First person is acceptable when allowed by the genre and formatting conventions;
+do not force «я» or «мы». Do not attribute experience, observations or experiments
+absent from the source materials.
 
-До: «Полученные результаты наглядно демонстрируют огромный потенциал выбранного подхода и открывают широкие перспективы дальнейших исследований».
+Before: «Полученные результаты наглядно демонстрируют огромный потенциал выбранного подхода и открывают широкие перспективы дальнейших исследований».
 
-После, если эти сведения есть в работе: «Метод разделил выборку на два кластера. Их устойчивость к изменению параметров не проверялась».
+After, only when supported: «Метод разделил выборку на два кластера. Их устойчивость к изменению параметров не проверялась».
 
-## Итоговая проверка и выдача
+## Final verification and delivery
 
-Перечитай текст и сверь с исходником: остались ли обязательные результаты, условия, аргументы и ссылки; не появились ли новые факты или более сильные выводы. Проверь фразы, которые подходят к любой теме после замены пары существительных. Уточняй их по материалам или убирай, если они ничего не добавляют.
+Reread and compare with the source: preserve required results, conditions, arguments
+and references; introduce no new facts or stronger claims. Check phrases that fit
+any subject after replacing a few nouns. Make them specific using the materials or
+remove them if they add nothing.
 
-При запросе на переписывание выдай полный исправленный фрагмент или сохрани файл по запросу. Кратко перечисли существенные правки и нерешённые вопросы в сообщении пользователю. Не добавляй раздел «Что изменено» в сдаваемый отчёт. Таблица «Было / Стало / Причина» нужна только для удобства сравнения, а не после каждой правки.
+For rewriting requests, deliver the complete corrected passage or save the requested
+file. Briefly report substantive edits and unresolved questions to the user. Do not
+add a «Что изменено» section to the submitted report. A «Было / Стало / Причина»
+table is for useful comparison, not a mandatory step after every edit.
 
-При запросе только на проверку укажи конкретный фрагмент, проблему и возможную замену. Объединяй пересекающиеся замечания к одной фразе. Не заявляй о частоте оборотов без проверки и не считай корректное слово ошибкой само по себе. Объясняй ущерб тексту: повтор, неточность, неподтверждённый вывод или затруднённое чтение.
+For review-only requests, identify the actual passage, problem and possible
+replacement. Combine overlapping comments on one phrase. Do not claim expression
+frequencies without checking or treat a correct word as inherently wrong. Explain
+the harm: repetition, imprecision, unsupported inference or difficult reading.

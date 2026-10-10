@@ -1,22 +1,22 @@
-# Зависимости
+# Dependencies
 
-В комплекте нет сторонних снимков и lock-файлов. Устанавливай актуальные поддерживаемые версии из официальных источников; перед работой проверяй наличие нужного инструмента в конкретном окружении.
+The package contains no third-party snapshots or lock files. Install current supported versions from official sources; check that the required tool exists in the actual environment before using it.
 
-| Возможность | Что нужно |
+| Capability | Requirements |
 | --- | --- |
-| Независимый критик | Python 3.10+, Linux/WSL или macOS; отдельный агент с собственным контекстом |
-| Чтение PDF/Office | `markitdown` с зависимостями для входного формата; сначала соседний Markdown |
-| Пример генерации DOCX | `python-docx`, предоставленный пользователем Word-шаблон, действующий допуск критика |
+| Independent critic | Python 3.10+, Linux/WSL or macOS; a separate agent with its own context |
+| PDF/Office input | `markitdown` with dependencies for the input format; reuse neighboring Markdown first |
+| DOCX generation example | `python-docx`, a user-supplied Word template and valid critic approval |
 
-Нативный Windows: `fcntl` в критике недоступен. Остановка обязательна до замены `fcntl.flock()` совместимой блокировкой с сохранением атомарности. Не заменяй её пустой функцией и не обходи допуск. macOS поддерживает используемую POSIX-блокировку; фактический запуск на macOS пока не проверен.
+Native Windows: the critic cannot use `fcntl`. Stop until `fcntl.flock()` is replaced with compatible file locking that preserves atomicity. Do not substitute a no-op or bypass approval. macOS supports the POSIX locking used here; an actual macOS run has not been verified.
 
-## Внешние скиллы и плагины
+## External skills and plugins
 
-- Ponytail: [актуальный upstream](https://github.com/DietrichGebert/ponytail).
+- Ponytail: [current upstream](https://github.com/DietrichGebert/ponytail).
 - Skill Review: [Mindbox Agent Skills](https://github.com/mindbox-cloud/agent-skills).
-- OpenAI Docs, Skill Creator, Skill Installer, Imagegen: используй встроенные возможности клиента либо актуальную официальную поставку. Не копируй старый системный кэш.
-- Visualize, Sites, Work Pets, Plugin Management: подключай из доступного marketplace клиента, если они там есть. Их сервисы, MCP-инструменты, разрешения аккаунта и визуальный renderer не переносятся копированием `SKILL.md`.
+- OpenAI Docs, Skill Creator, Skill Installer, Imagegen: use the client's built-in capabilities or the current official distribution. Do not copy an old system cache.
+- Visualize, Sites, Work Pets, Plugin Management: install from the client's available marketplace where offered. Copying `SKILL.md` does not transfer services, MCP tools, account permissions or visual renderers.
 
-Отсутствие необязательного плагина не блокирует остальные скиллы. Если задача требует недоступной возможности, назови её и используй доступный эквивалент, сохранив требования задачи. Для критика без независимого агента и для DOCX без обязательного шаблона эквивалент нельзя придумывать: остановись с конкретной причиной. SDK и дополнительные библиотеки определяются самой задачей или проектом.
+A missing optional plugin does not block other skills. If a task needs an unavailable capability, identify it and use an available equivalent that preserves the task's requirements. Do not invent an equivalent for independent review without a separate agent or DOCX generation without a required template: stop with the specific reason. SDKs and extra libraries are determined by the task or project.
 
-Источники runtime: [MarkItDown](https://github.com/microsoft/markitdown), [python-docx](https://python-docx.readthedocs.io/), [Python fcntl](https://docs.python.org/3/library/fcntl.html).
+Runtime sources: [MarkItDown](https://github.com/microsoft/markitdown), [python-docx](https://python-docx.readthedocs.io/), [Python fcntl](https://docs.python.org/3/library/fcntl.html).

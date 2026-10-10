@@ -1,68 +1,141 @@
-# Общие правила учебной работы
+# Shared academic writing rules
 
-Это единый источник требований к готовому тексту для писателя и критика. При изменении общих требований обновляй этот файл, а не отдельные копии правил в скиллах. Формат, явно заданный пользователем или методичкой, имеет приоритет над общими предпочтениями; при несовместимых требованиях уточни конкретное противоречие.
+This is the single source of final-prose requirements for writer and critic. Update
+this file when shared requirements change, not separate copies in skills. Explicit
+user/assignment formats take precedence over general preferences; clarify specific
+incompatible requirements. Write academic deliverables in Russian. Russian literals
+below are intentional wording examples or output requirements, not untranslated
+instructions.
 
-## Драфт и готовый текст
+## Draft and final prose
 
-Драфт нужен для накопления смысла: фактов, решений, аргументов, расчётов и открытых вопросов. В нём допустимы длинные объяснения, повторы, разговорные заметки, варианты и незаконченная структура. Эти особенности сами по себе не ошибка драфта. Требования ниже относятся к готовой работе.
+A draft accumulates facts, decisions, arguments, calculations and open questions.
+Long explanations, repetition, informal notes, alternatives and unfinished structure
+are acceptable and are not inherently draft defects. The following rules apply to
+final work.
 
-Готовый Markdown содержит текст для читателя работы. В нём нет истории обсуждения, обращений к ассистенту, замечаний критика, обещаний «добавить позже», необработанных TODO и альтернатив, между которыми ещё не выбрали. Открытые предметные вопросы допустимы, когда их фиксация сама является частью задания. Готовность текста к проверке не равна разрешению на DOCX: разрешение выдаёт отдельный критик.
+Final Markdown addresses the report's reader. Exclude discussion history, assistant
+addresses, critic comments, promises to «добавить позже», unprocessed TODO and
+unselected alternatives. Open substantive questions are acceptable when recording
+them is itself assigned. Ready for review does not mean approved for DOCX: a separate
+critic grants that permission.
 
-## Смысл и обоснование
+## Meaning and justification
 
-- Покрой обязательные пункты задания. Сохрани принятые решения, результаты, значимые числа, условия корректности и причинные связи. Не придумывай данные, источники, тестирование, технологии и требования ради законченного вида.
-- Сверяй обозначения величин с заданием и метаданными исходных данных. Валюту, физическую единицу, масштаб и смысл показателя нельзя выводить из названия датасета или общих знаний о его происхождении. Если единица не подтверждена, оставь нейтральное название показателя и не добавляй обозначение вроде `BRL`.
-- Различай принятые решения, обсуждавшиеся варианты и нерешённые вопросы. Не выдавай предложение из драфта за согласованное решение. Не заменяй решение пользователя своим без обсуждения.
-- Учебные значения, выбранные пользователем, обозначай как проектные допущения. Не представляй их внешними фактами. Для показателя качества укажи условия, целевое значение и способ проверки, если этого требует задание; не выдумывай численный норматив.
-- Сверь участников, термины, границы системы и решения с предыдущими работами. Обоснованное изменение допустимо: объясни его кратко. Не сохраняй старую ошибку ради формальной согласованности.
-- Разделяй ответственность системы и внешних участников. Инициировать банковскую операцию и выполнять её не одно и то же. Не меняй «планируется проверить» на «проверено», если результата нет.
-- Обязательные дословные учебные блоки и цитаты сохраняй. Остальное формулируй своими словами, не пересказывая методичку перед каждым шагом.
+- Cover mandatory assignment items. Preserve decisions, results, meaningful numbers,
+  correctness conditions and causal links. Do not invent data, sources, tests,
+  technologies or requirements for a finished appearance.
+- Check quantity labels against the assignment and data metadata. Currency, physical
+  unit, scale and measure meaning cannot be inferred from dataset names or general
+  knowledge of their origin. If unconfirmed, keep a neutral measure label and do not
+  add a designation such as `BRL`.
+- Distinguish accepted decisions, discussed alternatives and open questions. Do not
+  treat a draft proposal as agreed or replace a user decision without discussion.
+- Label user-selected educational values as design assumptions, not external facts.
+  For a quality measure, give conditions, target and verification method when assigned;
+  do not invent a numeric standard.
+- Check participants, terms, boundaries and decisions against previous works. Explain
+  justified changes briefly. Do not preserve an old error for formal consistency.
+- Separate system responsibilities from external participants. Initiating a bank
+  operation is different from executing it. Do not replace «планируется проверить»
+  with «проверено» without an actual result.
+- Preserve required verbatim educational blocks and quotations. Express other content
+  in your own words without restating the assignment before every step.
 
-## Внутренняя логика
+## Internal logic
 
-- Вывод должен следовать из приведённых предпосылок и расчётов. Не называй решение надёжным, безопасным или достаточным без границ, в которых это утверждение верно.
-- Сверяй связанные утверждения между разделами. Допущение, исключение или сценарий отказа не должны незаметно отменять ранее заявленный результат, инвариант или требование.
-- Учебное упрощение допустимо без детальной реализации, если оно явно обозначено, не выдаётся за доказанный факт и не мешает выполнить задание. Отсутствие производственной детализации само по себе не является ошибкой учебной работы.
-- Не требуй новых технологий, компонентов или самостоятельного исследования предметной области. Если логический пробел можно закрыть уточнением области вывода, предпочитай точную формулировку расширению архитектуры.
+- Conclusions must follow from stated premises and calculations. Do not call a
+  solution reliable, secure or sufficient without the boundaries where that holds.
+- Compare related claims across sections. Assumptions, exceptions and failure scenarios
+  must not silently invalidate an earlier result, invariant or requirement.
+- Educational simplification without implementation detail is acceptable when explicit,
+  not presented as proven fact and compatible with the assignment. Missing production
+  detail is not inherently an academic defect.
+- Do not demand new technologies, components or independent domain research. Prefer
+  narrowing a conclusion accurately over expanding architecture when that closes
+  a logical gap.
 
-## Структура по заданию
+## Assignment-based structure
 
-- Если в практической заданы разделы, их названия, порядок или нумерация, следуй им. Соотнеси содержимое с каждым пунктом; не подменяй структуру задания универсальным шаблоном.
-- Перед написанием заголовков и подписей выясни по шаблону или билдеру, какие номера и слова («Рисунок», «Таблица» и т. п.) Word добавляет автоматически. В таких элементах Markdown оставляй только содержательный текст: не набирай вручную номер или автодобавляемое слово. Если автоматической нумерации нет либо задание требует буквального текста, сохрани требуемый формат; не вводи универсальный запрет на номера.
-- Если разделы не заданы, сгруппируй материал по смыслу и дай конкретные заголовки. Например, для описания процесса могут подойти «Участники», «Ход процесса», «Обработка ошибок»; это пример, а не обязательный набор. Число разделов определяется содержанием.
-- По умолчанию одна практическая имеет заголовок `#`, её основные разделы `##`, подразделы при необходимости `###`. В составном документе отдельные практические образуют разделы верхнего уровня. Если пользователь запросил только фрагмент, сохраняй его место в существующей иерархии.
-- Каждый раздел раскрывает отдельную мысль. Не создавай заголовок для каждого предложения и не добавляй раздел только ради симметрии.
-- Введение, цель, задачи, заключение, титульный лист, содержание и глоссарий включай, когда они нужны по заданию, указанию пользователя или уже принятой структуре. Не наращивай отчёт такими разделами автоматически.
+- Follow assigned section names, order and numbering. Map content to each item;
+  do not replace assignment structure with a universal template.
+- Before headings/captions, inspect the template or builder to establish which numbers
+  and words («Рисунок», «Таблица», etc.) Word adds automatically. Keep only substantive
+  text in those Markdown elements; do not type generated numbers/words manually.
+  Without automatic numbering, or with assigned literal text, keep the required format.
+  Do not impose a universal ban on numbers.
+- Without assigned sections, group content meaningfully and use specific headings.
+  Process descriptions might use «Участники», «Ход процесса», «Обработка ошибок»;
+  these are examples, not required sections. Content determines their count.
+- Default hierarchy: one practical uses `#`, its main sections `##`, and optional
+  subsections `###`. In a combined document, practicals are top-level sections.
+  For a requested fragment, preserve its place in the existing hierarchy.
+- Each section develops a distinct thought. Do not create a heading per sentence
+  or a section merely for symmetry.
+- Include introduction, goal, tasks, conclusion, title page, contents or glossary
+  only when required by the assignment, user or accepted structure. Do not add them
+  automatically.
 
-## Язык и краткость
+## Language and concision
 
-При написании и содержательной редактуре готового текста применяй [humanize-ru-academic](../../humanize-ru-academic/SKILL.md). Писатель использует его приёмы до передачи работы критику; критик проверяет конкретные недостатки по тем же критериям. Скилл адаптирует редактирование к русскому учебному языку и дополняет это ядро, не заменяя требования задания. Если оба файла уже прочитаны, не переходи по взаимным ссылкам повторно.
+Apply [humanize-ru-academic](../../humanize-ru-academic/SKILL.md) when writing or
+substantively editing final prose. The writer uses it before handoff; the critic
+checks concrete weaknesses by the same criteria. It adapts editing to Russian
+academic language and supplements this core, not the assignment. If both files
+were already read, do not follow their mutual links again.
 
-- Пиши естественным русским языком умеренно академическим стилем. Предпочитай конкретное «кто делает что и зачем». Не усложняй текст до научной статьи и не превращай его в свободную беседу.
-- «Шлюз передаёт запрос провайдеру» подходит. «Осуществляется реализация механизма обеспечения взаимодействия» слишком тяжело. «Шлюз кидает запрос, и всё норм» слишком свободно. Не имитируй человечность опечатками.
-- Убирай вводные без смысла, канцелярит и общие оценки: «следует отметить», «важно подчеркнуть», «в рамках данной работы», «играет ключевую роль», «обеспечивает эффективность и надёжность». Осмысленные логические связки допустимы.
-- Удаляй повторы, пересказ заголовков и таблиц, объяснение очевидных действий кода, общие наставления и повторяющиеся оговорки. Нужное объяснение нетривиального решения или ограничения оставь один раз в подходящем месте.
-- Приоритет пользователя: лучше убрать около 40% раздутого текста ценой до 5% второстепенных подробностей. Это ориентир, а не квота или измеренная доля смысла. Уже плотный текст не нужно сокращать; обязательное содержание из раздела «Смысл и обоснование» не жертвуется ради процента.
-- В авторской прозе не используй длинное тире `—`: перестрой предложение, используй двоеточие или раздели фразу. Перед сдачей найди каждое `—` и проверь, что оно осталось только в обязательной цитате, коде, формуле, официальном названии или подписи, чей формат задан извне. Не заменяй тире дефисами механически.
-- Предпочитай «серверная часть» слову `backend`, «уведомление о смене статуса» или при первом упоминании «вебхук-уведомление» слову `webhook`. Сохраняй полезные термины и сокращения API, C4, RPS, MFA; необычные объясняй при первом употреблении.
-- Один объект называй одним термином. Например, не чередуй «мерчант», «клиент», «арендатор» и «тенант» для одной роли. Добавляй термин в глоссарий, если он предусмотрен в работе.
+- Use natural Russian in a moderately academic register. Prefer concrete
+  «кто делает что и зачем». Do not inflate the text into a research article or turn
+  it into informal conversation.
+- «Шлюз передаёт запрос провайдеру» is appropriate. «Осуществляется реализация механизма обеспечения взаимодействия» is too heavy. «Шлюз кидает запрос, и всё норм» is too informal. Do not simulate humanity with typos.
+- Remove empty preambles, bureaucracy and generic praise: «следует отметить»,
+  «важно подчеркнуть», «в рамках данной работы», «играет ключевую роль»,
+  «обеспечивает эффективность и надёжность». Meaningful logical connectors are allowed.
+- Remove repetition, paraphrased headings/tables, explanations of obvious code,
+  general advice and repeated caveats. Keep necessary explanations of nontrivial
+  decisions or limits once, where relevant.
+- User preference: cutting about 40% of inflated text at the cost of up to 5% of
+  secondary detail is preferable. This is guidance, not a quota or measured share
+  of meaning. Do not cut already dense prose or sacrifice mandatory meaning and
+  justification to meet a percentage.
+- Do not use em dashes `—` in authored prose. Restructure, use a colon or split the
+  sentence. Before delivery, find every `—` and confirm it remains only in required
+  quotations, code, formulas, official names or externally prescribed captions.
+  Do not mechanically replace dashes with hyphens.
+- Prefer «серверная часть» to `backend`; prefer «уведомление о смене статуса» or,
+  at first mention, «вебхук-уведомление» to `webhook`. Keep useful terms and abbreviations
+  API, C4, RPS, MFA; explain unfamiliar ones at first use.
+- Use one term per object. Do not alternate «мерчант», «клиент», «арендатор» and
+  «тенант» for the same role. Add terms to a glossary when the work includes one.
 
-Эти правила не служат методом определения авторства ИИ. Допустимое исключение или желание заменить одно корректное слово другим не должны блокировать готовую работу; явные требования к фактам, нумерации и пунктуации проверяются отдельно.
+These rules do not identify AI authorship. An allowed exception or preference for
+another correct word must not block finished work; explicit factual, numbering and
+punctuation requirements are checked separately.
 
-## Markdown для переноса в DOCX
+## Markdown for DOCX transfer
 
-- Сохраняй результат в UTF-8 `.md`. Используй обычные заголовки, абзацы, списки, таблицы, ссылки и блоки кода. Не изображай в Markdown Word-вёрстку пробелами, HTML-разметкой и ручными разрывами страниц.
-- Перед передачей текста найди возможные ручные номера и длинные тире, например командой `rg -n '—|^#{1,6} +[0-9]+[.)]|^(Рисунок|Таблица) +[0-9]+' <отчёт.md>`. Разбери каждое совпадение по контексту и правилам нумерации; не исправляй его автоматически.
-- Используй список для последовательности или нескольких однородных пунктов, таблицу для сравнения по общим полям. Перед списком объясни, что перечисляется, без отдельного формального вступления ради самого вступления.
-- Перед таблицей или рисунком дай короткую ссылку на них. Ссылку на рисунок поставь непосредственно перед ним; согласуй обозначения и подписи с разделами и принятой нумерацией.
-- Для диаграммы сохрани её смысловое описание перед отдельным блоком PlantUML или другим заданным представлением. Сохрани ссылки на существующие изображения; не заявляй, что отсутствующий рисунок уже вставлен. Явный заполнитель допустим, только если такой способ передачи согласован.
-- При сохранении в другой папке проверь относительные ссылки на изображения и материалы. Таблицы должны читаться без угадывания границ колонок, блоки кода должны быть закрыты.
-- Вёрстка Word, шрифты, стили и разрывы страниц относятся к генерации DOCX. Сам готовый Markdown не должен требовать нового содержательного переписывания при переносе.
+- Save UTF-8 `.md` using ordinary headings, paragraphs, lists, tables, links and code
+  blocks. Do not emulate Word layout with spaces, HTML or manual page breaks.
+- Before handoff, search possible manual numbers and em dashes, for example:
+  `rg -n '—|^#{1,6} +[0-9]+[.)]|^(Рисунок|Таблица) +[0-9]+' <report.md>`.
+  Assess each match in context and against numbering rules; do not autofix it.
+- Use lists for sequences or parallel items and tables for shared-field comparisons.
+  Explain what a list enumerates without adding a formal preamble for its own sake.
+- Give a short reference before each table/figure. Put a figure reference immediately
+  before it; align labels/captions with sections and accepted numbering.
+- Preserve a diagram's semantic description before its separate PlantUML block or
+  other assigned representation. Keep existing image links; do not claim an absent
+  image has been inserted. Explicit placeholders require an agreed handoff format.
+- Check relative image/material links when saving elsewhere. Tables must have clear
+  column boundaries and code blocks must be closed.
+- Word layout, fonts, styles and page breaks belong to DOCX generation. Final Markdown
+  must not need substantive rewriting during transfer.
 
-## Пример редакторского решения
+## Editorial decision example
 
-Драфт: «Следует отметить, что мы обсуждали два варианта. В итоге решили, что подпись проверяет шлюз. Если подпись неверная, статус менять нельзя. Это важно для надёжности системы».
+Draft: «Следует отметить, что мы обсуждали два варианта. В итоге решили, что подпись проверяет шлюз. Если подпись неверная, статус менять нельзя. Это важно для надёжности системы».
 
-Готовый текст: «Шлюз проверяет подпись уведомления. Уведомление с неверной подписью не меняет статус платежа».
+Final: «Шлюз проверяет подпись уведомления. Уведомление с неверной подписью не меняет статус платежа».
 
-Сохранены решение и условие корректности; убраны история обсуждения и общая оценка. Если сравнение вариантов требуется заданием, его аргументы нужно сохранить в соответствующем разделе.
+The decision and correctness condition remain; discussion history and generic praise
+are removed. If comparison is assigned, preserve its arguments in the relevant section.

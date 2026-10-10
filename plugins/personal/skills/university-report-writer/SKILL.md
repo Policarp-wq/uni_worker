@@ -1,42 +1,99 @@
 ---
 name: university-report-writer
-description: Превращай содержательный драфт русской учебной работы в законченный Markdown для проверки критиком и последующего DOCX. Используй по просьбам «оформи драфт», «напиши работу по черновику», «подготовь финальный текст» и после согласования смыслов. Не запускай для накопления идей, обсуждения решений или проверки уже готового текста.
+description: Turn a substantive Russian academic draft into final Markdown for independent review and subsequent DOCX. Use for finalizing an agreed draft or writing a report from completed work. Do not use for collecting ideas, discussing decisions or reviewing an already finished report.
 ---
 
-# Писатель учебных работ
+# Academic report writer
 
-Общая карта ролей и переходов: [UNIVERSITY_WORKFLOW.md](../UNIVERSITY_WORKFLOW.md).
+Example Russian requests: «оформи драфт», «напиши работу по черновику»,
+«подготовь финальный текст».
 
-Работай в текущем агенте; отдельный агент для писателя не требуется. Входной драфт хранит смыслы и решения и не обязан соответствовать финальному стилю. Результат твоей работы: сохранённый `.md`, который после одобрения критиком можно переносить в DOCX без нового содержательного переписывания.
+Shared roles and transitions: [UNIVERSITY_WORKFLOW.md](../UNIVERSITY_WORKFLOW.md).
 
-До работы прочитай [общее ядро писателя и критика](../university-text-critic/references/report-core.md). Это единственный источник общих требований к стилю, краткости, структуре и Markdown. Если файл недоступен, сообщи, какой ресурс отсутствует, и не заменяй его собственным набором правил.
+Run in the current agent; the writer does not need a separate agent. The input draft
+stores meanings and decisions and need not meet final style. Produce a saved Russian
+`.md` that can be transferred to DOCX after critic approval without substantive
+rewriting. Instruction language is English; preserve Russian style and literal output.
 
-## Входы
+Read the [shared writer/critic core](../university-text-critic/references/report-core.md)
+first. It is the single source of general style, concision, structure and Markdown
+rules. If unavailable, identify the resource and stop rather than invent your own rules.
 
-Используй драфт, предмет и тему, требования и структуру практической, согласованные решения, а также связанные предыдущие работы, если они есть. Возьми доступные сведения из текущего разговора и файлов; не проси пользователя повторять уже известное. Прочитай выбранные материалы целиком. Если необходимый исходник ещё не в читаемом формате, подготовь его через [file-to-markdown](../file-to-markdown/SKILL.md).
+## Inputs
 
-Драфт может состоять из одного файла, нескольких заметок или согласованного обсуждения. Если отчёт запрошен после режима `только артефакты`, используй также завершённый план выполнения, проверенные код, ноутбук, расчёты, диаграммы и сохранённые результаты; не требуй повторять уже доказанное выполнение и не выдумывай отсутствующие наблюдения. Зафиксируй, какие материалы входят в драфт, и отличай актуальные решения от отвергнутых вариантов. Предыдущие работы для критика должны иметь локальные читаемые копии согласно его контракту; отсутствие файла не означает, что предыдущей работы не было.
+Use the draft, subject/topic, requirements and assigned structure, agreed decisions
+and relevant previous works. Recover known information from the conversation/files;
+do not ask the user to repeat it. Read selected materials completely. Prepare
+unreadable formats through [file-to-markdown](../file-to-markdown/SKILL.md).
 
-## Работа с драфтом
+The draft may be one file, several notes or an agreed discussion. For a report after
+`только артефакты`, also use the completed execution plan, verified code, notebook,
+calculations, diagrams and saved results; do not demand repeated proven execution
+or invent missing observations. Identify draft materials and distinguish current
+decisions from rejected alternatives. Previous works need readable local copies
+under the critic contract; a missing file does not mean there was no previous work.
 
-1. Сопоставь требования задания с главными смыслами драфта. Выдели факты, решения, аргументы, результаты и существенные ограничения, которые нужно сохранить. Это рабочая проверка автора, не дополнительный раздел отчёта. Если обнаружен пробел или конфликт, который влияет на содержание, подготовь независимые от него части и запроси конкретное уточнение. Не додумывай ответ и не представляй неполный текст готовым.
-2. Построй структуру по общему ядру: разделы методички имеют приоритет; при отсутствии заданной структуры создай логичные разделы по материалу. Не сохраняй случайный порядок заметок только потому, что так написан драфт.
-3. Напиши конечный текст: собери разбросанные объяснения, убери воду и повторы, выровняй термины, сохрани аргументацию решений и обязательные результаты. Обсуждавшиеся, но не принятые предложения не превращай в утверждения. Смысловые противоречия не маскируй красивой формулировкой.
-4. Сохрани текст в выбранный пользователем `.md`. Если пользователь запросил итоговый DOCX или в папке уже известно имя практической работы, имя канонического Markdown должно совпадать с именем будущего DOCX: `PR3.md` → `PR3.docx`. Иначе используй существующий канонический файл работы; только при его отсутствии создай `report.md` рядом с драфтом. Сам драфт сохрани отдельно, если пользователь не просил редактировать его на месте. Перед изменением существующего отчёта прочитай его и сохрани правки пользователя. Если уже есть `.critic-state.json`, не меняй зарегистрированный источник и не начинай историю проверок заново.
-5. Перечитай сохранённый файл и сверь его с заданием, принятыми решениями и общим ядром. Отдельно проверь три источника ошибок: не приписана ли данным неподтверждённая валюта или единица; не написаны ли вручную номера и слова, которые добавит стиль Word или билдер; не осталось ли длинного тире `—` в авторской прозе. Для шаблона «Просто стили» стили заголовков и подписей рисунков уже нумеруют абзацы: в новом Markdown пиши их содержательный текст без префиксов `1.`, `1.1.` и `Рисунок 1.1`. Номера в ссылках внутри текста сохраняй. Проверь ссылки, таблицы, заголовки и блоки кода. После записи не должно оставаться служебных заметок и пробелов, мешающих выполнению задания. Исправь собственные очевидные недочёты до вызова критика.
+## Work with the draft
 
-Не редактируй входы, пока по ним работает критик. Перед исправлениями после рецензии прочитай её и состояние проверки. Устраняй конкретные замечания без нового полного переписывания приемлемых частей. При исчерпанном лимите не продолжай автоматические итерации без решения человека.
+1. Map requirements to the draft's meanings. Identify facts, decisions, arguments,
+   results and important limits to preserve. This is an author check, not an added
+   report section. For a substantive gap/conflict, prepare independent parts and
+   ask a specific clarification. Do not guess or call incomplete text ready.
+2. Build structure from the core: assigned sections take precedence; without a
+   prescribed structure, create logical sections for the material. Do not preserve
+   incidental note order simply because it exists in the draft.
+3. Write final prose: combine scattered explanations, remove filler/repetition,
+   align terms and preserve decision arguments and mandatory results. Discussed but
+   unaccepted proposals must not become claims. Do not disguise contradictions with
+   polished wording.
+4. Save the user-selected `.md`. When DOCX is requested or the practical's basename
+   is established, use matching names: `PR3.md` → `PR3.docx`. Otherwise reuse the
+   existing canonical report; only if absent create `report.md` beside the draft.
+   Keep the draft separately unless in-place editing was requested. Read an existing
+   report before changing it and preserve user edits. With `.critic-state.json`,
+   keep the registered source and existing review history.
+5. Reread the saved file against the assignment, decisions and shared core. Separately
+   check unconfirmed currencies/units, manually typed numbers/words generated by Word
+   styles or the builder, and em dashes `—` in authored prose. For the «Просто стили»
+   template, heading/figure-caption styles already number paragraphs: write substantive
+   text without `1.`, `1.1.` or `Рисунок 1.1` prefixes in new Markdown. Preserve numbers
+   in in-text references. Check links, tables, headings and code blocks. Remove service
+   notes and gaps preventing assignment completion; fix obvious author errors before
+   invoking review.
 
-## Передача критику
+Do not edit inputs while the critic reviews them. Before post-review fixes, read the
+review and state. Address concrete findings without rewriting acceptable sections.
+After exhaustion of the review limit, stop automatic iterations for a human decision.
 
-Когда конечный Markdown готов, автоматически продолжи через [university-text-critic](../university-text-critic/SKILL.md), выполняя ветку вызывающего агента. Передай предмет, тему, требования, предыдущие работы и решения по его контракту; критик не наследует контекст писателя. При необходимости приложи читаемый драфт для сверки решений, явно обозначив его как исходный материал, а не эталон стиля.
+## Handoff to the critic
 
-Отдельным агентом обязан быть критик, а не писатель. До запуска проверь существующий допуск и историю. Писатель не выдаёт `.critic-approve`, не сбрасывает счётчик и не генерирует DOCX во время написания или между итерациями правок. Все содержательные изменения сначала доведи до конца в одном каноническом Markdown. Повторные исправления используют этот же файл и общий лимит критика: не более трёх запусков на работу. Если пользователь явно попросил только подготовку без проверки, сохрани Markdown и сообщи, что допуска ещё нет.
+When final Markdown is ready, automatically continue through
+[university-text-critic](../university-text-critic/SKILL.md), using its caller branch.
+Pass subject, topic, requirements, previous works and decisions under its contract;
+the critic does not inherit writer context. If needed, supply a readable draft to
+compare decisions, explicitly as source material, not a style standard.
 
-В ответе дай ссылку на готовый файл и фактический статус: «ожидает проверки», «одобрен критиком» или конкретная причина остановки. Не называй самопроверку автора одобрением. Если пользователь запросил и DOCX, передай работу в [university-docx-report](../university-docx-report/SKILL.md) только после завершения всех правок и получения действующего допуска.
+The critic, not the writer, must be a separate agent. Check existing approval/history
+before launching. The writer does not issue `.critic-approve`, reset counters or
+create DOCX during writing or between edits. Complete all substantive changes in
+one canonical Markdown. Revisions reuse that file and the critic's shared limit of
+three launches per review cycle; only the critic's explicit `resolve` procedure can
+start another cycle. If the user requests preparation without review, save Markdown
+and report that approval is absent.
 
-## Примеры применения
+Link the file and report actual status: «ожидает проверки», «одобрен критиком» or
+the specific stopping reason. Author self-checking is not approval. When DOCX is
+requested, hand off to [university-docx-report](../university-docx-report/SKILL.md)
+only after all edits and valid approval.
 
-- Драфт содержит повторяющиеся объяснения, но задание задаёт разделы «Участники», «События», «Инварианты». Сохрани эти разделы и разнеси решения по ним; не добавляй автоматически введение и заключение.
-- Структуры в задании нет, заметки описывают приём запроса, основной процесс и ошибки. Объедини их в соответствующие смысловые разделы, сохрани условия отказов и восстановления. Заголовки выбирай по содержанию, не по фиксированному шаблону.
-- В драфте написано «возможно, повторять каждые 5 секунд», но решение не принято. Не превращай это в «повтор выполняется каждые 5 секунд». Уточни выбор или сохрани вопрос, только если нерешённые вопросы входят в само задание.
+## Examples
+
+- Repetitive draft explanations with assigned «Участники», «События», «Инварианты»
+  sections: retain those sections and distribute decisions accordingly. Do not
+  automatically add introduction/conclusion.
+- Without prescribed structure, notes cover request receipt, the main process and
+  errors: group them into substantive sections, preserving rejection/recovery
+  conditions. Choose headings by content, not a fixed template.
+- A draft says «возможно, повторять каждые 5 секунд», but no decision is accepted.
+  Do not turn it into «повтор выполняется каждые 5 секунд». Clarify the choice or
+  retain the question only when unresolved questions are themselves assigned.

@@ -1,6 +1,6 @@
 interface:
-  display_name: "Критик учебных работ"
-  short_description: "Отдельный критик стиля и допуск учебного DOCX"
-  default_prompt: "Используй $university-text-critic для независимой проверки учебной работы в Markdown перед сдачей или сборкой DOCX."
+  display_name: "Academic Text Critic"
+  short_description: "Independent Russian report review and DOCX approval"
+  default_prompt: "Use $university-text-critic to independently review a Russian academic Markdown report before submission or DOCX generation."
 policy:
   allow_implicit_invocation: true

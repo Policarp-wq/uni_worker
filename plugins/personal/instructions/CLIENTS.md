@@ -1,23 +1,46 @@
-# Адаптация к клиенту
+# Client adaptation
 
-## Общие инструкции
+## General instructions
 
-Файлы `instructions/**/AGENTS.md` — шаблоны, а не автоматически загружаемые глобальные правила. Установленный плагин сам по себе не меняет инструкции пользователя. Скилл `setup` объединяет выбранные шаблоны с применимыми инструкциями в новом окружении.
+`instructions/**/AGENTS.md` files are templates, not automatically loaded global
+rules. Installing the plugin does not modify user instructions. The `setup` skill
+merges selected templates with applicable instructions in the new environment.
 
-Для Codex используй поддерживаемый пользовательский либо проектный `AGENTS.md`. Для Claude используй читаемый клиентом `AGENTS.md`; если нужен `CLAUDE.md`, добавь в него импорт `@AGENTS.md`, сохранив существующие правила. В пользовательской конфигурации учитывай реальное расположение импортируемого файла. Не создавай два расходящихся текста.
+For Codex, use a supported user-level or project AGENTS.md. For Claude, use an
+AGENTS.md that the client reads; if CLAUDE.md is needed, add `@AGENTS.md` while
+preserving existing rules. In user configuration, account for the actual imported
+file location. Do not maintain two diverging texts.
 
-Заполненный профиль храни в памяти по выбору пользователя или в Git-игнорируемой локальной конфигурации. Для Git можно использовать `.git/info/exclude`; это не меняет общий `.gitignore`. Сначала проверь, что файл не отслеживается: игнорирование не исключает уже отслеживаемый файл.
+Store populated profiles in user-selected memory or Git-ignored local configuration.
+Git's `.git/info/exclude` can avoid changing the shared `.gitignore`. First verify
+the file is untracked: ignoring does not exclude an already tracked file.
 
-## Независимый критик
+Instruction language is English. Preserve the configured conversation language and
+Russian academic deliverables, linguistic examples and literal templates.
 
-Прочитай скилл `university-text-critic` и его контракт перед первым вызовом. Вызывающий готовит контекст и выполняет `begin`; критик получает возвращённые пути, ticket, номер попытки и reviewer ID либо уникальную метку запуска.
+## Independent critic
 
-- Codex: используй предоставленный клиентом инструмент отдельного агента с новым контекстом без истории автора (`fork_turns: none`, если параметр поддерживается). Передай самостоятельное задание из контракта. Не задавай другой model без отдельного основания.
-- Claude: используй установленного агента `personal:university-text-critic` через инструмент Agent/Task, если он зарегистрирован. Если имена отличаются в версии клиента, найди определение по файлу `agents/university-text-critic.md`. Определение задаёт отдельный контекст и ограниченный набор инструментов.
-- Другой клиент: отдельный агент допустим только при реально независимом контексте и способности читать входы, писать рецензию и выполнять gate-команды.
+Read `university-text-critic` and its caller contract before the first invocation.
+The caller prepares context and executes `begin`; the critic receives returned paths,
+ticket, attempt number and reviewer ID or a unique invocation label.
 
-Если клиент не предоставляет независимых агентов, сообщи: модуль независимой проверки недоступен; нужен соответствующий инструмент или другой клиент. Не выполняй ветку критика в контексте автора и не создавай вручную `.critic-approve`.
+- Codex: use the client's separate-agent tool with a fresh context and no author
+  history (`fork_turns: none` where supported). Pass the standalone assignment from
+  the contract. Do not override the model without a separate basis.
+- Claude: invoke the registered `personal:university-text-critic` agent through
+  Agent/Task. If naming differs in the client version, find its definition in
+  `agents/university-text-critic.md`. It defines a separate context and limited tools.
+- Other clients: review requires genuinely independent context, access to input
+  files and the ability to write the review and execute gate commands.
 
-Gate проверяет хеши входов и историю попыток; поле reviewer — непустая метка, а не техническое подтверждение независимости агента. Независимость обеспечивает вызывающий клиент и соблюдение инструкций.
+If independent agents are unavailable, report that the independent-review module
+needs a suitable tool or another client. Do not run the critic branch in the author's
+context or manually create `.critic-approve`.
 
-Справка: [Codex plugins](https://developers.openai.com/plugins/build/plugins), [Claude subagents](https://code.claude.com/docs/en/sub-agents), [Claude memory/imports](https://code.claude.com/docs/en/memory).
+The gate checks input hashes and attempt history; reviewer is a nonempty label,
+not technical proof of independence. The calling client and instruction compliance
+provide independence.
+
+References: [Codex plugins](https://developers.openai.com/plugins/build/plugins),
+[Claude subagents](https://code.claude.com/docs/en/sub-agents),
+[Claude memory/imports](https://code.claude.com/docs/en/memory).

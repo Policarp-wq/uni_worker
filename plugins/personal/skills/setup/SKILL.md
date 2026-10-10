@@ -3,32 +3,63 @@ name: setup
 description: Set up this portable personal plugin in a new Codex or Claude workspace, merge instruction templates, configure scoped profiles and check required tools without exporting personal data.
 ---
 
-# Настройка переносимого комплекта
+# Portable package setup
 
-Применяй при первом подключении плагина, явной просьбе настроить его или обновить перенесённые инструкции. Установка плагина и настройка профиля — разные действия.
+Use on first connection, explicit setup requests or updates to transferred
+instructions. Installing a plugin and configuring its profiles are separate actions.
 
-## Начальное чтение
+## Initial reading
 
-Прочитай [адаптацию клиента](../../instructions/CLIENTS.md), [общие инструкции](../../instructions/global/AGENTS.md) и [университетскую схему](../UNIVERSITY_WORKFLOW.md). Определи ОС, клиента, рабочий каталог, Git-корень и действующие пользовательские/проектные инструкции. Не предполагай исходный домашний путь или папку автора.
+Read [client adaptation](../../instructions/CLIENTS.md),
+[global instructions](../../instructions/global/AGENTS.md) and the
+[academic workflow](../UNIVERSITY_WORKFLOW.md). Identify the OS, client, working
+directory, Git root and active user/project instructions. Do not assume the original
+home path or author's folder. Instruction language is English; preserve Russian
+academic output and the existing conversation-language rules.
 
-## Подключение инструкций
+## Connect instructions
 
-Запрос настройки разрешает объединить переносимые правила с локальными инструкциями. Сохрани все существующие правила и пользовательские правки; не перезаписывай файл целиком. При содержательном конфликте выясни предпочтение пользователя, продолжая независимую настройку. Повторный запуск не должен дублировать уже добавленные блоки.
+A setup request authorizes merging portable rules with local instructions. Preserve
+all existing rules and user edits; do not overwrite a whole file. Resolve substantive
+conflicts with the user while continuing independent setup. Repeated runs must not
+duplicate already added blocks.
 
-1. Общий стиль общения и правила персонального профиля объедини с применимым пользовательским `AGENTS.md` либо проектными правилами по выбранной области действия. Для Claude настрой чтение того же текста по CLIENTS.md.
-2. Выясни, какие рабочие папки действительно нужны: учебные работы и/или рабочие проекты. Не копируй все инструкции в корень. Если запрос уже указал папки и область действия, не спрашивай повторно.
-3. Общие инструкции находятся в `instructions/workspace/university/AGENTS.md` и `instructions/workspace/work_projects/AGENTS.md`. Их расположение в плагине иллюстрирует область действия, а не обязательный путь на новой машине. Требования конкретного предмета или проекта читай из задания и уже существующих локальных инструкций; в плагине таких профилей нет.
+1. Merge communication style and personal profile rules into the applicable user
+   AGENTS.md or project rules according to the selected scope. For Claude, configure
+   reading the same text according to CLIENTS.md.
+2. Determine which folders are needed: academic work and/or development projects.
+   Do not copy all instructions into the root. Do not ask again when folders and
+   scope are already specified.
+3. General instructions are in `instructions/workspace/university/AGENTS.md` and
+   `instructions/workspace/work_projects/AGENTS.md`. Their plugin layout illustrates
+   scope, not mandatory paths on a new machine. Read subject/project requirements
+   from the assignment and existing local instructions; no such profiles are bundled.
 
-Не создавай титульные листы или личный профиль во время настройки, если для текущей задачи они не нужны. При первой задаче с такими требованиями прочитай уже настроенный профиль или одобренную память, спроси только отсутствующие обязательные поля. Используй `{{STUDENT_FULL_NAME}}`, `{{STUDENT_GROUP}}`, `{{INSTITUTION_NAME}}`, `{{TEACHER_FULL_NAME}}`. Не считай фиктивные значения примеров пользовательскими.
+Do not create title pages or populate personal profiles during setup when the task
+does not require them. At the first task that does, read the configured profile or
+approved memory and ask only for missing required fields. Use `{{STUDENT_FULL_NAME}}`,
+`{{STUDENT_GROUP}}`, `{{INSTITUTION_NAME}}` and `{{TEACHER_FULL_NAME}}`. Do not treat
+fictional example values as user values.
 
-Заполненные значения сохраняй в пользовательском глобальном `AGENTS.md`, Git-игнорируемом локальном `AGENTS.md` с разделом `Local personal profile — exclude from export` либо выбранной пользователем памяти. Сначала убедись, что Git не отслеживает файл; если отслеживает, выбери другую локальную конфигурацию. Не записывай профиль в плагин или tracked-инструкции. Подставляй значения только в запрошенные результаты.
+Store supplied values in the user's global AGENTS.md, a Git-ignored local AGENTS.md
+under `Local personal profile — exclude from export`, or user-selected memory.
+Verify the file is untracked first; choose another local configuration if tracked.
+Do not write profiles into the plugin or tracked instructions. Substitute values
+only into requested outputs.
 
-## Проверка возможностей
+## Capability checks
 
-- Критик: Python 3.10+ и реальный отдельный агент. На нативном Windows сообщи, что модуль `fcntl` недоступен и требуется заменить файловую блокировку; критик и зависящий от него допуск DOCX пока недоступны. Не пытайся обойти это условие.
-- Конвертация: проверь `markitdown` в активном окружении или локальном `.venv`. Установка зависимостей определяется текущей задачей; не устанавливай все возможные пакеты заранее.
-- DOCX: предоставленный Word-шаблон, `python-docx`, генератор с `require_approval`.
-- Рабочие проекты: SDK и платформенные проверки определяются самим проектом; не устанавливай предметные инструменты как общие зависимости плагина.
-- Внешние плагины подключай из актуальных upstream-источников по документации репозитория. Аккаунты и MCP не восстанавливаются из текста скилла.
+- Critic: Python 3.10+ and a real separate agent. On native Windows, report that
+  `fcntl` is unavailable and file locking must be replaced; critic review and its
+  dependent DOCX gate remain unavailable. Do not bypass this restriction.
+- Conversion: check `markitdown` in the active environment or local `.venv`.
+  Install dependencies for the actual task, not every possible package in advance.
+- DOCX: supplied Word template, `python-docx`, generator calling `require_approval`.
+- Development projects: SDKs and platform checks come from the project; do not
+  install subject-specific tools as global plugin dependencies.
+- External plugins: connect current upstream distributions according to repository
+  documentation. Skill text does not restore accounts or MCP services.
 
-В конце перечисли только фактически настроенные файлы, активные профили и конкретные недоступные возможности. Не называй профиль готовым при незаданных обязательных ресурсах. Для обновления установленных инструкций повтори безопасное объединение; личный профиль остаётся локальным.
+Finally list only actually configured files, active profiles and specific unavailable
+capabilities. Do not call a profile ready with missing required resources. For
+updates, repeat the safe merge; personal profiles remain local.

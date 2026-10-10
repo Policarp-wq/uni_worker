@@ -13,9 +13,9 @@ import tempfile
 import uuid
 
 if sys.platform == "win32":
-    print("BLOCKED: Нативный Windows не поддерживается: модуль fcntl недоступен. "
-          "Нужно заменить fcntl.flock() на совместимую с Windows блокировку файлов, "
-          "сохранив защиту от одновременной записи. До этого проверка критика и допуск DOCX недоступны.",
+    print("BLOCKED: Native Windows is unsupported: fcntl is unavailable. "
+          "You must replace fcntl.flock() with Windows-compatible file locking "
+          "that preserves protection against concurrent writes. Critic review and DOCX approval remain unavailable until then.",
           file=sys.stderr)
     raise SystemExit(2)
 
@@ -37,7 +37,7 @@ def digest(path):
 
 def read_json(path):
     data = json.loads(Path(path).read_text(encoding="utf-8"))
-    require(isinstance(data, dict), f"Ожидается JSON-объект: {path}")
+    require(isinstance(data, dict), f"Expected a JSON object: {path}")
     return data
 
 
@@ -60,34 +60,34 @@ def timestamp():
 
 
 def text_file(path, suffixes=(".md", ".txt", ".rst")):
-    require(path.suffix.lower() in suffixes, f"Нужен читаемый текст без конвертации: {path}")
+    require(path.suffix.lower() in suffixes, f"Readable text requiring no conversion is needed: {path}")
     content = path.read_text(encoding="utf-8")
     require(content.strip() and "\ufffd" not in content and "\x00" not in content,
-            f"Пустой или повреждённый текст: {path}")
+            f"Empty or corrupt text: {path}")
     return content
 
 
 def snapshot(source, context):
     text_file(source, (".md",))
-    require(context.parent == source.parent, "Контекст должен лежать в папке работы")
+    require(context.parent == source.parent, "Context must be in the work folder")
     data = read_json(context)
     for key in ("subject", "topic"):
-        require(isinstance(data.get(key), str) and data[key].strip(), f"Не заполнено поле {key}")
+        require(isinstance(data.get(key), str) and data[key].strip(), f"Missing value for field {key}")
     requirements = data.get("requirements")
     require(isinstance(requirements, list) and requirements and
             all(isinstance(item, str) and item.strip() for item in requirements),
-            "Нужен непустой список requirements из задания")
+            "A nonempty requirements list from the assignment is required")
     previous = data.get("previous")
     require(type(data.get("previous_exists")) is bool and isinstance(previous, list),
-            "Укажи previous_exists (true/false) и список previous")
-    require(data["previous_exists"] == bool(previous), "previous_exists противоречит previous")
+            "Provide previous_exists (true/false) and a previous list")
+    require(data["previous_exists"] == bool(previous), "previous_exists contradicts previous")
     assignment = data.get("assignment_files", [])
-    require(isinstance(assignment, list), "assignment_files должен быть списком")
+    require(isinstance(assignment, list), "assignment_files must be a list")
     files = {str(source): digest(source), str(context): digest(context)}
     for name in previous + assignment:
-        require(isinstance(name, str) and name.strip(), "Нужен путь к материалу")
+        require(isinstance(name, str) and name.strip(), "A source material path is required")
         path = (context.parent / name).resolve(strict=True)
-        require(path != source, "Текущая работа не может быть своим исходным материалом")
+        require(path != source, "The current work cannot be its own source material")
         text_file(path)
         files[str(path)] = digest(path)
     return files
@@ -98,42 +98,42 @@ def ledger(source, create=False):
     source = Path(source).resolve(strict=True)
     state_path = source.parent / ".critic-state.json"
     lock_path = source.parent / ".critic-lock"
-    require(create or lock_path.is_file(), "Нет проверки критика; DOCX запрещён")
+    require(create or lock_path.is_file(), "No critic review; DOCX is blocked")
     with lock_path.open("a+" if create else "r") as lock:
         fcntl.flock(lock, fcntl.LOCK_EX)
         if state_path.exists():
             state = read_json(state_path)
             require(state.get("version") == 1 and state.get("source") == str(source),
-                    "Состояние относится к другому источнику; требуется человек")
+                    "State belongs to another source; human intervention is required")
             attempts = state.get("attempts")
             current_cycle = state.get("current_cycle", 1)
             resolutions = state.get("human_resolutions", [])
             require(isinstance(attempts, list) and type(current_cycle) is int and
                     current_cycle >= 1 and isinstance(resolutions, list) and
                     current_cycle == len(resolutions) + 1,
-                    "Повреждена история циклов; требуется человек")
+                    "Corrupt cycle history; human intervention is required")
             counts = {}
             previous_cycle = 1
             for item in attempts:
-                require(isinstance(item, dict), "Повреждена история попыток; требуется человек")
+                require(isinstance(item, dict), "Corrupt attempt history; human intervention is required")
                 cycle = item.get("cycle", 1)
                 require(type(cycle) is int and 1 <= cycle <= current_cycle and
                         cycle >= previous_cycle,
-                        "Повреждена история циклов; требуется человек")
+                        "Corrupt cycle history; human intervention is required")
                 counts[cycle] = counts.get(cycle, 0) + 1
                 require(counts[cycle] <= 3 and item.get("attempt") == counts[cycle],
-                        "Повреждена история попыток; требуется человек")
+                        "Corrupt attempt history; human intervention is required")
                 previous_cycle = cycle
             require(all(isinstance(item, dict) and item.get("from_cycle") == i and
                         item.get("to_cycle") == i + 1 and isinstance(item.get("decision"), str) and
                         item["decision"].strip()
                         for i, item in enumerate(resolutions, 1)),
-                    "Повреждена запись решения автора; требуется человек")
+                    "Corrupt author resolution record; human intervention is required")
         else:
-            require(create, "Нет истории проверки; DOCX запрещён")
+            require(create, "No review history; DOCX is blocked")
             require(not (source.parent / ".critic-approve").exists() and
                     not (source.parent / ".critic").exists(),
-                    "Есть следы проверки без истории; требуется человек")
+                    "Review artifacts exist without history; human intervention is required")
             state = {"version": 1, "source": str(source), "attempts": [],
                      "current_cycle": 1, "human_resolutions": []}
         yield source, state_path, state
@@ -147,9 +147,9 @@ def begin(source, context):
         cycle = state.get("current_cycle", 1)
         cycle_attempts = [item for item in attempts if item.get("cycle", 1) == cycle]
         require(len(cycle_attempts) < 3,
-                "HUMAN_REQUIRED: использовано 3/3 в текущем цикле; передай человеку причины и рецензии")
+                "HUMAN_REQUIRED: 3/3 attempts used in the current cycle; present reasons and reviews to the human")
         require(not attempts or attempts[-1].get("verdict") != "pending",
-                "Предыдущий критик ещё работает; дождись его или останови и выполни cancel")
+                "The previous critic is still running; wait or stop it and run cancel")
         number = len(cycle_attempts) + 1
         report_dir = source.parent / ".critic"
         report_dir.mkdir(exist_ok=True)
@@ -164,24 +164,24 @@ def begin(source, context):
 
 
 def pending(state, ticket):
-    require(state["attempts"], "Нет начатой проверки")
+    require(state["attempts"], "No review has been started")
     record = state["attempts"][-1]
     require(record.get("ticket") == ticket and record.get("verdict") == "pending",
-            "Неверный ticket или попытка уже завершена")
+            "Invalid ticket or attempt already finished")
     return record
 
 
 def finish(source, ticket, reviewer, verdict):
-    require(verdict in ("approve", "revise", "context_error"), "Неизвестный вердикт")
-    require(isinstance(reviewer, str) and reviewer.strip(), "Нужен ID отдельного критика")
+    require(verdict in ("approve", "revise", "context_error"), "Unknown verdict")
+    require(isinstance(reviewer, str) and reviewer.strip(), "An independent critic ID or invocation label is required")
     with ledger(source) as (source, state_path, state):
         record = pending(state, ticket)
         require(snapshot(source, Path(record["context"])) == record["snapshot"],
-                "Входы изменились после begin; одобрение запрещено, нужна отмена и новая попытка")
+                "Inputs changed after begin; approval is blocked, cancel and start another attempt")
         report = Path(record["report"])
         content = text_file(report, (".md",))
         require(f"Вердикт: {verdict.upper()}" in content,
-                "Вердикт в рецензии не совпадает с finish")
+                "The review verdict does not match finish")
         record.update(verdict=verdict, reviewer=reviewer, finished=timestamp(),
                       report_sha256=digest(report))
         atomic_json(state_path, state)
@@ -192,7 +192,7 @@ def finish(source, ticket, reviewer, verdict):
 
 
 def cancel(source, ticket, reason):
-    require(isinstance(reason, str) and reason.strip(), "Укажи причину отмены")
+    require(isinstance(reason, str) and reason.strip(), "Provide the cancellation reason")
     with ledger(source) as (_, state_path, state):
         record = pending(state, ticket)
         record.update(verdict="cancelled", reason=reason, finished=timestamp())
@@ -202,15 +202,15 @@ def cancel(source, ticket, reason):
 
 
 def resolve(source, decision, resolved_by="author"):
-    require(isinstance(decision, str) and decision.strip(), "Укажи решение автора")
-    require(isinstance(resolved_by, str) and resolved_by.strip(), "Укажи, кто разрешил спор")
+    require(isinstance(decision, str) and decision.strip(), "Provide the author decision")
+    require(isinstance(resolved_by, str) and resolved_by.strip(), "Identify who resolved the dispute")
     with ledger(source) as (_, state_path, state):
         cycle = state.get("current_cycle", 1)
         attempts = [item for item in state["attempts"] if item.get("cycle", 1) == cycle]
         require(len(attempts) == 3 and all(item.get("verdict") != "pending" for item in attempts),
-                "HUMAN_REQUIRED: новый цикл можно открыть после завершённых 3/3 попыток")
+                "HUMAN_REQUIRED: A new cycle requires three completed attempts")
         require(attempts[-1].get("verdict") in ("revise", "context_error"),
-                "Последняя попытка не содержит нерешённого спора; одобренный цикл не сбрасывается")
+                "The last attempt has no unresolved dispute; an approved cycle cannot be reset")
         resolution = {"from_cycle": cycle, "to_cycle": cycle + 1,
                       "decision": decision.strip(), "resolved_by": resolved_by.strip(),
                       "resolved_at": timestamp(), "last_report": attempts[-1].get("report")}
@@ -226,18 +226,18 @@ def require_approval(source):
             cycle = state.get("current_cycle", 1)
             current_attempts = [item for item in state["attempts"]
                                 if item.get("cycle", 1) == cycle]
-            require(current_attempts, "В текущем цикле нет завершённой проверки")
+            require(current_attempts, "No completed review in the current cycle")
             last = current_attempts[-1]
-            require(last.get("verdict") == "approve", "Последняя попытка текущего цикла не одобрена")
+            require(last.get("verdict") == "approve", "The latest attempt in the current cycle is not approved")
             marker = read_json(source.parent / ".critic-approve")
-            require(marker == last and last.get("reviewer"), "Недействительный .critic-approve")
+            require(marker == last and last.get("reviewer"), "Invalid .critic-approve")
             require(snapshot(source, Path(last["context"])) == last["snapshot"],
-                    "Текст или контекст изменён; допуск устарел")
-            require(digest(last["report"]) == last["report_sha256"], "Рецензия изменена или утрачена")
+                    "Text or context changed; approval is stale")
+            require(digest(last["report"]) == last["report_sha256"], "The review was changed or lost")
             return {"approved": True, "source": str(source),
                     "cycle": cycle, "attempt": last["attempt"]}
     except (OSError, ValueError, KeyError, TypeError) as error:
-        raise GateError(f"DOCX запрещён: недоступные или повреждённые данные проверки: {error}") from error
+        raise GateError(f"DOCX is blocked: inaccessible or corrupt review data: {error}") from error
 
 
 def main():

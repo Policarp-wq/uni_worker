@@ -1,75 +1,94 @@
-# Университетские скиллы: роли и порядок работы
+# Academic skills: roles and workflow
 
-Эти скиллы образуют конвейер, а не набор альтернативных авторов. Не запускай их все на каждый запрос. Выбери точку входа по фактической задаче пользователя и переходи к следующему этапу только после завершения текущего.
+These skills form a pipeline, not competing authors. Do not run all skills for every
+request. Enter at the stage matching the actual task and advance only after the
+current stage is complete. Academic drafts, reports and required review templates
+remain in Russian despite English instructions.
 
-## Локальный профиль
+## Local profile
 
-В начале первой работы, которой нужны личные данные, настрой только необходимые поля в локальном `AGENTS.md` или выбранной пользователем памяти агента. Используй правила персонального профиля из глобальных инструкций. В переносимых шаблонах оставляй `{{STUDENT_FULL_NAME}}`, `{{STUDENT_GROUP}}`, `{{INSTITUTION_NAME}}` и `{{TEACHER_FULL_NAME}}`; подставляй значения только в запрошенный результат. Для самостоятельного использования скиллов без глобальных инструкций действуют те же правила: сначала прочитай локальный профиль, запроси недостающие обязательные значения и сохрани их только локально, с пометкой об исключении из экспорта. Примеры остаются фиктивными.
+At the first task requiring personal information, configure only necessary fields
+in a local AGENTS.md or user-selected memory, following global profile rules. Portable
+templates retain `{{STUDENT_FULL_NAME}}`, `{{STUDENT_GROUP}}`, `{{INSTITUTION_NAME}}`
+and `{{TEACHER_FULL_NAME}}`; substitute values only into requested outputs. Standalone
+skills without global instructions follow the same rules: read the local profile,
+ask for missing required fields, and store values only locally with an export-exclusion
+marker. Examples remain fictional.
 
-## Основной маршрут
+## Main route
 
 ```text
 university-work-planner
         ↓
 university-work-executor
-        ├─ только артефакты → остановка
-        └─ с отчётом
+        ├─ artifacts only → stop
+        └─ with report
               ↓
 university-report-writer
               ↓
 university-text-critic
               ↓
-university-docx-report — только если нужен DOCX
+university-docx-report (only when DOCX is needed)
 ```
 
-`university-writing-style` — боковой маршрут для совместного обсуждения смыслов и правок драфта. `file-to-markdown` — служебный конвертер входных документов, а не этап выполнения работы.
+`university-writing-style` is a side route for discussing meanings and revising drafts.
+`file-to-markdown` is an input converter, not an assignment-execution stage.
 
-## Зачем нужен каждый скилл
+## Skill responsibilities
 
-| Скилл | Когда использовать | Результат | Чего он не делает |
+| Skill | When to use | Result | Exclusions |
 | --- | --- | --- | --- |
-| `university-work-planner` | Нужно впервые разобрать задание и продумать выполнение | Один согласованный план с требованиями, решениями, артефактами и DoD | Не пишет код, не выполняет расчёты, не пишет отчёт |
-| `university-work-executor` | План готов; нужно выполнить предметную часть | Проверенные код, ноутбук, расчёты, диаграммы, данные и доказательства | Не пишет чистовой отчёт и не выдаёт допуск |
-| `university-writing-style` | Пользователь хочет совместно обсудить смысл, формулировки или варианты | Согласованные решения и рабочий драфт | Не превращает драфт в финальный отчёт и не запускает проверку на каждой правке |
-| `university-report-writer` | Предметная работа выполнена и нужен конечный текст | Один канонический Markdown отчёта | Не повторяет эксперименты, не одобряет собственный текст и не создаёт DOCX |
-| `university-text-critic` | Конечный Markdown нужно независимо проверить | Рецензия и, при успехе, hash-bound допуск | Не переписывает работу и не подменяет выполнителя |
-| `university-docx-report` | Одобренный Markdown нужно оформить в Word | Один одноимённый итоговый DOCX | Не меняет содержание и не создаёт промежуточные DOCX |
-| `file-to-markdown` | Исходник доступен только как PDF/DOC/DOCX/PPTX | Читаемая Markdown-копия | Не является писателем или критиком |
+| `university-work-planner` | First analysis and execution planning | One agreed plan with requirements, decisions, artifacts and DoD | No code, calculations or report writing |
+| `university-work-executor` | Execute substantive work from a ready plan | Verified code, notebook, calculations, diagrams, data and evidence | No final report or approval |
+| `university-writing-style` | Collaborate on meanings, wording or options | Agreed decisions and working draft | No final report conversion or review on every edit |
+| `university-report-writer` | Completed substantive work needs final prose | One canonical report Markdown | No repeated experiments, self-approval or DOCX |
+| `university-text-critic` | Independently review final Markdown | Review and, on success, hash-bound approval | No report rewriting or executor substitution |
+| `university-docx-report` | Transfer approved Markdown into Word | One final DOCX with matching basename | No content changes or intermediate DOCX |
+| `file-to-markdown` | Source exists only as PDF/DOC/DOCX/PPTX | Readable Markdown rendition | Not a writer or critic |
 
-## Две независимые настройки выполнения
+## Two independent execution settings
 
-Перед планированием практической выясни обе настройки:
+Establish both before planning:
 
-| Вопрос | Варианты | На что влияет |
+| Question | Choices | Effect |
 | --- | --- | --- |
-| Как взаимодействовать? | `автономно` / `итерационно` | Когда согласовывать решения |
-| Что выдать сейчас? | `с отчётом` / `только артефакты` | Остановиться после исполнения или продолжить к документированию |
+| How to interact? | `автономно` (autonomous) / `итерационно` (iterative) | When to agree decisions |
+| What to deliver now? | `с отчётом` (with report) / `только артефакты` (artifacts only) | Stop after execution or continue to documentation |
 
-Допустимы все четыре сочетания. `Автономно` не означает «обязательно с отчётом», а `итерационно` не означает «только драфт».
+All four combinations are valid. `Автономно` does not mean «обязательно с отчётом»;
+`итерационно` does not mean «только драфт».
 
-## Быстрый выбор маршрута
+## Quick routing
 
-- «Выполни практическую без отчёта» → планировщик → выполнитель → остановка.
-- «Выполни практическую и оформи» → планировщик → выполнитель → писатель → критик; DOCX только по запросу или требованию сдачи.
-- «Отчёт теперь нужен по уже готовому коду/ноутбуку» → писатель читает завершённый план, артефакты и результаты → критик → при необходимости DOCX. Подтверждённую работу не выполняют заново.
-- «Давай сначала обсудим смысл/структуру» → `university-writing-style`; после согласования — писатель либо планировщик, в зависимости от того, выполнена ли предметная часть.
-- «Проверь готовый отчёт» → критик. Выполнителя не запускают без отдельной просьбы проверить реальные артефакты.
-- «Собери DOCX» → сначала проверить действующий допуск критика, затем DOCX-скилл.
+- «Выполни практическую без отчёта» → planner → executor → stop.
+- «Выполни практическую и оформи» → planner → executor → writer → critic; DOCX only
+  by request or submission requirement.
+- «Отчёт теперь нужен по уже готовому коду/ноутбуку» → writer reads completed plan,
+  artifacts and results → critic → DOCX if needed. Do not repeat verified execution.
+- «Давай сначала обсудим смысл/структуру» → `university-writing-style`; after agreement,
+  use writer or planner depending on substantive-work readiness.
+- «Проверь готовый отчёт» → critic. Do not run the executor without a separate request
+  to verify actual artifacts.
+- «Собери DOCX» → validate current critic approval, then use the DOCX skill.
 
-## Владение файлами
+## File ownership
 
-- Планировщик владеет одним `execution_plan.md` либо продолжает уже существующий файл плана. Не создаёт второй план под новым именем.
-- Выполнитель владеет предметными артефактами и записывает в план фактические команды, результаты, проверки и ограничения.
-- `draft.md` появляется только в режиме `с отчётом` как передача фактов писателю.
-- Писатель владеет одним каноническим Markdown. Его имя должно совпадать с будущим DOCX: `PR3.md` → `PR3.docx`.
-- Критик владеет `.critic-*` и рецензией. Допуск относится только к зарегистрированному каноническому Markdown.
-- DOCX-скилл создаёт один финальный одноимённый файл после всех правок и действующего допуска.
+- Planner owns one `execution_plan.md` or continues the existing plan; no renamed copy.
+- Executor owns substantive artifacts and records actual commands, results, checks
+  and limits in the plan.
+- `draft.md` appears only in `с отчётом` as factual writer input.
+- Writer owns one canonical Markdown matching the future DOCX: `PR3.md` → `PR3.docx`.
+- Critic owns `.critic-*` and the review. Approval applies only to the registered source.
+- DOCX skill creates one final matching-basename file after all edits and valid approval.
 
-Не держи одновременно несколько претендентов на роль канонического отчёта (`report.md`, `final.md`, `PR3.md`). Старые черновики могут сохраняться как материалы, но их статус должен быть явно указан в плане.
+Do not keep several competing canonical reports (`report.md`, `final.md`, `PR3.md`).
+Older drafts may remain as materials with their status explicitly recorded in the plan.
 
-## Передача между этапами
+## Stage handoff
 
-Каждый этап передаёт следующему пути к исходникам, принятые решения, реальные результаты, ограничения и незакрытые пункты. Статус предыдущего этапа проверяется по файлам и выполненным DoD, а не по фразе «готово».
+Each stage passes source paths, accepted decisions, actual results, limitations and
+open items. Verify previous-stage status using files and satisfied DoD, not «готово».
 
-После критика вызывающий агент сообщает человеку итоговый статус, все необязательные рекомендации, известные оставшиеся пробелы и причину неприменения каждого пункта. Успешный допуск не скрывает отложенные ограничения.
-
+After the critic, the caller reports final status, every optional recommendation,
+known remaining gaps and why each item was not applied. Successful approval must
+not conceal deferred limitations.

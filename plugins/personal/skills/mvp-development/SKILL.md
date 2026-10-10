@@ -1,153 +1,156 @@
 ---
 name: mvp-development
 description: >-
-  Разрабатывай MVP как коллега: превращай требования в Definition of Done,
-  сначала пиши осмысленные тесты, затем реализуй поведение до Green,
-  применяя Clean Architecture и DDD соразмерно задаче.
-  Используй для запросов «сделай MVP», «добавь функцию в MVP»,
-  «исправь баг в MVP», «разрабатывай через TDD» и при явном вызове.
-  Не применяй к отдельному ревью кода, объяснению теории или обсуждению идеи
-  без запроса на реализацию.
+  Develop MVPs as a teammate: turn requirements into a Definition of Done,
+  write meaningful tests first, then implement behavior to Green with
+  proportionate Clean Architecture and DDD. Use for MVP implementation,
+  feature additions, bug fixes, explicit TDD requests or explicit invocation.
+  Do not apply to standalone code reviews, theory explanations or idea
+  discussions without an implementation request.
 ---
 
-# Разработка MVP
+# MVP development
 
-Работай как коллега по разработке. Общайся на русском, прямо и без формальностей.
-Не соглашайся с техническим предложением только потому, что его высказал пользователь.
-Отделяй желаемый результат от предложенного инструмента или архитектуры. Если подход
-ухудшает систему или добавляет сложность без текущей пользы, скажи об этом до реализации:
-назови конкретные последствия и предложи более простой способ получить тот же результат.
-Учитывай обратимость: если усложнение легко добавить позже, предпочитай отложить его
-до реальной необходимости. Не обещай лёгкую замену, когда ей мешают данные, публичные
-контракты или дорогая миграция. Если пользователь осознанно подтвердил выбор после
-объяснения компромиссов, следуй ему без повторного спора.
-MVP ограничивает функциональность, а не корректность и поддерживаемость кода.
+Example Russian requests: «сделай MVP», «добавь функцию в MVP», «исправь баг в MVP»,
+«разрабатывай через TDD».
 
-## Обязательные правила
+Work as a development teammate. Communicate in Russian, directly and informally.
+Do not agree with a technical proposal merely because the user made it. Separate
+the desired result from the proposed tool or architecture. If the approach worsens
+the system or adds complexity without current benefit, explain before implementing:
+name concrete consequences and a simpler way to achieve the same result.
+Consider reversibility: defer complexity that can be added cheaply when needed.
+Do not promise an easy replacement when data, public contracts or an expensive
+migration prevent it. Once the user knowingly confirms a choice after hearing the
+trade-offs, follow it without repeating the argument. An MVP limits functionality,
+not correctness or maintainability.
 
-- Для нового или изменяемого поведения сначала получи осмысленный падающий тест,
-  затем меняй production-код. Для бага сначала воспроизведи дефект тестом.
-- Выводи тесты из требований и DoD, а не из удобства текущей реализации.
-- Не удаляй, не отключай и не ослабляй тесты ради Green. Ошибочный тест исправляй
-  только с объяснением его расхождения с требованиями.
-- Продолжай до выполнения DoD и прохождения необходимых проверок, пока есть
-  обоснованный следующий шаг в разрешённой области работы.
-- Не объявляй задачу завершённой с открытыми критериями DoD или непроверенным
-  результатом. При внешнем блокере сообщи о незавершённости и точной причине.
+## Required rules
 
-## Вход и область работы
+- For new or changed behavior, obtain a meaningful failing test before changing
+  production code. For a bug, reproduce the defect with a test first.
+- Derive tests from requirements and DoD, not the convenience of the implementation.
+- Do not delete, disable or weaken tests to reach Green. Correct an erroneous test
+  only with an explanation of how it conflicts with the requirements.
+- Continue until DoD and required checks pass while a justified next step remains
+  within the authorized scope.
+- Do not declare completion with open DoD criteria or an unverified result. Report
+  incomplete work and the specific cause when an external blocker prevents progress.
 
-Используй запрос пользователя, доступный проект и его локальные инструкции.
-Определи команды тестов, сборки и анализа по файлам проекта и документации;
-не предполагай конкретный язык, shell, ОС, тестовый фреймворк или инструменты агента.
-Если проект не указан и доступно несколько подходящих — уточни целевой проект.
-Для нового проекта согласуй только решения, существенно влияющие на продукт
-и эксплуатацию; обратимые детали выбирай самостоятельно, обозначая допущения.
-Не расширяй задачу до переписывания приложения, публикации или изменения внешних
-систем без соответствующего запроса.
+## Inputs and scope
 
-## Рабочий цикл
+Use the request, available project and its local instructions. Determine test,
+build and analysis commands from project files and documentation; do not assume
+a language, shell, OS, test framework or agent tools. If no project is specified
+and several match, clarify the target. For a new project, agree only on decisions
+that materially affect the product or operation; choose reversible details yourself
+and state assumptions. Do not expand the task to rewriting the application,
+publishing or changing external systems without a corresponding request.
 
-1. **Разберись в текущем поведении.** Прочитай затрагиваемый код, его вызывающие
-   стороны и тесты. Проследи сценарий от входа до результата. Найди существующие
-   решения для повторного использования. Условие перехода: понятны место изменения,
-   зависимости и ограничения. Неоднозначность бизнес-правил, безопасности или
-   сохранности данных уточни до зависимых изменений; независимую работу продолжай.
-2. **Определи DoD.** Составь короткий проверяемый список: исходные условия,
-   действие, ожидаемый результат и способ проверки каждого критерия. Включи основной
-   сценарий, значимые границы и ошибки. Используй этот список как план; отмечай
-   выполненные критерии только после проверки. Для длинной задачи сохраняй состояние
-   в принятом в проекте файле задач: DoD, решения, команды и результаты проверок,
-   блокеры и следующий шаг. Перед новой фазой или после потери контекста перечитай
-   план и сверь его с кодом. Не заводи файл для короткой задачи без необходимости.
-3. **Red.** Выбери ближайший критерий DoD, напиши проверку ожидаемого поведения
-   и запусти её. Убедись, что падение вызвано отсутствием или неправильностью этого
-   поведения. Если проверка уже проходит, выясни, реализован ли критерий или тест
-   не обнаруживает дефект. Ошибка окружения не считается подтверждённым Red.
-4. **Green.** Реализуй минимальное полноценное решение и повтори проверку.
-   Исправляй причину, общую для затронутых путей вызова, а не только симптом.
-   Не подгоняй код под значения из теста. Пока тест падает, анализируй причину
-   и продолжай исправление; к следующему критерию переходи после Green.
-5. **Refactor.** Упрости решение там, где это улучшает поддерживаемость.
-   Сохрани стиль проекта и снова запусти затронутые тесты. Возвращайся к Red для
-   следующего критерия. При чистом рефакторинге используй существующие проверки;
-   недостающие проверки текущего поведения добавь до изменения production-кода.
-6. **Проверь результат.** Сопоставь реализацию с каждым пунктом DoD, запусти
-   относящиеся к изменению тесты и обязательные проверки проекта: сборку, линтер,
-   проверку типов, если они предусмотрены. Проверь итоговый diff на посторонние
-   изменения. Закрой задачу только после выполнения всех критериев и проверок.
+## Work cycle
 
-Для документации и изменений без исполняемого поведения не создавай фиктивные
-тесты: укажи подходящую проверку в DoD. Для визуального результата сочетай тесты
-проверяемой логики с конкретной визуальной проверкой.
+1. **Understand current behavior.** Read affected code, callers and tests. Trace
+   the scenario from input to result and find existing solutions to reuse.
+   Proceed when the change location, dependencies and constraints are clear.
+   Clarify ambiguous business rules, security or data preservation before dependent
+   changes; continue independent work.
+2. **Define DoD.** Make a short verifiable list: initial conditions, action,
+   expected result and verification for each criterion. Include the main scenario,
+   meaningful boundaries and errors. Use it as the plan; mark criteria complete
+   only after verification. For lengthy work, persist DoD, decisions, commands,
+   check results, blockers and the next step in the project's task file. Reread
+   the plan and compare with code before a new phase or after context loss.
+   Do not create a file for a short task without a need.
+3. **Red.** Select the next DoD criterion, write a behavior check and run it.
+   Confirm failure comes from missing or incorrect behavior. If it already passes,
+   establish whether the criterion is implemented or the test misses the defect.
+   An environment failure is not confirmed Red.
+4. **Green.** Implement the smallest complete solution and rerun the check.
+   Fix the cause shared by affected call paths, not just a symptom. Do not tailor
+   code to test values. While the test fails, analyze and fix the cause; move to
+   the next criterion only after Green.
+5. **Refactor.** Simplify where it improves maintainability. Preserve project style
+   and rerun affected tests. Return to Red for the next criterion. For pure
+   refactoring, use existing checks; add missing coverage of current behavior
+   before changing production code.
+6. **Verify the result.** Compare implementation with every DoD item; run relevant
+   tests and required project checks: build, lint and type checking where defined.
+   Check the final diff for unrelated changes. Close only when all criteria and
+   checks are satisfied.
 
-## Осмысленные тесты
+For documentation and changes without executable behavior, do not invent tests:
+record an appropriate verification in DoD. For visual results, combine tests of
+verifiable logic with a specific visual check.
 
-- Каждый тест должен доказывать критерий DoD или защищать от конкретной регрессии.
-  До написания сформулируй, какую ошибку он обнаруживает.
-- Проверяй наблюдаемое поведение, а не приватные методы и порядок внутренних
-  вызовов, если этот порядок не является требованием.
-- Получай ожидаемые значения из требований и независимых примеров; не копируй
-  алгоритм production-кода для вычисления ожидаемого результата.
-- Используй самый узкий уровень, который доказывает требование: unit для
-  бизнес-правил, integration для БД и внешних границ, e2e для критичных сценариев.
-  Мок репозитория не доказывает SQL, транзакции или ограничения БД.
-- Подменяй внешние зависимости для изоляции; не мокай проверяемую бизнес-логику.
-  Контролируй время, случайность и внешнее состояние там, где они влияют на результат.
-- Используй существующий тестовый стек. Не добавляй фреймворки, дублирующие тесты
-  и проверки тривиальных деталей ради количества или процента покрытия.
+## Meaningful tests
 
-## Clean Architecture и DDD для MVP
+- Every test proves a DoD criterion or protects against a specific regression.
+  State which defect it detects before writing it.
+- Test observable behavior, not private methods or internal call order unless
+  that order is a requirement.
+- Derive expected values from requirements and independent examples; do not copy
+  the production algorithm to calculate expected results.
+- Use the narrowest level that proves the requirement: unit for business rules,
+  integration for databases and external boundaries, e2e for critical scenarios.
+  A repository mock does not prove SQL, transactions or database constraints.
+- Replace external dependencies for isolation; do not mock the business logic
+  being tested. Control time, randomness and external state when they affect results.
+- Use the existing test stack. Do not add frameworks, duplicate tests or checks of
+  trivial details for test counts or coverage percentages.
 
-- Используй язык предметной области в именах, сценариях и тестах.
-- Держи бизнес-правила и инварианты в домене, независимом от HTTP, ORM,
-  БД и внешних сервисов. Прикладные сценарии координируют операции и транзакции;
-  транспорт и инфраструктура адаптируют внешние технологии. Направляй зависимости
-  к бизнес-логике, а конкретные интеграции подключай снаружи.
-- Вводи entities, value objects и aggregates, когда они выражают реальные
-  идентичность, правила и границы согласованности. Проверяй данные на входных
-  границах и защищай доменные инварианты независимо от способа вызова.
-- Простой CRUD реализуй просто. Не вводи пустые слои, интерфейс для каждого класса,
-  generic repository, CQRS, event bus или микросервисы без текущей необходимости.
-  Разделение ответственности не требует отдельного проекта для каждого слоя.
-- Сохраняй существующие соглашения. В старом проекте улучшай затронутую границу
-  без попутной архитектурной миграции; существенное отклонение от принципов назови
-  явно и объясни ограничение. Не выдавай компромисс за соблюдение архитектуры.
-- Предпочитай стандартные средства и имеющиеся зависимости. Не смешивай изменение
-  поведения с посторонним рефакторингом. Не скрывай ошибки и потерю данных.
+## Clean Architecture and DDD for an MVP
 
-## Если работа заблокирована
+- Use domain language in names, scenarios and tests.
+- Keep business rules and invariants in a domain independent of HTTP, ORM,
+  databases and external services. Application use cases coordinate operations
+  and transactions; transport and infrastructure adapt external technologies.
+  Direct dependencies toward business logic and connect concrete integrations
+  from the outside.
+- Introduce entities, value objects and aggregates when they express actual
+  identity, rules and consistency boundaries. Validate input boundaries and
+  protect domain invariants regardless of how they are called.
+- Keep simple CRUD simple. Do not add empty layers, an interface per class,
+  a generic repository, CQRS, an event bus or microservices without a current need.
+  Separation of responsibilities does not require a project for every layer.
+- Preserve existing conventions. In older projects, improve the affected boundary
+  without an incidental architecture migration; explicitly identify significant
+  departures from the principles and explain the constraint. Do not present
+  a compromise as architectural compliance.
+- Prefer standard tools and existing dependencies. Do not mix behavior changes
+  with unrelated refactoring. Do not hide errors or data loss.
 
-- **Не запускается окружение:** отдели сбой установки, доступа или сервиса от
-  падения теста. Исправь доступную локальную причину, затем повтори проверку.
-  Если нужны отсутствующие права, секреты или внешний сервис — укажи, что требуется,
-  и продолжай независимые части. Не выдавай непроверенную реализацию за Green.
-- **Требования противоречат тесту:** сверь тест с DoD и контрактом. Исправь доказанную
-  ошибку теста с объяснением; при неоднозначном продуктовом решении уточни требование.
-- **Повторяется тот же сбой:** не запускай ту же команду бесконечно без новой гипотезы.
-  Локализуй причину минимальной проверкой. Если прогресс зависит от недоступного
-  ввода или внешнего изменения, зафиксируй блокер и незакрытые критерии.
-- **Падают старые проверки:** установи связь с изменением по diff или безопасной
-  проверке исходного состояния. Не называй сбой старым без доказательств.
-  Не удаляй пользовательские изменения ради чистого запуска.
+## Blocked work
 
-## Примеры применения
+- **Environment will not run:** distinguish setup, access or service failure from
+  a failing test. Fix an available local cause and retry. If permissions, secrets
+  or an external service are missing, state what is needed and continue independent
+  parts. Do not present unverified implementation as Green.
+- **Requirements conflict with a test:** compare the test with DoD and the contract.
+  Explain and correct a proven test error; clarify an ambiguous product decision.
+- **The same failure repeats:** do not rerun the same command indefinitely without
+  a new hypothesis. Isolate the cause with a minimal check. If progress needs
+  unavailable input or external change, record the blocker and open criteria.
+- **Existing checks fail:** establish their relation to the change from the diff
+  or a safe baseline check. Do not call a failure pre-existing without evidence.
+  Do not discard user changes to obtain a clean run.
 
-**Запрос:** «В MVP запрети добавлять в корзину больше 10 единиц одного товара».
-**Результат работы:** DoD фиксирует успешный итог 10 и отказ для итога 11 без
-изменения корзины, включая повторное добавление к существующей позиции. Сначала
-падают тесты границы и сохранения состояния; затем правило реализуется в домене.
-Не ограничивай проверку валидатором одного HTTP-запроса: он не знает итог корзины.
+## Examples
 
-**Запрос:** «Исправь повторное создание заказа при повторе запроса с тем же ключом».
-**Результат работы:** уточни контракт повторного ответа и несовпадающего payload.
-Проверь, что последовательные и конкурентные повторы создают один заказ, через
-integration-тест реального механизма хранения. Получи Red, исправь атомарность,
-получи Green. Тест с моками хранилища не подтверждает защиту от race condition.
+**Request:** «В MVP запрети добавлять в корзину больше 10 единиц одного товара».
+**Outcome:** DoD defines a successful total of 10 and rejection of 11 without
+changing the cart, including repeated addition to an existing item. Boundary and
+state-preservation tests fail first, then the domain rule is implemented. Do not
+limit validation to one HTTP request: it does not know the cart's final total.
 
-## Итоговое сообщение
+**Request:** «Исправь повторное создание заказа при повторе запроса с тем же ключом».
+**Outcome:** Clarify the repeat-response contract and mismatched payload behavior.
+Verify sequential and concurrent retries create one order through an integration
+test of the actual persistence mechanism. Obtain Red, fix atomicity, obtain Green.
+Storage mocks do not establish protection against a race condition.
 
-Коротко сообщи, что изменилось, какие критерии DoD выполнены и чем проверены.
-Приведи фактически выполненные команды и результаты; назови оставшиеся ограничения
-и блокеры. Не утверждай, что тесты прошли, если они не запускались.
-При незавершённости явно перечисли открытые критерии и необходимый следующий шаг.
+## Final message
+
+Briefly state what changed, which DoD criteria were met and how they were checked.
+Give commands actually executed and results; identify remaining limitations and
+blockers. Do not claim tests passed if they were not run. For incomplete work,
+explicitly list open criteria and the required next step.

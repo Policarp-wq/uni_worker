@@ -5,7 +5,10 @@ description: Create or update a university practical-report DOCX from a Markdown
 
 # University DOCX Report
 
-Общая карта ролей и переходов: [UNIVERSITY_WORKFLOW.md](../UNIVERSITY_WORKFLOW.md).
+Shared roles and transitions: [UNIVERSITY_WORKFLOW.md](../UNIVERSITY_WORKFLOW.md).
+
+Academic prose remains in Russian. Preserve approved Russian wording, style names
+and literal templates; the English instruction language does not change the output language.
 
 Use one Markdown file as the canonical source for a practical report. It contains the report text, tables, diagram descriptions, and PlantUML code blocks. The only final DOCX is the sibling file with the same basename: `PR3.md` becomes `PR3.docx`. Build it from that source and the user's style-only DOCX template. The report is a section of a later consolidated coursework document; do not add coursework-only front matter, contents, or conclusions unless requested.
 

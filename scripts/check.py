@@ -57,8 +57,8 @@ def main():
     inventory = ROOT / "FILES.md"
     names = sorted({str(p.relative_to(ROOT)) for p in files} | {"FILES.md"})
     if sys.argv[1:] == ["--write-inventory"]:
-        inventory.write_text("# Файлы экспорта\n\nТочный состав переносимого комплекта. "
-                             "Личные локальные настройки сюда не входят.\n\n" +
+        inventory.write_text("# Exported files\n\nExact contents of the portable package. "
+                             "Personal local settings are excluded.\n\n" +
                              "\n".join(f"- `{name}`" for name in names) + "\n", encoding="utf-8")
     elif sys.argv[1:]:
         raise SystemExit("Usage: python3 scripts/check.py [--write-inventory]")

@@ -1,6 +1,6 @@
-# Файлы экспорта
+# Exported files
 
-Точный состав переносимого комплекта. Личные локальные настройки сюда не входят.
+Exact contents of the portable package. Personal local settings are excluded.
 
 - `.agents/plugins/marketplace.json`
 - `.claude-plugin/marketplace.json`

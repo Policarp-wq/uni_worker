@@ -1,12 +1,13 @@
-# Проверка выпуска 1.0.1
+# Release 1.0.2 validation
 
-Дата: 2026-10-10.
+Date: 2026-10-10.
 
-- Codex CLI 0.162.0: marketplace зарегистрирован из локальной папки, плагин реально установлен и включён в отдельном временном пользовательском профиле. Рабочая конфигурация пользователя не изменялась.
-- Все 11 SKILL.md прошли стандартный валидатор Skill Creator.
-- Все 14 тестов gate прошли на Linux: хеши, история попыток, параллельный запуск, запрет повреждённого состояния и проверка Windows-остановки.
-- `scripts/check.py` проверил manifests, согласованность версии, список файлов, относительные ссылки, отсутствие symlink и известные классы личных данных/секретов. Встроенные assertions проверяют распознавание фиктивных утечек и запрет выхода пути за пакет.
+- Codex CLI 0.162.0: the local marketplace was registered, and the plugin was actually installed and enabled in an isolated temporary user profile. The user's working configuration was not changed.
+- All eleven SKILL.md files passed the standard Skill Creator validator.
+- All fourteen gate tests passed on Linux: hashes, attempt history, concurrent starts, rejection of corrupt state and native Windows fail-fast behavior.
+- `scripts/check.py` checked manifests, version consistency, the file inventory, relative links, absence of symlinks and known classes of personal data/secrets. Embedded assertions verify detection of fictional leaks and rejection of paths leaving the package.
+- English instructions retain Russian linguistic examples, required literal wording and output templates. Existing Russian quoted examples were compared against the previous revision; the workflow and executable gate semantics were preserved.
 
-Windows-ветка проверена в отдельном процессе с подменённым `sys.platform`; реальные Windows и macOS не запускались. Claude CLI в окружении отсутствует: его manifests и определение subagent подготовлены по официальной документации, фактическая установка в Claude не проверена. Работа модели по всем скиллам и чужие upstream-плагины не прогонялись заново.
+The Windows branch was tested in a separate process with a substituted `sys.platform`; real Windows and macOS were not run. Claude CLI is absent: its manifests and subagent definition follow official documentation, but installation in Claude was not tested. Model behavior for every skill and third-party upstream plugins was not retested.
 
-Инструкции конкретных предметов и проектов исключены из комплекта. Word-шаблон для DOCX предоставляется локально для конкретной задачи. Проверка текста на личные данные остаётся эвристикой; новые файлы требуют просмотра перед публикацией.
+Instructions for specific subjects and projects are excluded. Supply the Word template locally for the particular DOCX task. Personal data scanning remains heuristic; review newly added files before publication.

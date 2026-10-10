@@ -97,7 +97,7 @@ class GateTests(unittest.TestCase):
         self.assertEqual(result.returncode, 2)
         self.assertIn("Windows", result.stderr)
         self.assertIn("fcntl", result.stderr)
-        self.assertIn("заменить", result.stderr)
+        self.assertIn("replace", result.stderr)
         self.assertFalse((self.root / ".critic-state.json").exists())
         self.assertFalse((self.root / ".critic-lock").exists())
 

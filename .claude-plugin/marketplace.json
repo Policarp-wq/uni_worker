@@ -1,0 +1,13 @@
+{
+  "name": "agent-kit",
+  "owner": {
+    "name": "Agent Kit"
+  },
+  "plugins": [
+    {
+      "name": "personal",
+      "source": "./plugins/personal",
+      "description": "Portable development and university workflows."
+    }
+  ]
+}

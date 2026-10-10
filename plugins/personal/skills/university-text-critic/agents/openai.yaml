@@ -1,0 +1,6 @@
+interface:
+  display_name: "Критик учебных работ"
+  short_description: "Отдельный критик стиля и допуск учебного DOCX"
+  default_prompt: "Используй $university-text-critic для независимой проверки учебной работы в Markdown перед сдачей или сборкой DOCX."
+policy:
+  allow_implicit_invocation: true

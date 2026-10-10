@@ -1,0 +1,46 @@
+# Файлы экспорта
+
+Точный состав переносимого комплекта. Личные локальные настройки сюда не входят.
+
+- `.agents/plugins/marketplace.json`
+- `.claude-plugin/marketplace.json`
+- `.gitignore`
+- `AGENTS.md`
+- `FILES.md`
+- `README.md`
+- `docs/DEPENDENCIES.md`
+- `docs/EXPORT.md`
+- `docs/VALIDATION.md`
+- `plugins/personal/.claude-plugin/plugin.json`
+- `plugins/personal/.codex-plugin/plugin.json`
+- `plugins/personal/agents/university-text-critic.md`
+- `plugins/personal/instructions/CLIENTS.md`
+- `plugins/personal/instructions/global/AGENTS.md`
+- `plugins/personal/instructions/workspace/university/AGENTS.md`
+- `plugins/personal/instructions/workspace/university/big_data/AGENTS.md`
+- `plugins/personal/instructions/workspace/university/virtual/AGENTS.md`
+- `plugins/personal/instructions/workspace/work_projects/AGENTS.md`
+- `plugins/personal/instructions/workspace/work_projects/Orchid/AGENTS.md`
+- `plugins/personal/plugin.json`
+- `plugins/personal/skills/UNIVERSITY_WORKFLOW.md`
+- `plugins/personal/skills/file-to-markdown/SKILL.md`
+- `plugins/personal/skills/file-to-markdown/agents/openai.yaml`
+- `plugins/personal/skills/humanize-ru-academic/SKILL.md`
+- `plugins/personal/skills/mvp-development/SKILL.md`
+- `plugins/personal/skills/setup/SKILL.md`
+- `plugins/personal/skills/university-docx-report/SKILL.md`
+- `plugins/personal/skills/university-docx-report/references/docx_generation_example.py`
+- `plugins/personal/skills/university-report-writer/SKILL.md`
+- `plugins/personal/skills/university-report-writer/agents/openai.yaml`
+- `plugins/personal/skills/university-text-critic/SKILL.md`
+- `plugins/personal/skills/university-text-critic/agents/openai.yaml`
+- `plugins/personal/skills/university-text-critic/references/caller-contract.md`
+- `plugins/personal/skills/university-text-critic/references/report-core.md`
+- `plugins/personal/skills/university-text-critic/references/style-rubric.md`
+- `plugins/personal/skills/university-text-critic/scripts/critic_gate.py`
+- `plugins/personal/skills/university-text-critic/scripts/test_critic_gate.py`
+- `plugins/personal/skills/university-work-executor/SKILL.md`
+- `plugins/personal/skills/university-work-planner/SKILL.md`
+- `plugins/personal/skills/university-writing-style/SKILL.md`
+- `plugins/personal/skills/work-projects-iteration/SKILL.md`
+- `scripts/check.py`

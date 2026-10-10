@@ -1,0 +1,14 @@
+{
+  "name": "personal",
+  "version": "1.0.0",
+  "description": "Portable development and university workflows.",
+  "author": {
+    "name": "Agent Kit"
+  },
+  "skills": "./skills/",
+  "extensions": {
+    "com.openai": {
+      "onboardingSkill": "./skills/setup/SKILL.md"
+    }
+  }
+}

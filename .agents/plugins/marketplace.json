@@ -1,0 +1,20 @@
+{
+  "name": "agent-kit",
+  "interface": {
+    "displayName": "Agent Kit"
+  },
+  "plugins": [
+    {
+      "name": "personal",
+      "source": {
+        "source": "local",
+        "path": "./plugins/personal"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+interface:
+  display_name: "Писатель учебных работ"
+  short_description: "Из содержательного драфта в готовую работу в Markdown"
+  default_prompt: "Используй $university-report-writer, чтобы превратить согласованный драфт в готовую учебную работу в Markdown и передать её критику."
+policy:
+  allow_implicit_invocation: true

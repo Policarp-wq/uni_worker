@@ -44,6 +44,7 @@ Formats and commands: [Codex plugins](https://developers.openai.com/plugins/buil
 - Communication style and local personal profile rules.
 - General instructions for academic and development folders, without subject-specific or project-specific rules.
 - Setup for both clients and a separate reviewer agent for Claude.
+- A Claude Code `PreToolUse` hook (`plugins/personal/hooks`) that blocks direct `Bash` and `Read` access to PDF/DOC/DOCX/PPTX and audio files, pointing to an existing Markdown rendition or `file-to-markdown`. Codex needs its own copy of the guard in its user hooks configuration.
 
 Exact file list: [FILES.md](FILES.md). Export boundaries: [docs/EXPORT.md](docs/EXPORT.md). Dependencies and limitations: [docs/DEPENDENCIES.md](docs/DEPENDENCIES.md).
 
@@ -52,6 +53,7 @@ Exact file list: [FILES.md](FILES.md). Export boundaries: [docs/EXPORT.md](docs/
 ```sh
 python3 scripts/check.py
 PYTHONDONTWRITEBYTECODE=1 python3 plugins/personal/skills/university-text-critic/scripts/test_critic_gate.py -v
+PYTHONDONTWRITEBYTECODE=1 python3 plugins/personal/hooks/test_document_read_guard.py
 ```
 
 The critic runs on Linux/WSL and macOS with Python 3.10+. On native Windows, it stops because `fcntl` is unavailable: replace the file locking implementation while preserving protection against concurrent writes before using it. This restriction applies to the critic and its dependent DOCX approval gate, not the entire plugin.

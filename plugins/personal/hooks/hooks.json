@@ -1,0 +1,17 @@
+{
+  "description": "Require existing Markdown or conversion for PDF/DOC/DOCX/PPTX; prohibit audio reading and conversion; allow direct image and other-format access.",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash|Read",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/hooks/document_read_guard.py\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}

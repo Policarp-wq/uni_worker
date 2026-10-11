@@ -14,6 +14,9 @@ Exact contents of the portable package. Personal local settings are excluded.
 - `plugins/personal/.claude-plugin/plugin.json`
 - `plugins/personal/.codex-plugin/plugin.json`
 - `plugins/personal/agents/university-text-critic.md`
+- `plugins/personal/hooks/document_read_guard.py`
+- `plugins/personal/hooks/hooks.json`
+- `plugins/personal/hooks/test_document_read_guard.py`
 - `plugins/personal/instructions/CLIENTS.md`
 - `plugins/personal/instructions/global/AGENTS.md`
 - `plugins/personal/instructions/workspace/university/AGENTS.md`

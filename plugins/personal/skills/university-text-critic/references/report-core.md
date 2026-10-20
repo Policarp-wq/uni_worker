@@ -100,11 +100,10 @@ were already read, do not follow their mutual links again.
   general advice and repeated caveats. Keep necessary explanations of nontrivial
   decisions or limits once, where relevant.
 - User preference: losing up to 5% of secondary detail to remove about half of
-  inflated text is preferable to keeping the detail. This is guidance, not a quota or
-  measured share of meaning. Do not cut already dense prose or sacrifice mandatory
-  meaning and justification to meet a percentage. A wall of text is a defect in any
-  section, not only in answers: when a paragraph carries several ideas, split or cut
-  it instead of polishing sentences.
+  inflated text is preferable to keeping the detail. Mandatory meaning and
+  justification are never cut. A wall of text is a defect in any section, not only
+  in answers: when a paragraph carries several ideas, split or cut it instead of
+  polishing sentences.
 - Answer an assignment question directly in one to three sentences: the answer, then
   the key reason. Do not restate the question, add background or list every caveat.
 - Justify a chosen option in one clause. Do not keep the unchosen fallback or a
@@ -125,6 +124,82 @@ were already read, do not follow their mutual links again.
   API, C4, RPS, MFA; explain unfamiliar ones at first use.
 - Use one term per object. Do not alternate «мерчант», «клиент», «арендатор» and
   «тенант» for the same role. Add terms to a glossary when the work includes one.
+
+## Veil: text about the work instead of the work
+
+The «пелена» is prose the reader does not need to understand the result. It hides
+the decisions in surrounding narration. A hollow paragraph is deleted, not polished:
+restructuring it only produces a clean hollow paragraph. Remove from final prose:
+
+- Production history and provenance: which script, tool or session made an artifact,
+  that models «не расходятся» because one generator builds them, links to source files
+  (`.drawio`, `.archimate`, `.py`) unless the assignment requires them in the text.
+  Keep tool facts the assignment asks for in one clause, and real verification limits
+  once, in the limitations section.
+- Non-decisions: what did not become a class, subtype, table or section and why,
+  unless the assignment asks for it (for example a mapping table with empty cells).
+  One mention in the place the assignment prescribes is enough.
+- Retelling an adjacent figure or table in prose: «инварианты 1–9 перенесены…»,
+  «связь показана ассоциацией…». Give the reference and only what the figure cannot show.
+- Optional material beyond the assignment: an extra table, a second secondary
+  deviation, background calculations. If an earlier work left questions, close them
+  only when the current assignment asks.
+- Uniform rows in reference tables: surrogate `id`, `created_at`, `updated_at` with the
+  same constraint and source in every table are stated once in a sentence. Merge
+  same-typed fields with identical constraints into one row.
+
+Write counts and quantities as digits: «9 прецедентов», «3 записи», not «девять».
+Keep words inside fixed expressions («в три приёма», «оба варианта»).
+
+## Sentence discipline
+
+Adapted from the structural rules of ASD-STE100 for Russian academic prose. They
+apply to authored prose, not to tables, captions, code or verbatim blocks.
+
+- One idea per sentence. Keep a sentence within 25 words. A longer sentence needs a
+  reason (a single condition that cannot be split); over 40 words is always split.
+- One topic per paragraph, at most 6 sentences.
+- Use the verb, not its noun: «шлюз проверяет подпись», not «осуществляется проверка
+  подписи шлюзом». Avoid «является», «производится», «путём выполнения».
+- Do not stack more than 3 nouns in a genitive chain: «проверка допустимости связей
+  объектов модели» → «проверка, какие связи допустимы между объектами».
+- Do not join independent clauses with a semicolon in prose: split the sentence.
+  A semicolon at the end of list items is allowed.
+- Do not stack hedges («может потенциально способствовать»). State the claim or remove
+  it. Keep the strength of every claim: «может завершиться ошибкой» does not become
+  «завершается ошибкой».
+- Never add a cause, number or mechanism while rewriting. A sentence that reads better
+  because it states a new fact is no longer an edit.
+- Stop cutting when the sentence is unambiguous. Shortest is not the goal.
+
+## Mandatory compression pass
+
+Every final report passes a measured compression round before critic review. Prose
+words exclude tables, code, display formulas, images, headings and captions; the
+critic gate counts them with `scripts/prose_gate.py`.
+
+1. Record `baseline` on the first complete final version, not on the draft.
+2. Cut at least 10% of prose words with the veil and sentence rules above: delete
+   whole explanations, repeated conditions and narration first, retyping sentences last.
+3. Run `compress`. It approves only with at least 10% reduction and no hard lint
+   findings (stock phrases, em dashes in prose, sentences over 40 words).
+4. Fixes after review may add at most 5% back. More growth requires a new round.
+
+If 10% cannot be reached without losing mandatory meaning, stop and show the human
+the measured result and the blocking passages. Only an explicit human decision may
+be recorded with `compress --waive`; the author does not waive the round alone.
+
+## Figures and diagrams
+
+- Use the notation, tool and level of detail the assignment and its sample prescribe.
+  A storage schema shown with numeric multiplicities in the sample (`1`, `0..1`,
+  `0..*`) is not drawn in crow's foot notation, and vice versa.
+- The image contains the diagram only. No legend, explanatory notes, footnotes or
+  verification remarks inside it; meaning belongs in the text, the caption is added
+  by the template. A title inside the image must not repeat or contradict the caption.
+- Every class, table, relation and multiplicity in the image matches the text, tables
+  and data dictionary: counts, names, keys and cardinalities agree.
+- Use a readable sans-serif font and the same style across the figures of one work.
 
 These rules do not identify AI authorship. An allowed exception or preference for
 another correct word must not block finished work; explicit factual, numbering and

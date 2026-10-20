@@ -43,6 +43,21 @@ python3 "$SKILL_DIR/scripts/critic_gate.py" begin --source "$REPORT" --context /
 python3 "$SKILL_DIR/scripts/critic_gate.py" check --source "$REPORT"
 ```
 
+Before the first `begin` of a report, run the compression round from the core:
+
+```sh
+python3 "$SKILL_DIR/scripts/prose_gate.py" baseline --source "$REPORT"
+python3 "$SKILL_DIR/scripts/prose_gate.py" lint --source "$REPORT"
+python3 "$SKILL_DIR/scripts/prose_gate.py" compress --source "$REPORT"
+```
+
+Run `baseline` on the uncompressed final version, cut, then `compress`. `compress`
+exits nonzero with `COMPRESSION_REQUIRED` and the measured numbers until prose shrinks
+by at least 10% and no hard lint findings remain; on success it writes
+`.compress-state.json` and `.compress-approve`. `begin` checks them and that prose
+has not grown by more than 5% since. Only an explicit human decision may be passed as
+`compress --waive 'decision'`.
+
 `begin` returns JSON containing `cycle`, `attempt`, `ticket`, `report`, `source` and
 `context`. Save and pass them to the critic. `begin`, `finish`, `cancel` and `resolve`
 modify only this work's state files; `check` only validates permission.
@@ -57,7 +72,7 @@ JSON context: …; current Markdown: …; requirements: …
 Cycle: …; attempt: …/3; ticket: …; your agent ID/invocation label: …
 critic_gate.py path: …; write the Russian review to: …
 Previous reviews and author responses: … / first invocation.
-Check style, concision, assignment fulfillment and continuity.
+Check style, concision, veil, assignment fulfillment, continuity and every figure.
 Do not edit sources or generate DOCX. Complete through finish.
 Return a brief verdict and file paths. Preserve the literal Russian review template.
 ```

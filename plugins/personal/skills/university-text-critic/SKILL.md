@@ -39,7 +39,12 @@ Read the [caller contract and commands](references/caller-contract.md), then:
    from materials or ask the user before invoking review.
 2. Write `.critic-context.json` beside the work. If approval exists, run `check`
    first and reuse it on success. Otherwise run `begin`; continue only with attempt
-   number, ticket and review path. Do not edit input files during review.
+   number, ticket and review path. `begin` refuses without an approved compression
+   round from `prose_gate.py` (see the core's «Mandatory compression pass»); finish
+   that round first, do not spend an attempt on it. Put a readable sample report in
+   `assignment_files` when one exists, and list paths of the assignment's and
+   sample's figure images in `decisions` (images are not text materials) so the
+   critic can compare notation. Do not edit input files during review.
 3. Start a separate agent with no conversation history (`fork_turns="none"` where
    supported). Supply absolute paths to this SKILL.md, context, source and script;
    ticket, attempt, review path, reviewer ID or invocation label; previous reviews
@@ -77,7 +82,15 @@ other critics.
    `CONTEXT_ERROR`, skip style assessment and proceed to steps 3–4. Do not question the
    user or convert documents.
 2. Check assignment fulfillment, continuity and internal logic, then structure,
-   language, concision and Markdown transfer readiness. Separately compare units/
+   language, concision and Markdown transfer readiness. Run
+   `python3 scripts/prose_gate.py lint --source REPORT` and read every finding in
+   context; the script finds candidates, you decide. Every veil passage from the core
+   is a mandatory fix with a concrete deletion; «текст плотный, сокращение не
+   требуется» is not an acceptable conclusion while veil passages remain. Open every
+   image the report embeds and check it against the core's «Figures and diagrams»:
+   notation versus the assignment and its sample, no legend or notes inside the image,
+   and agreement of names, counts, keys and multiplicities with the text and tables.
+   A wrong notation or a mismatch is a mandatory fix. Separately compare units/
    currencies with sources, manual numbering with known automatic numbering and
    every em dash `—` with core exceptions. Unconfirmed units, duplicate numbering
    and non-exempt em dashes require correction before `APPROVE`. Compare premises,
@@ -111,12 +124,13 @@ gate validates that exact label; do not translate it to `Verdict:`.
 Логическая проверка: какие ключевые выводы и ограничения сверены; найденные противоречия или «существенных противоречий не найдено».
 
 Обязательные исправления:
-- [логика / смысл / задание / стиль] Раздел и строки, короткая цитата.
+- [логика / смысл / задание / пелена / диаграмма / стиль] Раздел и строки, короткая цитата.
   Почему мешает: конкретная проблема.
   Правка: удалить / сократить / заменить на «…».
 
+Диаграммы: каждый рисунок, нотация по заданию и образцу, совпадение с текстом; найденные расхождения.
 Необязательные улучшения: только если полезны, не блокируют допуск.
-Сокращение: какие повторы/подробности убрать; примерная экономия объёма.
+Сокращение: конкретные абзацы и фразы пелены к удалению и замечания prose_gate lint; «не требуется» только если их нет.
 Сохранить: обязательные факты, результаты и объяснения.
 Преемственность: совпадения, обоснованные изменения или противоречия.
 ```
@@ -147,7 +161,10 @@ It checks process state, not OS-authenticated agent identity. Instructions and a
 actual separate-agent launch enforce author/critic separation. Generator checks
 remain mandatory even in clients without hooks.
 
-The executable gate is [critic_gate.py](scripts/critic_gate.py). After changing it,
-run [test_critic_gate.py](scripts/test_critic_gate.py):
-`PYTHONDONTWRITEBYTECODE=1 python3 scripts/test_critic_gate.py -v` from the skill folder.
+The executable gate is [critic_gate.py](scripts/critic_gate.py); its `begin` calls the
+compression gate [prose_gate.py](scripts/prose_gate.py). After changing either, run
+[test_critic_gate.py](scripts/test_critic_gate.py) and
+[test_prose_gate.py](scripts/test_prose_gate.py) from the skill folder:
+`PYTHONDONTWRITEBYTECODE=1 python3 scripts/test_critic_gate.py -v` and the same for
+`scripts/test_prose_gate.py`.
 Automatic-invocation metadata is in [agents/openai.yaml](agents/openai.yaml).

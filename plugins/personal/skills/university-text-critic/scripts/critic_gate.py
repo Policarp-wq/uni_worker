@@ -21,6 +21,9 @@ if sys.platform == "win32":
 
 import fcntl
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import prose_gate  # noqa: E402
+
 
 class GateError(RuntimeError):
     pass
@@ -141,6 +144,10 @@ def ledger(source, create=False):
 
 def begin(source, context):
     context = Path(context).resolve(strict=True)
+    try:
+        prose_gate.require_compression(source)
+    except prose_gate.GateError as error:
+        raise GateError(str(error)) from error
     with ledger(source, create=True) as (source, state_path, state):
         files = snapshot(source, context)
         attempts = state["attempts"]

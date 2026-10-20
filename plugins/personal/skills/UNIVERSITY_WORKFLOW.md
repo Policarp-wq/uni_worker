@@ -26,6 +26,8 @@ university-work-executor
               ↓
 university-report-writer
               ↓
+prose_gate compress (≥10% of prose)
+              ↓
 university-text-critic
               ↓
 university-docx-report (only when DOCX is needed)
@@ -41,7 +43,7 @@ university-docx-report (only when DOCX is needed)
 | `university-work-planner` | First analysis and execution planning | One agreed plan with requirements, decisions, artifacts and DoD | No code, calculations or report writing |
 | `university-work-executor` | Execute substantive work from a ready plan | Verified code, notebook, calculations, diagrams, data and evidence | No final report or approval |
 | `university-writing-style` | Collaborate on meanings, wording or options | Agreed decisions and working draft | No final report conversion or review on every edit |
-| `university-report-writer` | Completed substantive work needs final prose | One canonical report Markdown | No repeated experiments, self-approval or DOCX |
+| `university-report-writer` | Completed substantive work needs final prose | One canonical report Markdown with an approved compression round | No repeated experiments, self-approval or DOCX |
 | `university-text-critic` | Independently review final Markdown | Review and, on success, hash-bound approval | No report rewriting or executor substitution |
 | `university-docx-report` | Transfer approved Markdown into Word | One final DOCX with matching basename | No content changes or intermediate DOCX |
 | `file-to-markdown` | Source exists only as PDF/DOC/DOCX/PPTX | Readable Markdown rendition | Not a writer or critic |

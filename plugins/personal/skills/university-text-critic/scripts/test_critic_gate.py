@@ -9,6 +9,7 @@ import tempfile
 import unittest
 
 import critic_gate as gate
+import prose_gate as prose
 
 
 def try_begin(source, context):
@@ -25,7 +26,11 @@ class GateTests(unittest.TestCase):
         self.addCleanup(self.temp.cleanup)
         self.root = Path(self.temp.name)
         self.source = self.root / "work.md"
-        self.source.write_text("# Работа\nШлюз передаёт запрос провайдеру.\n", encoding="utf-8")
+        body = "# Работа\n\n" + "Шлюз передаёт запрос провайдеру.\n\n" * 25
+        self.source.write_text(body + "Провайдер возвращает результат шлюзу.\n\n" * 5, encoding="utf-8")
+        prose.baseline(self.source)
+        self.source.write_text(body, encoding="utf-8")
+        prose.compress(self.source)
         self.context = self.root / ".critic-context.json"
         self.data = {"subject": "ПИС", "topic": "Шлюз", "requirements": ["Описать процесс"],
                      "previous_exists": False, "previous": []}
@@ -78,6 +83,13 @@ class GateTests(unittest.TestCase):
         self.data.update(previous_exists=False)
         self.write_context()
         self.assertEqual(gate.begin(self.source, self.context)["attempt"], 1)
+
+    def test_begin_requires_compression(self):
+        (self.root / ".compress-approve").unlink()
+        with self.assertRaises(gate.GateError) as error:
+            gate.begin(self.source, self.context)
+        self.assertIn("COMPRESSION_REQUIRED", str(error.exception))
+        self.assertFalse((self.root / ".critic-state.json").exists())
 
     def test_pdf_previous_rejected(self):
         (self.root / "previous.pdf").write_text("not a real PDF", encoding="utf-8")

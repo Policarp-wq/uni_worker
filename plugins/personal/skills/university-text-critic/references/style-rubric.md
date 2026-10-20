@@ -84,6 +84,33 @@ PDFs were converted to Markdown before analysis. Some tables collapsed into line
 and columns during extraction: this is an extraction flaw, not evidence of poor
 original formatting. This textual analysis did not check diagrams.
 
+## Veil and figure example
+
+Fictional storage-design report for a payment gateway, first version approved with
+«текст плотный, сокращение не требуется». The author then cut about 20% of prose by
+hand. These cuts are what the critic should have demanded:
+
+- «Схемы, словарь, объёмы и индексы строит один скрипт, поэтому они не расходятся»,
+  «допустимость связей проверена скриптом», «исходник: storage.drawio»: production
+  history. Delete; the unverified-tool limit stays once in «Допущения и ограничения».
+- «Классы выведены из двух агрегатов…», «основной и резервный провайдеры подтипами
+  не стали…», «инварианты 1–9 перенесены из ПР2…»: non-decisions and retelling of
+  the adjacent figure. Delete; the mapping table already records them.
+- A whole table closing questions of an earlier work that the current assignment did
+  not ask for, and a second secondary deviation from 3NF: optional material. Delete.
+- Data-dictionary rows `id`, `created_at`, `updated_at` repeated in every table:
+  replace with one sentence and merge same-typed fields.
+- «девять прецедентов» → «9 прецедентов».
+
+Figures in the same report: the sample in the assignment draws the storage schema
+with numeric multiplicities, the report used crow's foot notation with an in-image
+«Обозначения» legend; the other two figures carried explanatory footnotes inside
+the image. Each is a `[диаграмма]` mandatory fix: redraw in the sample's notation and
+move notes into text or delete them.
+
+Do not overcorrect: the invariant table, normalization check and index rationale are
+required by the assignment and stay even when long.
+
 ## Editing and decision examples
 
 **Shorten:** «Следует отметить, что в рамках данной практической работы осуществляется рассмотрение процесса взаимодействия системы мерчанта с платёжным провайдером» → «Работа описывает взаимодействие системы мерчанта с платёжным провайдером».

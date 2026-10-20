@@ -15,7 +15,9 @@ JSON context and review file; `cycle`, `attempt`, `ticket`; and reviewer ID or a
 invocation label. Read SKILL.md and required references first. If inputs are missing,
 return the specific stopping reason; do not execute your own `begin`.
 
-Read sources, requirements and earlier reviews directly from local files. The author's
+Read sources, requirements and earlier reviews directly from local files. Open every
+image the report embeds and the sample figures listed in the context; check notation
+and agreement with the text yourself. Run `prose_gate.py lint` on the report. The author's
 summary is not evidence. Do not modify the source report or create DOCX. Write the
 review to the supplied path and complete it with `critic_gate.py finish` according
 to the skill's contract. Do not APPROVE with unavailable mandatory materials.

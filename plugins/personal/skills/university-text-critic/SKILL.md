@@ -52,8 +52,14 @@ Read the [caller contract and commands](references/caller-contract.md), then:
 4. Read the returned review. For `APPROVE`, run `check`: only successful approval
    validation completes the cycle. For `REVISE`, apply agreed corrections and review
    within remaining attempts. For `CONTEXT_ERROR`, recover specified materials or
-   clarify them, then retry within the same cycle. Optional suggestions need no new
-   launch. After `3/3`, stop and present the dispute. An explicit author resolution
+   clarify them, then retry within the same cycle. After `APPROVE`, apply useful
+   optional suggestions through a polish review instead of leaving them out to keep
+   the approval: edit only those spots, run `polish-begin`, launch a separate critic
+   with the polish ticket and diff, and let it run `polish-finish`. Polish costs no
+   attempt; it accepts only a text change of at most 20 lines with unchanged context
+   and materials, at most 2 per approval. Anything larger is a regular attempt. On
+   polish `REVISE`, revert the polish edits (the earlier approval then holds again) or
+   use a regular attempt. After `3/3`, stop and present the dispute. An explicit author resolution
    recorded with `resolve` opens a new cycle whose first launch is `1/3`; preserve
    old reviews. Without that decision, do not open another cycle.
 5. Report all remaining items to the human: every optional suggestion from the final
@@ -112,6 +118,24 @@ other critics.
    error so the caller can `cancel`. Changed inputs need a new attempt. Return the
    verdict, main reason, attempt number and review/approval paths. Do not send full
    private reasoning.
+
+## Polish review
+
+When the caller supplies a polish ticket, review only the diff file against the
+approved review it names. Read the diff, the approved review and the current report
+around each changed line. `APPROVE` only if every change implements an optional
+suggestion of that review or fixes an obvious typo, and introduces no new error,
+veil, figure mismatch or contradiction. Otherwise `REVISE` with the offending lines.
+Do not raise new findings about unchanged text. Write the review to the supplied
+path and run `polish-finish` with your ID and verdict:
+
+```text
+Вердикт: APPROVE | REVISE
+Полировка: N/2 после попытки M
+Текст: путь к Markdown
+Правки: каждая правка диффа → какой совет рецензии она реализует или «опечатка».
+Проблемы: строки диффа, которые не следуют из советов или вносят ошибку; «нет».
+```
 
 ## Review template
 

@@ -55,6 +55,20 @@ def main():
         assert check('markitdown empty.pdf -o empty.md', temp) is None
         Path(temp, 'invalid.md').write_bytes(b'\xff')
         assert check('markitdown invalid.pdf -o invalid.md', temp) is None
+        work = Path(temp, 'PR6')
+        work.mkdir()
+        Path(work, 'PR6.md').write_text('Одобренный отчёт', encoding='utf-8')
+        Path(work, 'PR6.docx').write_bytes(b'x')
+        assert check('ls -la PR6.docx; python3 build.py', str(work))
+        Path(work, '.critic-approve').write_text(json.dumps(
+            {'source': str(Path(work, 'PR6.md').resolve())}), encoding='utf-8')
+        assert check('ls -la PR6.docx; python3 build.py', str(work)) is None
+        assert check('markitdown PR6.docx -o /tmp/check.md | tail -3', str(work)) is None
+        assert check('python3 -c "Document(\'PR6.docx\')"', str(work)) is None
+        assert check('python3 -c "Document(\'PR6.docx\'); Document(\'task.docx\')"', str(work))
+        assert check('cat task.docx', str(work))
+        Path(work, 'other.md').write_text('Другой текст', encoding='utf-8')
+        assert check('cat other.docx', str(work))
         hook = Path(__file__).with_name('document_read_guard.py')
         for key in ('command', 'cmd'):
             result = subprocess.run([sys.executable, str(hook)], input=json.dumps({
@@ -80,7 +94,7 @@ def main():
             'cwd': temp, 'tool_name': 'Read', 'tool_input': {'file_path': 'notes.md'}
         }), text=True, capture_output=True, check=True)
         assert result.stdout == ''
-    print(f'PASS: {len(cases)} command cases, cached/empty/invalid Markdown, both event keys')
+    print(f'PASS: {len(cases)} command cases, cached/empty/invalid Markdown, approved deliverables, both event keys')
 
 
 if __name__ == '__main__':

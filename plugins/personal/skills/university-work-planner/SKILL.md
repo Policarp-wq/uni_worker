@@ -49,6 +49,10 @@ nor repeated execution.
    foot, ArchiMate business objects, UML classes). Record that images contain only
    the diagram: legends, notes and verification remarks go to text or nowhere.
    Plan a check that names, counts and multiplicities in each figure match the tables.
+   For processes and state machines, list every failure case (no answer, problem not
+   fixed, result still unknown at the deadline) with its explicit outcome. Do not
+   remove a case with an assumption; an outcome missing in the plan becomes a hidden
+   dead end in the model.
 7. For `с отчётом`, draw a report boundary in the plan: list what the assignment asks
    the report to show, and what stays only in the plan (how artifacts were produced,
    scripts and tools used, rejected options, questions of earlier works the assignment

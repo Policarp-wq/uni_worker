@@ -13,7 +13,7 @@ AUDIO = ("mp3", "wav", "m4a", "m4b", "aac", "flac", "ogg", "oga", "opus", "aif",
 
 
 def paths_with(extensions):
-    return re.compile(r"(?i)(?:^|[^a-z0-9_])[^\s'\"|;&()]+\.(?:" + "|".join(extensions) + r")(?:$|[^a-z0-9_])")
+    return re.compile(r"(?i)(?:^|[^a-z0-9_])([^\s'\"|;&()]+\.(?:" + "|".join(extensions) + r"))(?=$|[^a-z0-9_])")
 
 
 DOCUMENT_PATH = paths_with(DOCUMENTS)
@@ -46,6 +46,20 @@ def existing_markdown(source, cwd):
     return None
 
 
+def approved_deliverable(name, cwd):
+    """A generated DOCX whose same-basename Markdown holds the folder's critic approval."""
+    path = Path(name)
+    if not path.is_absolute():
+        path = Path(cwd) / path
+    if path.suffix.lower() != ".docx":
+        return False
+    try:
+        marker = json.loads((path.parent / ".critic-approve").read_text(encoding="utf-8"))
+        return marker.get("source") == str(path.with_suffix(".md").resolve())
+    except (OSError, ValueError, AttributeError):
+        return False
+
+
 def check(command, cwd="."):
     if not isinstance(command, str):
         return None
@@ -57,7 +71,9 @@ def check(command, cwd="."):
 
     # Ignore explicit write destinations, while retaining other paths in the command.
     reading = OUTPUT.sub("", WRITE_CALL.sub("", command))
-    if DOCUMENT_PATH.search(reading) and READER.search(reading):
+    documents = [match.group(1) for match in DOCUMENT_PATH.finditer(reading)
+                 if not approved_deliverable(match.group(1), cwd)]
+    if documents and READER.search(reading):
         return "Direct reading of PDF, DOC, DOCX and PPTX is blocked. Read an existing same-basename .md rendition; otherwise convert with markitdown, validate it, then read Markdown."
 
     try:
@@ -67,6 +83,8 @@ def check(command, cwd="."):
     if args and Path(args[0]).name == "markitdown":
         for arg in args[1:]:
             if Path(arg).suffix.lower().lstrip(".") in DOCUMENTS:
+                if approved_deliverable(arg, cwd):
+                    break
                 cached = existing_markdown(arg, cwd)
                 if cached:
                     return f"Markdown already exists: {cached}. Read it directly instead of converting the source again."

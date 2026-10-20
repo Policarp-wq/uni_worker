@@ -53,6 +53,12 @@ critic grants that permission.
   solution reliable, secure or sufficient without the boundaries where that holds.
 - Compare related claims across sections. Assumptions, exceptions and failure scenarios
   must not silently invalidate an earlier result, invariant or requirement.
+- A completeness claim about a model («тупиков нет», «каждый путь завершается»,
+  «все случаи покрыты») must hold without an added assumption. If it only holds
+  because an assumption rules a case out («сбой устраняется за 24 часа»), the model
+  lacks an outcome for that case: add the outcome (state, end event, branch) or
+  narrow the claim to the assumed conditions. Recording the assumption alone does
+  not close the gap.
 - Educational simplification without implementation detail is acceptable when explicit,
   not presented as proven fact and compatible with the assignment. Missing production
   detail is not inherently an academic defect.

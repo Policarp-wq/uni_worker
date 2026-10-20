@@ -201,16 +201,27 @@ def cancel(source, ticket, reason):
                 "cycle": record.get("cycle", 1)}
 
 
+def approval_is_stale(source, attempt):
+    """True when inputs changed after an approved attempt, so its approval no longer holds."""
+    try:
+        return snapshot(source, Path(attempt["context"])) != attempt["snapshot"]
+    except (OSError, ValueError, KeyError, TypeError, GateError):
+        return True
+
+
 def resolve(source, decision, resolved_by="author"):
     require(isinstance(decision, str) and decision.strip(), "Provide the author decision")
     require(isinstance(resolved_by, str) and resolved_by.strip(), "Identify who resolved the dispute")
-    with ledger(source) as (_, state_path, state):
+    with ledger(source) as (resolved_source, state_path, state):
         cycle = state.get("current_cycle", 1)
         attempts = [item for item in state["attempts"] if item.get("cycle", 1) == cycle]
         require(len(attempts) == 3 and all(item.get("verdict") != "pending" for item in attempts),
                 "HUMAN_REQUIRED: A new cycle requires three completed attempts")
-        require(attempts[-1].get("verdict") in ("revise", "context_error"),
-                "The last attempt has no unresolved dispute; an approved cycle cannot be reset")
+        last = attempts[-1]
+        disputed = last.get("verdict") in ("revise", "context_error")
+        stale = last.get("verdict") == "approve" and approval_is_stale(resolved_source, last)
+        require(disputed or stale,
+                "The last attempt has no unresolved dispute and its approval is still valid; an approved cycle cannot be reset")
         resolution = {"from_cycle": cycle, "to_cycle": cycle + 1,
                       "decision": decision.strip(), "resolved_by": resolved_by.strip(),
                       "resolved_at": timestamp(), "last_report": attempts[-1].get("report")}

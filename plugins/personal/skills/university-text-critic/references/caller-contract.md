@@ -131,6 +131,8 @@ explicit author decision permits `resolve`, not a manual reset:
 Without a text dispute, identify the technical stopping reason and consumed attempts.
 Do not present a technical failure as a disagreement.
 
+`resolve` also opens a new cycle when the third attempt was `approve` but the work changed afterwards, so the approval is stale and `check` fails: the human decides that the further edits need review. It never works while the approval is still valid.
+
 ## Final human handoff
 
 After `APPROVE`, stopping or exhaustion, the caller briefly reports:

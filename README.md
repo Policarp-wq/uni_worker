@@ -62,4 +62,4 @@ The critic runs on Linux/WSL and macOS with Python 3.10+. On native Windows, it 
 
 Publish updates to `Policarp-wq/uni_worker` from this folder only. Academic submissions, personal memory, account settings and third-party plugins are excluded. To share the plugin while the repository is private, grant the recipient repository access; sending its URL alone does not grant access.
 
-Install third-party plugins from current upstream sources without pinning their versions. Version `1.0.3` belongs only to this package and enables client cache updates.
+Install third-party plugins from current upstream sources without pinning their versions. Version `1.0.5` belongs only to this package and enables client cache updates.

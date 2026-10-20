@@ -1,6 +1,8 @@
 ---
 name: university-text-critic
 description: Independently review a completed Russian academic Markdown report using the prepared critic ticket and local context. Do not write or approve your own report.
+model: claude-opus-5-5
+effort: medium
 tools: Read, Write, Bash, Glob, Grep
 ---
 

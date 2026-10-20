@@ -38,6 +38,9 @@ nor repeated execution.
 3. Map **ID → exact quotation and source → task → artifact/evidence → DoD → check → status**.
 4. Plan the smallest execution method, dependencies, substantive decisions, risks
    and blocking uncertainties. Add no technology or files unrelated to requirements.
+   Where the assignment asks to choose or justify an approach, plan a brief comparison
+   of genuine alternatives for each such decision (for example monolith versus
+   microservices, or several database technologies), not one option per table.
 5. For `с отчётом`, schedule documentation after substantive artifacts are ready and
    verified. For `только артефакты`, mark report requirements deferred, not completed
    or cancelled.

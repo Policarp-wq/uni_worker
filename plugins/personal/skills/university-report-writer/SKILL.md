@@ -46,6 +46,13 @@ under the critic contract; a missing file does not mean there was no previous wo
    align terms and preserve decision arguments and mandatory results. Discussed but
    unaccepted proposals must not become claims. Do not disguise contradictions with
    polished wording.
+   When asked to condense, measure prose words (without table separators, URLs and
+   formula markers) before and after and report the real reduction. A rewrite that cuts
+   far below the shared core's guidance has not condensed: remove whole explanations,
+   repeated conditions and procedural detail instead of retyping sentences. Use a
+   script, not an estimate, and deliver only after the requested reduction (default
+   25%). If two passes cannot reach it without losing important meaning, stop and
+   report the measured result and what blocks further cuts.
 4. Save the user-selected `.md`. When DOCX is requested or the practical's basename
    is established, use matching names: `PR3.md` → `PR3.docx`. Otherwise reuse the
    existing canonical report; only if absent create `report.md` beside the draft.
@@ -57,7 +64,8 @@ under the critic contract; a missing file does not mean there was no previous wo
    styles or the builder, and em dashes `—` in authored prose. For the «Просто стили»
    template, heading/figure-caption styles already number paragraphs: write substantive
    text without `1.`, `1.1.` or `Рисунок 1.1` prefixes in new Markdown. Preserve numbers
-   in in-text references. Check links, tables, headings and code blocks. Remove service
+   in in-text references. Check that parallel items are `- ` lists and formulas use
+   `$$...\tag{n}$$` or `$...$` instead of plain text. Check links, tables, headings and code blocks. Remove service
    notes and gaps preventing assignment completion; fix obvious author errors before
    invoking review.
 

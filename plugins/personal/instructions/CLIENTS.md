@@ -29,7 +29,9 @@ ticket, attempt number and reviewer ID or a unique invocation label.
   the contract. Do not override the model without a separate basis.
 - Claude: invoke the registered `personal:university-text-critic` agent through
   Agent/Task. If naming differs in the client version, find its definition in
-  `agents/university-text-critic.md`. It defines a separate context and limited tools.
+  `agents/university-text-critic.md`. It defines a separate context, limited tools and a
+  pinned stronger model (`model`, `effort`) so the critic does not share the author's
+  blind spots; raise `effort` for calculation-heavy reports.
 - Other clients: review requires genuinely independent context, access to input
   files and the ability to write the review and execute gate commands.
 

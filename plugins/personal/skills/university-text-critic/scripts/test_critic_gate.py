@@ -126,6 +126,26 @@ class GateTests(unittest.TestCase):
         with self.assertRaises(gate.GateError):
             gate.require_approval(self.source)
 
+    def test_stale_approval_after_third_attempt_can_open_new_cycle(self):
+        self.review("revise")
+        self.review("revise")
+        self.review("approve")
+        with self.assertRaises(gate.GateError):
+            gate.resolve(self.source, "Автор согласовал продолжение")
+
+        self.source.write_text(self.source.read_text(encoding="utf-8") + "Новая правка.\n", encoding="utf-8")
+        with self.assertRaises(gate.GateError):
+            gate.require_approval(self.source)
+        resolution = gate.resolve(self.source, "Автор согласовал продолжение")
+        self.assertEqual((resolution["cycle"], resolution["attempt"]), (2, 1))
+        next_attempt = gate.begin(self.source, self.context)
+        self.assertEqual((next_attempt["cycle"], next_attempt["attempt"]), (2, 1))
+        state = json.loads((self.root / ".critic-state.json").read_text(encoding="utf-8"))
+        self.assertEqual(len(state["attempts"]), 4)
+        self.assertEqual(len(state["human_resolutions"]), 1)
+        with self.assertRaises(gate.GateError):
+            gate.require_approval(self.source)
+
     def test_cancel_consumes_attempt_and_pending_blocks(self):
         ticket = gate.begin(self.source, self.context)
         with self.assertRaises(gate.GateError):

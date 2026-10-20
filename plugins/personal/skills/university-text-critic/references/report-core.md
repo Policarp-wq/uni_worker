@@ -36,6 +36,11 @@ critic grants that permission.
   do not invent a numeric standard.
 - Check participants, terms, boundaries and decisions against previous works. Explain
   justified changes briefly. Do not preserve an old error for formal consistency.
+- For each real design uncertainty (architecture style, database technology, protocol)
+  give a short table of genuine alternatives with the criteria and the choice; one
+  alternative in a table is not a comparison. Keep the problem, the decision and its
+  check as separate statements, not one fused paragraph. Add a formula only where a
+  calculation is performed, not as a decoration per item.
 - Separate system responsibilities from external participants. Initiating a bank
   operation is different from executing it. Do not replace «планируется проверить»
   with «проверено» without an actual result.
@@ -94,10 +99,23 @@ were already read, do not follow their mutual links again.
 - Remove repetition, paraphrased headings/tables, explanations of obvious code,
   general advice and repeated caveats. Keep necessary explanations of nontrivial
   decisions or limits once, where relevant.
-- User preference: cutting about 40% of inflated text at the cost of up to 5% of
-  secondary detail is preferable. This is guidance, not a quota or measured share
-  of meaning. Do not cut already dense prose or sacrifice mandatory meaning and
-  justification to meet a percentage.
+- User preference: losing up to 5% of secondary detail to remove about half of
+  inflated text is preferable to keeping the detail. This is guidance, not a quota or
+  measured share of meaning. Do not cut already dense prose or sacrifice mandatory
+  meaning and justification to meet a percentage. A wall of text is a defect in any
+  section, not only in answers: when a paragraph carries several ideas, split or cut
+  it instead of polishing sentences.
+- Answer an assignment question directly in one to three sentences: the answer, then
+  the key reason. Do not restate the question, add background or list every caveat.
+- Justify a chosen option in one clause. Do not keep the unchosen fallback or a
+  closing paragraph about general caveats, source-check dates or what was not analyzed
+  unless the assignment asks for it; report such limits to the user in the handoff.
+- Do not give entities code names such as `UC1`, `E2`, `Q3` or `H1` in prose, headings
+  or tables unless the assignment prescribes them. Use a name, or a number with a word
+  («прецедент 3», «Альтернатива 2»), and refer to earlier works by the name of the
+  item or «вопрос 4 таблицы 1.5 ПР2».
+- Do not mix two languages inside one phrase («целочисленную version»). Use the
+  Russian term or restructure the sentence.
 - Do not use em dashes `—` in authored prose. Restructure, use a colon or split the
   sentence. Before delivery, find every `—` and confirm it remains only in required
   quotations, code, formulas, official names or externally prescribed captions.
@@ -121,6 +139,12 @@ punctuation requirements are checked separately.
   Assess each match in context and against numbering rules; do not autofix it.
 - Use lists for sequences or parallel items and tables for shared-field comparisons.
   Explain what a list enumerates without adding a formal preamble for its own sake.
+  Write list items as `- ` lines, not as a semicolon chain inside one paragraph.
+- Write a display formula on its own line as `$$formula \tag{n}$$` (LaTeX subset) and
+  symbols inside prose as `$...$`; do not type fractions, sums or indices as plain
+  Unicode text. Number formulas consecutively and cite them as «по формуле n». Follow
+  each display formula with a «где» paragraph listing symbols after a hyphen (`w_i - вес`),
+  not a dash.
 - Give a short reference before each table/figure. Put a figure reference immediately
   before it; align labels/captions with sections and accepted numbering.
 - Preserve a diagram's semantic description before its separate PlantUML block or

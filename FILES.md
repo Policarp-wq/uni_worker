@@ -39,7 +39,9 @@ Exact contents of the portable package. Personal local settings are excluded.
 - `plugins/personal/skills/university-text-critic/references/report-core.md`
 - `plugins/personal/skills/university-text-critic/references/style-rubric.md`
 - `plugins/personal/skills/university-text-critic/scripts/critic_gate.py`
+- `plugins/personal/skills/university-text-critic/scripts/prose_gate.py`
 - `plugins/personal/skills/university-text-critic/scripts/test_critic_gate.py`
+- `plugins/personal/skills/university-text-critic/scripts/test_prose_gate.py`
 - `plugins/personal/skills/university-work-executor/SKILL.md`
 - `plugins/personal/skills/university-work-planner/SKILL.md`
 - `plugins/personal/skills/university-writing-style/SKILL.md`

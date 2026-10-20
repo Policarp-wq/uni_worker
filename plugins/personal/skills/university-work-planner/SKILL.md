@@ -44,7 +44,16 @@ nor repeated execution.
 5. For `с отчётом`, schedule documentation after substantive artifacts are ready and
    verified. For `только артефакты`, mark report requirements deferred, not completed
    or cancelled.
-6. Save one plan in the existing planning file; otherwise use `execution_plan.md` in
+6. For every figure, record the required notation, tool and level of detail from the
+   assignment text and its sample (for example numeric multiplicities versus crow's
+   foot, ArchiMate business objects, UML classes). Record that images contain only
+   the diagram: legends, notes and verification remarks go to text or nowhere.
+   Plan a check that names, counts and multiplicities in each figure match the tables.
+7. For `с отчётом`, draw a report boundary in the plan: list what the assignment asks
+   the report to show, and what stays only in the plan (how artifacts were produced,
+   scripts and tools used, rejected options, questions of earlier works the assignment
+   does not reopen). The writer uses this list to keep the veil out of the report.
+8. Save one plan in the existing planning file; otherwise use `execution_plan.md` in
    the work folder. Do not create parallel copies. Record both modes, sources, user
    decisions, questions, tasks, DoD, expected artifacts, commands/check methods and
    space for actual results.

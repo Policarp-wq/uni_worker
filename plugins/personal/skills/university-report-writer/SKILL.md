@@ -46,13 +46,9 @@ under the critic contract; a missing file does not mean there was no previous wo
    align terms and preserve decision arguments and mandatory results. Discussed but
    unaccepted proposals must not become claims. Do not disguise contradictions with
    polished wording.
-   When asked to condense, measure prose words (without table separators, URLs and
-   formula markers) before and after and report the real reduction. A rewrite that cuts
-   far below the shared core's guidance has not condensed: remove whole explanations,
-   repeated conditions and procedural detail instead of retyping sentences. Use a
-   script, not an estimate, and deliver only after the requested reduction (default
-   25%). If two passes cannot reach it without losing important meaning, stop and
-   report the measured result and what blocks further cuts.
+   Write without the veil from the core: no production history, non-decisions,
+   retelling of figures or optional material beyond the assignment. Keep sentences
+   to one idea and within 25 words.
 4. Save the user-selected `.md`. When DOCX is requested or the practical's basename
    is established, use matching names: `PR3.md` → `PR3.docx`. Otherwise reuse the
    existing canonical report; only if absent create `report.md` beside the draft.
@@ -68,6 +64,14 @@ under the critic contract; a missing file does not mean there was no previous wo
    `$$...\tag{n}$$` or `$...$` instead of plain text. Check links, tables, headings and code blocks. Remove service
    notes and gaps preventing assignment completion; fix obvious author errors before
    invoking review.
+6. Run the mandatory compression round from the core with
+   [prose_gate.py](../university-text-critic/scripts/prose_gate.py): `baseline` on
+   this first complete version, `lint`, then cut at least 10% of prose words and run
+   `compress`. Delete whole veil passages and repeated conditions first; retyping
+   sentences rarely reaches 10%. When the user asks for a larger cut, pass it as
+   `--min` (for example `--min 0.25`). If two passes cannot reach the target without
+   losing mandatory meaning, stop and show the measured numbers and the blocking
+   passages; only the human may decide on `--waive`. Report the measured reduction.
 
 Do not edit inputs while the critic reviews them. Before post-review fixes, read the
 review and state. Address concrete findings without rewriting acceptable sections.
@@ -81,7 +85,9 @@ Pass subject, topic, requirements, previous works and decisions under its contra
 the critic does not inherit writer context. If needed, supply a readable draft to
 compare decisions, explicitly as source material, not a style standard.
 
-The critic, not the writer, must be a separate agent. Check existing approval/history
+The critic, not the writer, must be a separate agent. `begin` refuses a report
+without an approved compression round, and review fixes may regrow prose by at most
+5%; larger additions need a new `baseline`/`compress` round. Check existing approval/history
 before launching. The writer does not issue `.critic-approve`, reset counters or
 create DOCX during writing or between edits. Complete all substantive changes in
 one canonical Markdown. Revisions reuse that file and the critic's shared limit of

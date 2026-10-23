@@ -195,6 +195,75 @@ class GateTests(unittest.TestCase):
             results = list(executor.map(try_begin, [self.source] * 2, [self.context] * 2))
         self.assertEqual(sum(results), 1)
 
+    def polish(self, verdict="approve"):
+        ticket = gate.polish_begin(self.source)
+        Path(ticket["report"]).write_text(f"Вердикт: {verdict.upper()}\nПравки по советам.\n", encoding="utf-8")
+        gate.polish_finish(self.source, ticket["ticket"], "test-critic", verdict)
+        return ticket
+
+    def edit(self, old, new):
+        self.source.write_text(self.source.read_text(encoding="utf-8").replace(old, new, 1), encoding="utf-8")
+
+    def test_polish_moves_approval_without_attempt(self):
+        self.review("approve")
+        self.edit("Шлюз передаёт запрос провайдеру.", "Шлюз передаёт запрос платёжному провайдеру.")
+        with self.assertRaises(gate.GateError):
+            gate.require_approval(self.source)
+        ticket = self.polish()
+        self.assertIn("+Шлюз передаёт запрос платёжному провайдеру.", Path(ticket["diff"]).read_text(encoding="utf-8"))
+        result = gate.require_approval(self.source)
+        self.assertEqual((result["attempt"], result["polish"]), (1, 1))
+        state = json.loads((self.root / ".critic-state.json").read_text(encoding="utf-8"))
+        self.assertEqual(len(state["attempts"]), 1)
+
+    def test_polish_revise_keeps_old_text_approved(self):
+        self.review("approve")
+        self.edit("Шлюз передаёт запрос провайдеру.", "Шлюз отправляет запрос провайдеру.")
+        self.polish("revise")
+        with self.assertRaises(gate.GateError):
+            gate.require_approval(self.source)
+        self.edit("Шлюз отправляет запрос провайдеру.", "Шлюз передаёт запрос провайдеру.")
+        self.assertNotIn("polish", gate.require_approval(self.source))
+
+    def test_polish_requires_approval_and_limits(self):
+        self.review("revise")
+        with self.assertRaises(gate.GateError):
+            gate.polish_begin(self.source)
+        self.review("approve")
+        with self.assertRaises(gate.GateError):
+            gate.polish_begin(self.source)
+        self.source.write_text(self.source.read_text(encoding="utf-8").replace(
+            "Шлюз передаёт запрос провайдеру.", "Шлюз отправляет запрос провайдеру."), encoding="utf-8")
+        with self.assertRaises(gate.GateError) as error:
+            gate.polish_begin(self.source)
+        self.assertIn("lines", str(error.exception))
+
+    def test_polish_rejects_context_change_and_counts(self):
+        self.review("approve")
+        self.edit("Шлюз передаёт запрос провайдеру.", "Шлюз передаёт запрос.")
+        self.data["topic"] = "Другая тема"
+        self.write_context()
+        with self.assertRaises(gate.GateError):
+            gate.polish_begin(self.source)
+        self.data["topic"] = "Шлюз"
+        self.write_context()
+        self.polish()
+        self.edit("Шлюз передаёт запрос провайдеру.", "Шлюз передаёт запрос.")
+        self.polish()
+        self.edit("Шлюз передаёт запрос провайдеру.", "Шлюз передаёт запрос.")
+        with self.assertRaises(gate.GateError) as error:
+            gate.polish_begin(self.source)
+        self.assertIn("regular attempt", str(error.exception))
+
+    def test_pending_polish_blocks_begin_and_can_be_cancelled(self):
+        self.review("approve")
+        self.edit("Шлюз передаёт запрос провайдеру.", "Шлюз передаёт запрос.")
+        ticket = gate.polish_begin(self.source)
+        with self.assertRaises(gate.GateError):
+            gate.begin(self.source, self.context)
+        gate.polish_cancel(self.source, ticket["ticket"], "Агент не запустился")
+        self.assertEqual(gate.begin(self.source, self.context)["attempt"], 2)
+
     def test_corrupt_state_fails_closed(self):
         self.review()
         (self.root / ".critic-state.json").write_text("broken", encoding="utf-8")

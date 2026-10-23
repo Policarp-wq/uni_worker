@@ -21,7 +21,8 @@ and agreement with the text yourself. Run `prose_gate.py lint` on the report. Th
 summary is not evidence. Do not modify the source report or create DOCX. Write the
 review to the supplied path and complete it with `critic_gate.py finish` according
 to the skill's contract. Do not APPROVE with unavailable mandatory materials.
-Return the verdict and result paths.
+Return the verdict and result paths. For a polish ticket, follow the skill's «Polish
+review» section and finish with `polish-finish`.
 
 On native Windows, stop: replace `fcntl` with compatible file locking first.
 Bypassing the gate is prohibited.

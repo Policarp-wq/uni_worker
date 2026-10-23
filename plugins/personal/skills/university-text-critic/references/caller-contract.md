@@ -91,6 +91,24 @@ The critic writes the review to the assigned path and then runs:
 python3 "$SKILL_DIR/scripts/critic_gate.py" finish --source "$REPORT" --ticket TICKET --reviewer AGENT_ID --verdict approve
 ```
 
+After `APPROVE`, optional suggestions go through a polish review that consumes no
+attempt. Edit only the suggested spots, then:
+
+```sh
+python3 "$SKILL_DIR/scripts/critic_gate.py" polish-begin --source "$REPORT"
+python3 "$SKILL_DIR/scripts/critic_gate.py" polish-finish --source "$REPORT" --ticket TICKET --reviewer AGENT_ID --verdict approve
+```
+
+`polish-begin` refuses unless the current approval was issued, only the report text
+changed, the diff against the stored approved copy has at most 20 changed lines, the
+compression gate still holds and fewer than 2 polishes were used for this approval.
+It returns `ticket`, `report`, `diff` and `approved_review`; pass them to a fresh
+critic as in the standalone assignment, saying «polish review». `polish-finish
+--verdict approve` moves `.critic-approve` to the polished text; `revise` leaves the
+earlier approval valid for the earlier text. `polish-cancel --ticket ... --reason ...`
+handles a failed launch. Approvals issued before this mechanism existed have no stored
+copy and need a regular attempt.
+
 Other `--verdict` values: `revise`, `context_error`. Technical cancellation:
 `cancel --source ... --ticket ... --reason 'specific reason'`. After `3/3`, the author
 may resolve the concrete dispute and open a cycle with

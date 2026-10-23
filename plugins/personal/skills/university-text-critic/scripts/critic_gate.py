@@ -2,6 +2,7 @@
 """Local review ledger and hash-bound DOCX gate; Python 3.10+, Linux/WSL or macOS."""
 
 import argparse
+import difflib
 from contextlib import contextmanager
 from datetime import datetime, timezone
 import hashlib
@@ -23,6 +24,10 @@ import fcntl
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import prose_gate  # noqa: E402
+
+
+POLISH_LIMIT = 2
+POLISH_LINES = 20
 
 
 class GateError(RuntimeError):
@@ -157,6 +162,8 @@ def begin(source, context):
                 "HUMAN_REQUIRED: 3/3 attempts used in the current cycle; present reasons and reviews to the human")
         require(not attempts or attempts[-1].get("verdict") != "pending",
                 "The previous critic is still running; wait or stop it and run cancel")
+        require(all(item.get("verdict") != "pending" for item in state.get("polishes", [])),
+                "A polish review is still running; wait or stop it and run polish-cancel")
         number = len(cycle_attempts) + 1
         report_dir = source.parent / ".critic"
         report_dir.mkdir(exist_ok=True)
@@ -191,11 +198,115 @@ def finish(source, ticket, reviewer, verdict):
                 "The review verdict does not match finish")
         record.update(verdict=verdict, reviewer=reviewer, finished=timestamp(),
                       report_sha256=digest(report))
+        if verdict == "approve":
+            keep_copy(source, record, f"approved-c{record.get('cycle', 1)}-a{record['attempt']}.md")
         atomic_json(state_path, state)
         if verdict == "approve":
             atomic_json(source.parent / ".critic-approve", record)
         return {"verdict": verdict, "cycle": record.get("cycle", 1),
                 "attempt": record["attempt"], "report": str(report)}
+
+
+def keep_copy(source, record, name):
+    copy = Path(record["report"]).parent / name
+    copy.write_bytes(source.read_bytes())
+    record["approved_copy"] = str(copy)
+
+
+def current_approval(state):
+    """The approved attempt of the current cycle, its polish records and the record now in force."""
+    cycle = state.get("current_cycle", 1)
+    attempts = [item for item in state["attempts"] if item.get("cycle", 1) == cycle]
+    require(attempts, "No completed review in the current cycle")
+    last = attempts[-1]
+    require(last.get("verdict") == "approve", "The latest attempt in the current cycle is not approved")
+    polishes = [item for item in state.get("polishes", [])
+                if item.get("cycle") == cycle and item.get("attempt") == last["attempt"]]
+    approved = [item for item in polishes if item.get("verdict") == "approve"]
+    return last, polishes, approved[-1] if approved else last
+
+
+def polish_begin(source):
+    with ledger(source) as (source, state_path, state):
+        last, polishes, approval = current_approval(state)
+        require(all(item.get("verdict") != "pending" for item in polishes),
+                "A polish review is still running; wait or stop it and run polish-cancel")
+        require(len(polishes) < POLISH_LIMIT,
+                f"{POLISH_LIMIT} polish reviews used for this approval; use a regular attempt")
+        base = Path(approval.get("approved_copy", ""))
+        require(approval.get("approved_copy") and base.is_file() and
+                digest(base) == approval["snapshot"][str(source)],
+                "The approved text is not stored; polish is unavailable, use a regular attempt")
+        files = snapshot(source, Path(last["context"]))
+        require(files[str(source)] != approval["snapshot"][str(source)],
+                "The text is unchanged; the approval is still valid")
+        others = {key: value for key, value in files.items() if key != str(source)}
+        require(others == {key: value for key, value in approval["snapshot"].items() if key != str(source)},
+                "Context or materials changed; a regular attempt is required")
+        try:
+            prose_gate.require_compression(source)
+        except prose_gate.GateError as error:
+            raise GateError(str(error)) from error
+        diff = list(difflib.unified_diff(
+            base.read_text(encoding="utf-8").splitlines(keepends=True),
+            source.read_text(encoding="utf-8").splitlines(keepends=True),
+            "approved", "current", n=2))
+        changed = sum(1 for line in diff if line[:1] in "+-" and not line.startswith(("+++", "---")))
+        require(changed <= POLISH_LINES,
+                f"The edit changes {changed} lines, more than {POLISH_LINES}; use a regular attempt")
+        number = len(polishes) + 1
+        report_dir = source.parent / ".critic"
+        name = f"polish-c{last.get('cycle', 1)}-a{last['attempt']}-{number}"
+        diff_path = report_dir / f"{name}.diff"
+        diff_path.write_text("".join(diff), encoding="utf-8")
+        record = {"kind": "polish", "cycle": last.get("cycle", 1), "attempt": last["attempt"],
+                  "polish": number, "ticket": uuid.uuid4().hex,
+                  "report": str(report_dir / f"{name}.md"), "diff": str(diff_path),
+                  "approved_review": approval["report"], "source": str(source),
+                  "context": last["context"], "snapshot": files, "verdict": "pending",
+                  "started": timestamp()}
+        state.setdefault("polishes", []).append(record)
+        atomic_json(state_path, state)
+        return record
+
+
+def pending_polish(state, ticket):
+    polishes = state.get("polishes", [])
+    require(polishes, "No polish review has been started")
+    record = polishes[-1]
+    require(record.get("ticket") == ticket and record.get("verdict") == "pending",
+            "Invalid ticket or polish review already finished")
+    return record
+
+
+def polish_finish(source, ticket, reviewer, verdict):
+    require(verdict in ("approve", "revise"), "Unknown verdict")
+    require(isinstance(reviewer, str) and reviewer.strip(), "An independent critic ID or invocation label is required")
+    with ledger(source) as (source, state_path, state):
+        record = pending_polish(state, ticket)
+        require(snapshot(source, Path(record["context"])) == record["snapshot"],
+                "Inputs changed after polish-begin; cancel and start again")
+        report = Path(record["report"])
+        content = text_file(report, (".md",))
+        require(f"Вердикт: {verdict.upper()}" in content, "The review verdict does not match finish")
+        record.update(verdict=verdict, reviewer=reviewer, finished=timestamp(),
+                      report_sha256=digest(report))
+        if verdict == "approve":
+            keep_copy(source, record, Path(record["report"]).stem + "-approved.md")
+        atomic_json(state_path, state)
+        if verdict == "approve":
+            atomic_json(source.parent / ".critic-approve", record)
+        return {"verdict": verdict, "cycle": record["cycle"], "attempt": record["attempt"],
+                "polish": record["polish"], "report": str(report)}
+
+
+def polish_cancel(source, ticket, reason):
+    require(isinstance(reason, str) and reason.strip(), "Provide the cancellation reason")
+    with ledger(source) as (_, state_path, state):
+        record = pending_polish(state, ticket)
+        record.update(verdict="cancelled", reason=reason, finished=timestamp())
+        atomic_json(state_path, state)
+        return {"verdict": "cancelled", "polish": record["polish"]}
 
 
 def cancel(source, ticket, reason):
@@ -242,18 +353,16 @@ def require_approval(source):
     try:
         with ledger(source) as (source, _, state):
             cycle = state.get("current_cycle", 1)
-            current_attempts = [item for item in state["attempts"]
-                                if item.get("cycle", 1) == cycle]
-            require(current_attempts, "No completed review in the current cycle")
-            last = current_attempts[-1]
-            require(last.get("verdict") == "approve", "The latest attempt in the current cycle is not approved")
+            last, _, approval = current_approval(state)
             marker = read_json(source.parent / ".critic-approve")
-            require(marker == last and last.get("reviewer"), "Invalid .critic-approve")
-            require(snapshot(source, Path(last["context"])) == last["snapshot"],
+            require(marker == approval and approval.get("reviewer"), "Invalid .critic-approve")
+            require(snapshot(source, Path(approval["context"])) == approval["snapshot"],
                     "Text or context changed; approval is stale")
-            require(digest(last["report"]) == last["report_sha256"], "The review was changed or lost")
-            return {"approved": True, "source": str(source),
-                    "cycle": cycle, "attempt": last["attempt"]}
+            require(digest(approval["report"]) == approval["report_sha256"], "The review was changed or lost")
+            result = {"approved": True, "source": str(source), "cycle": cycle, "attempt": last["attempt"]}
+            if approval is not last:
+                result["polish"] = approval["polish"]
+            return result
     except (OSError, ValueError, KeyError, TypeError) as error:
         raise GateError(f"DOCX is blocked: inaccessible or corrupt review data: {error}") from error
 
@@ -261,17 +370,21 @@ def require_approval(source):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     commands = parser.add_subparsers(dest="command", required=True)
-    for command in ("begin", "finish", "cancel", "resolve", "check"):
+    for command in ("begin", "finish", "cancel", "resolve", "check",
+                    "polish-begin", "polish-finish", "polish-cancel"):
         child = commands.add_parser(command)
         child.add_argument("--source", required=True)
         if command == "begin":
             child.add_argument("--context", required=True)
-        if command in ("finish", "cancel"):
+        if command in ("finish", "cancel", "polish-finish", "polish-cancel"):
             child.add_argument("--ticket", required=True)
-        if command == "finish":
+        if command in ("finish", "polish-finish"):
             child.add_argument("--reviewer", required=True)
+        if command == "finish":
             child.add_argument("--verdict", choices=("approve", "revise", "context_error"), required=True)
-        if command == "cancel":
+        if command == "polish-finish":
+            child.add_argument("--verdict", choices=("approve", "revise"), required=True)
+        if command in ("cancel", "polish-cancel"):
             child.add_argument("--reason", required=True)
         if command == "resolve":
             child.add_argument("--decision", required=True)
@@ -280,7 +393,9 @@ def main():
     command = args.pop("command")
     try:
         result = {"begin": begin, "finish": finish, "cancel": cancel,
-                  "resolve": resolve, "check": require_approval}[command](**args)
+                  "resolve": resolve, "check": require_approval,
+                  "polish-begin": polish_begin, "polish-finish": polish_finish,
+                  "polish-cancel": polish_cancel}[command](**args)
         print(json.dumps(result, ensure_ascii=False))
     except (GateError, OSError, ValueError, KeyError, TypeError) as error:
         print(f"BLOCKED: {error}", file=sys.stderr)

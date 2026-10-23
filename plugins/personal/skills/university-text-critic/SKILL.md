@@ -90,7 +90,10 @@ other critics.
    image the report embeds and check it against the core's «Figures and diagrams»:
    notation versus the assignment and its sample, no legend or notes inside the image,
    and agreement of names, counts, keys and multiplicities with the text and tables.
-   A wrong notation or a mismatch is a mandatory fix. Separately compare units/
+   A wrong notation or a mismatch is a mandatory fix. For every completeness claim
+   about a process, state machine or schema, ask which case would break it and
+   whether an assumption is the only thing excluding that case; if so, the missing
+   outcome is a mandatory `[логика]` fix, even when the assumption is recorded. Separately compare units/
    currencies with sources, manual numbering with known automatic numbering and
    every em dash `—` with core exceptions. Unconfirmed units, duplicate numbering
    and non-exempt em dashes require correction before `APPROVE`. Compare premises,

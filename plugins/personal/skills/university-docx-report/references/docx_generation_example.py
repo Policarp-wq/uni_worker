@@ -35,7 +35,17 @@ def ensure_table_text_style(document, main_style_name):
         style = document.styles.add_style(name, WD_STYLE_TYPE.PARAGRAPH)
         style.base_style = document.styles[main_style_name]
         style.paragraph_format.first_line_indent = Cm(0)
-        style.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
+        style.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.LEFT
+    return name
+
+
+def ensure_table_head_style(document, table_text_style_name):
+    name = "P: Заголовок графы таблицы отчёта"
+    if name not in {style.name for style in document.styles}:
+        style = document.styles.add_style(name, WD_STYLE_TYPE.PARAGRAPH)
+        style.base_style = document.styles[table_text_style_name]
+        style.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        style.font.bold = True
     return name
 
 
@@ -52,17 +62,16 @@ def set_cell_text(cell, text, paragraph_style):
     cell.text = ""
     paragraph = cell.paragraphs[0]
     paragraph.style = paragraph_style
-    paragraph.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
     paragraph.add_run(str(text))
 
 
-def add_table(document, reference, caption, headers, rows, reference_style, table_text_style):
+def add_table(document, reference, caption, headers, rows, reference_style, table_text_style, table_head_style):
     document.add_paragraph(reference, style=reference_style)
     document.add_paragraph(caption, style=reference_style)
     table = document.add_table(rows=1, cols=len(headers))
     table.style = "Table Grid"
     for cell, text in zip(table.rows[0].cells, headers):
-        set_cell_text(cell, text, table_text_style)
+        set_cell_text(cell, text, table_head_style)
     for row in rows:
         for cell, text in zip(table.add_row().cells, row):
             set_cell_text(cell, text, table_text_style)
@@ -88,6 +97,7 @@ def build(template_path, output_path):
     heading_1 = require_style(document, "P: Заголовок 1 уровня")
     illustration = require_style(document, "Иллюстрация")
     table_text = ensure_table_text_style(document, main)
+    table_head = ensure_table_head_style(document, table_text)
     reference = ensure_reference_style(document, main)
 
     # The heading styles in "Просто стили" number paragraphs automatically.
@@ -103,6 +113,7 @@ def build(template_path, output_path):
         [("Параметр 1", "Значение 1")],
         reference,
         table_text,
+        table_head,
     )
     add_figure_placeholder(
         document,

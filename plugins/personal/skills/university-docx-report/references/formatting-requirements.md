@@ -145,6 +145,9 @@ regulate program text in the body of a report.
   Use no other style inside the cell, do not change the font through direct formatting and do
   not derive a parallel code style when the template has «Код». Without such a style, derive
   one from the main-text style: monospace font, single spacing, zero first-line indent.
+- Code paragraphs are left-aligned. A «Код» style based on the main-text style inherits its
+  justified alignment, which stretches JSON and headers with spaces: set the code style itself
+  to left alignment in the generated document.
 - A line wider than the cell wraps. If wrapping hides the structure of the example, shorten it
   in the Markdown; do not shrink the font.
 - The row does not break across pages (`cantSplit`) when the block fits on one page, and the

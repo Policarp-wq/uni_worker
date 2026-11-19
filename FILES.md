@@ -31,6 +31,7 @@ Exact contents of the portable package. Personal local settings are excluded.
 - `plugins/personal/skills/university-docx-report/SKILL.md`
 - `plugins/personal/skills/university-docx-report/references/docx_generation_example.py`
 - `plugins/personal/skills/university-docx-report/references/docx_math.py`
+- `plugins/personal/skills/university-docx-report/references/formatting-requirements.md`
 - `plugins/personal/skills/university-report-writer/SKILL.md`
 - `plugins/personal/skills/university-report-writer/agents/openai.yaml`
 - `plugins/personal/skills/university-text-critic/SKILL.md`

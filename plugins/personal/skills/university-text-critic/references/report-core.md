@@ -218,6 +218,9 @@ punctuation requirements are checked separately.
 - Before handoff, search possible manual numbers and em dashes, for example:
   `rg -n '—|^#{1,6} +[0-9]+[.)]|^(Рисунок|Таблица) +[0-9]+' <report.md>`.
   Assess each match in context and against numbering rules; do not autofix it.
+- Table column and row headings start with a capital letter, have no full stop and are in
+  the singular (ГОСТ 7.32-2017, 6.6.5): «Повтор», «Предусловие», «Задача», not «Повторы»,
+  «Предусловия», «Задачи».
 - Use lists for sequences or parallel items and tables for shared-field comparisons.
   Explain what a list enumerates without adding a formal preamble for its own sake.
   Write list items as `- ` lines, not as a semicolon chain inside one paragraph.

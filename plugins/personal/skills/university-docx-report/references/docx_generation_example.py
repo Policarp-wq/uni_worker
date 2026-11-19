@@ -12,6 +12,7 @@ from pathlib import Path
 from docx import Document
 from docx.enum.style import WD_STYLE_TYPE
 from docx.enum.text import WD_ALIGN_PARAGRAPH
+from docx.oxml import OxmlElement
 from docx.shared import Cm
 
 
@@ -78,6 +79,18 @@ def add_table(document, reference, caption, headers, rows, reference_style, tabl
     return table
 
 
+def add_code_block(document, lines, code_style):
+    table = document.add_table(rows=1, cols=1)
+    table.style = "Table Grid"
+    table.rows[0]._tr.get_or_add_trPr().append(OxmlElement("w:cantSplit"))
+    cell = table.cell(0, 0)
+    cell.paragraphs[0].style = code_style
+    cell.paragraphs[0].add_run(lines[0])
+    for line in lines[1:]:
+        cell.add_paragraph(line, style=code_style)
+    return table
+
+
 def add_figure_placeholder(document, placeholder_text, illustration_style, caption=None, caption_style=None):
     document.add_paragraph(placeholder_text, style=illustration_style)
     if caption is not None:
@@ -99,6 +112,7 @@ def build(template_path, output_path):
     table_text = ensure_table_text_style(document, main)
     table_head = ensure_table_head_style(document, table_text)
     reference = ensure_reference_style(document, main)
+    code = require_style(document, "Код")
 
     # The heading styles in "Просто стили" number paragraphs automatically.
     # A Markdown heading "1. АНАЛИЗ..." becomes text "АНАЛИЗ..." here.
@@ -115,6 +129,8 @@ def build(template_path, output_path):
         table_text,
         table_head,
     )
+    document.add_paragraph("Пример запроса:", style=main).paragraph_format.keep_with_next = True
+    add_code_block(document, ["GET /v1/items/42 HTTP/1.1", "Accept: application/json"], code)
     add_figure_placeholder(
         document,
         "ВСТАВЬ СЮДА ИЗОБРАЖЕНИЕ ПРО МОДЕЛЬ СИСТЕМЫ",

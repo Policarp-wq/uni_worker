@@ -113,8 +113,14 @@ Applies to every report (5.6, 6.15).
   left-aligned, zero first-line indent and `keep_with_next` (6.6.3). If the template has no
   table-caption style, derive one from the main-text style; every table needs a reference by
   number before it. Type the number only when the template does not generate it.
+- A caption of two lines or more is single-spaced (6.6.3): give the caption style single line
+  spacing.
 - A table that continues on another page repeats its head; the following parts are labelled
   «Продолжение таблицы N» on the left above them (6.6.3).
+- Column and row headings start with a capital letter, have no full stop at the end and are in
+  the singular (6.6.5): «Повтор», «Предусловие», not «Повторы», «Предусловия». The wording is
+  report text: it is fixed in the canonical Markdown (see the shared report core), the generator
+  does not rewrite it.
 - Body cells: a dedicated paragraph style derived from the template's main-text style, zero
   first-line indent, left-aligned. Do not keep the main text's justified alignment in cells.
 - Head cells (column headings): a second style derived from the body-cell style, centred
@@ -124,6 +130,25 @@ Applies to every report (5.6, 6.15).
   position an image placeholder.
 - Give narrow numeric columns explicit widths when automatic layout would displace row numbers
   or make them wrap.
+
+## Code
+
+Applies to every fenced code block of the canonical Markdown: request and response examples,
+configuration, scripts, command output. This is a user requirement; ГОСТ 7.32-2017 does not
+regulate program text in the body of a report.
+
+- Place each code block in its own table of one row and one column with the template's grid
+  style («Table Grid»), so the frame sets the code apart from the body text. The table has no
+  caption, number, head or fill and is not counted among the numbered tables.
+- Every source line is a separate paragraph in the template's «Код» style (monospace font,
+  single spacing). Keep leading spaces; an empty source line becomes an empty «Код» paragraph.
+  Use no other style inside the cell, do not change the font through direct formatting and do
+  not derive a parallel code style when the template has «Код». Without such a style, derive
+  one from the main-text style: monospace font, single spacing, zero first-line indent.
+- A line wider than the cell wraps. If wrapping hides the structure of the example, shorten it
+  in the Markdown; do not shrink the font.
+- The row does not break across pages (`cantSplit`) when the block fits on one page, and the
+  paragraph introducing the block keeps with it (`keep_with_next`).
 
 ## Formulas
 
